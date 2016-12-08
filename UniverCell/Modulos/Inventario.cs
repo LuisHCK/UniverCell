@@ -3,6 +3,7 @@ using System.Windows;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Windows.Interop;
+using System.Windows.Controls;
 
 namespace UniverCell
 {
@@ -91,7 +92,7 @@ namespace UniverCell
             }
         }
 
-
+        //Boton para editar un articulo seleccionado
         private void button_inv_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -108,7 +109,7 @@ namespace UniverCell
             }
         }
 
-
+        //Boton para eliminar articulos de la lista
         private void button3_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -146,6 +147,12 @@ namespace UniverCell
             //string Id = (drv["Código Artículo"]).ToString();
             //vnt_txt_box_art.Text = Id;
             this.tabControl.SelectedIndex = 2;
+        }
+
+        //Buscador de articulos en el inventario
+        private void textBox_Buscar_Articulo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
