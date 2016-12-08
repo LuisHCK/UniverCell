@@ -80,8 +80,8 @@
                     <Border Margin="0,51,828,10" Grid.ColumnSpan="2" Grid.Row="2"/>
                     <Grid Background="White" Margin="0,0,0,10" Height="61" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Grid.Row="2">
                         <Image x:Name="image" HorizontalAlignment="Left" Width="46" Source="Images/contact-icon.png" Margin="5,0,0,0"/>
-                        <Label x:Name="lbl_usuario" Content="UserName" HorizontalAlignment="Left" Margin="56,0,0,10" FontWeight="Bold" Width="84"/>
-                        <Label x:Name="label13" Content="Puesto" HorizontalAlignment="Left" Margin="56,28,0,-17" FontSize="11" Width="69"/>
+                        <Label x:Name="lbl_usuario" Content="UserName" HorizontalAlignment="Left" Margin="56,0,0,10" FontWeight="Bold" Width="84" Loaded="Label_Usuario"/>
+                        <Label x:Name="lbl_puesto" Content="Puesto" HorizontalAlignment="Left" Margin="56,28,0,-17" FontSize="11" Width="84" Loaded="Label_Puesto"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -297,9 +297,10 @@
                     <GroupBox x:Name="groupBox5" Header="artículos en el inventario" Margin="10" Background="#CC00897B" Grid.Column="1">
                         <Grid Margin="-5" Background="White">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="223*"/>
+                                <ColumnDefinition Width="41*"/>
                             </Grid.ColumnDefinitions>
-                            <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,131,10" AutoGenerateColumns="False" FontSize="14">
+                            <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,10,10" AutoGenerateColumns="False" FontSize="14">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Nombre" IsReadOnly="True"/>
@@ -309,9 +310,11 @@
                                     <DataGridTextColumn Binding="{Binding art_id}" ClipboardContentBinding="{x:Null}" Header="Código Artículo" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,10,214,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="666,55,0,0" VerticalAlignment="Top" Width="116" Height="40"/>
-                            <Button x:Name="inv_btn_vender_art" Content="Vender" Margin="666,100,10,0" VerticalAlignment="Top" Height="40" Background="#FF43A047" BorderBrush="#FF919191" Click="inv_btn_vender_art_Click"/>
+                            <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,5,500,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="103" Height="40" Grid.Column="1"/>
+                            <Button x:Name="inv_btn_vender_art" Content="Vender" Margin="10,100,10,0" VerticalAlignment="Top" Height="40" Background="#FF43A047" BorderBrush="#FF919191" Click="inv_btn_vender_art_Click" Grid.Column="1"/>
+                            <Label x:Name="label19" Content="Buscar" HorizontalAlignment="Left" Margin="394,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBox x:Name="textBox_Buscar_Articulo" HorizontalAlignment="Left" Height="23" Margin="444,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="215" TextChanged="textBox_Buscar_Articulo_TextChanged"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox x:Name="groupBox2" Grid.Column="1" Header="lista de artículos " Margin="10" Grid.Row="1">
@@ -329,11 +332,39 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Estadísticas" Height="39" VerticalAlignment="Top" Margin="25,0,-25,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox x:Name="groupBox7" Header="Usuario" HorizontalAlignment="Left" Margin="10,10,0,0" Width="412" Height="228" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                        <GroupBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleX="0.244"/>
+                                <RotateTransform/>
+                                <TranslateTransform X="0.496"/>
+                            </TransformGroup>
+                        </GroupBox.RenderTransform>
+                        <Grid Margin="-5" Background="White">
+                            <Label x:Name="lablel_n" Content="Nombre:" HorizontalAlignment="Left" Margin="146,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Image x:Name="Avatar" Source="Images/contact-icon.png" Margin="10,25,0,0" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="121"/>
+                            <Label x:Name="label13" Content="Nombre de Usuario:" HorizontalAlignment="Left" Margin="146,36,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label20" Content="Puesto:" HorizontalAlignment="Left" Margin="146,67,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label26" Content="Numero de Cedula:" HorizontalAlignment="Left" Margin="146,98,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label27" Content="Dirección:" HorizontalAlignment="Left" Margin="146,129,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label28" Content="Permisos:" HorizontalAlignment="Left" Margin="146,160,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBlock x:Name="text_nombre_comp" HorizontalAlignment="Left" Margin="275,10,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_nombre" HorizontalAlignment="Left" Margin="275,41,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_puesto" HorizontalAlignment="Left" Margin="275,72,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_cedula" HorizontalAlignment="Left" Margin="275,103,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_dir" HorizontalAlignment="Left" Margin="275,134,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_perm" HorizontalAlignment="Left" Margin="275,165,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <Button x:Name="btn_cambiar_foto" Content="Cambiar" HorizontalAlignment="Left" Margin="33,164,0,0" VerticalAlignment="Top" Width="75" Click="btn_cambiar_foto_Click"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Caja" Height="39" VerticalAlignment="Top" Margin="29,0,-29,0">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
+            <Button x:Name="button5" Content="Button" Height="100" Width="75"/>
         </TabControl>
     </Grid>
 </Window>

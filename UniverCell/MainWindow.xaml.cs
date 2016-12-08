@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Windows;
@@ -26,31 +27,39 @@ namespace UniverCell
 
         public Conexion CON = new Conexion();
 
-        //Crear el objeto que almacena los datos del usuario actual.
-        public class usuario
-        {
-            public string id;
-            public string nombre;
-            public string nombre_completo;
-            public string puesto;
-            public string cedula;
-            public string direccion;
-            public string permisos;
-        }
+        //Datos del usuario que inició sesión
 
         public MainWindow()
         {
             InitializeComponent();
+
+            /*
+             *Preparar la ventana principal  
+             */
+            //Cargar los datos del usuario
+            MostrarDatosUsuario();
+            //Cargar tablas
             Actualizar_Tabla();
             Actualizar_Tabla_Inventario();
             Actualizar_tabla_Articulos();
             EstadisticasRecargas();
-            /*
-            lbl_usuario.Content = "LuisHCK";
-            Debug.WriteLine("Pasando variable: "+nombre_usuario);
-            */
         }
 
+        private void Label_Usuario(object sender, RoutedEventArgs e)
+        {
+            // ... Get label.
+            var label = sender as Label;
+            // ... Set date in content.
+            label.Content = Sesion.nomb_completo;
+        }
+
+        private void Label_Puesto(object sender, RoutedEventArgs e)
+        {
+            // ... Get label.
+            var label = sender as Label;
+            // ... Set date in content.
+            label.Content = Sesion.puest;
+        }
 
 
         //Los tiles dirigen a un tab
