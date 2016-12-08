@@ -154,9 +154,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modulos\Estadisticas.cs" />
     <Compile Include="Modulos\Inventario.cs" />
     <Compile Include="Modulos\Recargas.cs" />
     <Compile Include="Modulos\Reparaciones.cs" />
+    <Compile Include="Modulos\Sesion.cs" />
     <Compile Include="Modulos\Ventas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
