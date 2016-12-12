@@ -30,6 +30,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <HockeyAppResourceId>9cb1222a9191409ea1aaa34e442a8f98</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -118,6 +119,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuracion.xaml.cs">
+      <DependentUpon>Configuracion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Crypto.cs" />
+    <Page Include="Configuracion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Editar_articulo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

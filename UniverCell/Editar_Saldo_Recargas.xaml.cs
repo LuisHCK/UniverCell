@@ -25,22 +25,21 @@ namespace UniverCell
             InitializeComponent();
             Obtener_companias();
         }
-        Conexion CON = new Conexion();
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
             try
             {
                 Console.WriteLine("Item: "+ Combo_id_comp.SelectedValue);
-
-                CON.conect.Open();
+                object conect = Conexion.conect;
+                Conexion.conect.Open();
                 decimal cantidad = Convert.ToDecimal(textBox_cantidad_agregada.Text);
                 string comando = "call cellmax.comprar_saldo(null, '" + Combo_id_comp.SelectedValue.ToString() + "', " + cantidad + ");";
 
-                MySqlCommand CMD = new MySqlCommand(comando, CON.conect);
+                MySqlCommand CMD = new MySqlCommand(comando, Conexion.conect);
 
                 CMD.ExecuteNonQuery();
-                CON.conect.Close();
+                Conexion.conect.Close();
 
                if (MessageBox.Show( "La operación se realizó con éxito", "Realizado", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
                 {
@@ -55,8 +54,8 @@ namespace UniverCell
 
         public void Obtener_companias()
         {
-            CON.conect.Open();
-            MySqlCommand CMD = new MySqlCommand("select saldo_recargas.id, saldo_recargas.compania FROM saldo_recargas;", CON.conect);
+            Conexion.conect.Open();
+            MySqlCommand CMD = new MySqlCommand("select saldo_recargas.id, saldo_recargas.compania FROM saldo_recargas;", Conexion.conect);
 
             MySqlDataReader reader = CMD.ExecuteReader();
 
@@ -64,7 +63,7 @@ namespace UniverCell
             {
                 Combo_id_comp.Items.Add(reader.GetString("compania"));
             }
-            CON.conect.Close();
+            Conexion.conect.Close();
         }
     }
 }

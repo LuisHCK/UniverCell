@@ -59,5 +59,14 @@ namespace UniverCell.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a .
+        /// </summary>
+        internal static string pass {
+            get {
+                return ResourceManager.GetString("pass", resourceCulture);
+            }
+        }
     }
 }

@@ -2,14 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace UniverCell
 {
-    public class Conexion
+    public static class Conexion
     {
-        public MySqlConnection conect = new MySqlConnection("server=localhost;user id=root; pwd=ljco1800; port=3307;database=cellmax;");
-    }
+        private static string cript = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "config.ucll");
+        private static string decripted = Crypto.StringCipher.Decrypt(cript, "UniverCell");
+
+        public static string CadenaConexion = decripted;
+        public static MySqlConnection conect = new MySqlConnection(CadenaConexion);
+    } 
+
 }

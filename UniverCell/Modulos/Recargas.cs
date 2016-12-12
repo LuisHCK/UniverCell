@@ -24,10 +24,10 @@ namespace UniverCell
                     decimal recarga = Convert.ToDecimal(Rec_txt_box_cantidad.Value);
                     int id = (Combo_id_comp.SelectedIndex) + 1;
 
-                    CON.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.vender_recarga(" + recarga + ", " + id + ");", CON.conect);
+                    Conexion.conect.Open();
+                    MySqlCommand cmd = new MySqlCommand("call cellmax.vender_recarga(" + recarga + ", " + id + ");", Conexion.conect);
                     cmd.ExecuteNonQuery();
-                    CON.conect.Close();
+                    Conexion.conect.Close();
 
                     ActualizarTablaRecargas();
                     EstadisticasRecargas();
@@ -43,12 +43,12 @@ namespace UniverCell
         public void ActualizarTablaRecargas()
         {
             DataTable dt = new DataTable();
-            CON.conect.Open();
+            Conexion.conect.Open();
             string query = "SELECT saldo_recargas.compania, recargas.valor, saldo_recargas.ganancia, recargas.fecha_venta FROM cellmax.recargas INNER JOIN saldo_recargas on recargas.saldo_id = saldo_recargas.id order by fecha_venta desc;";
 
-            using (MySqlDataAdapter da = new MySqlDataAdapter(query, CON.conect))
+            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
                 da.Fill(dt);
-            CON.conect.Close();
+            Conexion.conect.Close();
             Console.WriteLine("Operacion realizada");
             dataGrid_venta_recargas.ItemsSource = dt.DefaultView;
         }
@@ -58,8 +58,8 @@ namespace UniverCell
         {
             try
             {
-                CON.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.saldo_recargas;", CON.conect);
+                Conexion.conect.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.saldo_recargas;", Conexion.conect);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -78,7 +78,7 @@ namespace UniverCell
                         lbl_saldo_2.Content = reader.GetString("saldo");
                     }
                 }
-                CON.conect.Close();
+                Conexion.conect.Close();
 
             }
             catch (Exception ex)

@@ -9,7 +9,6 @@ namespace UniverCell
     public partial class Editar_articulo : Window
     {
 
-        Conexion CON = new Conexion();
 
         //Crear una variable local para el articulo
         public string art_id;
@@ -17,7 +16,7 @@ namespace UniverCell
         public Editar_articulo(string articulo_id)
         {
             InitializeComponent();
-            CON.conect.Open();
+            Conexion.conect.Open();
             //pasar a la variable global el id del articulo
             art_id = articulo_id;
 
@@ -26,7 +25,7 @@ namespace UniverCell
             {
                 try
                 {
-                    MySqlCommand cmd = new MySqlCommand("Select * From articulos where articulos.id = " + articulo_id + ";",CON.conect);
+                    MySqlCommand cmd = new MySqlCommand("Select * From articulos where articulos.id = " + articulo_id + ";", Conexion.conect);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
@@ -47,7 +46,7 @@ namespace UniverCell
             {
                 MessageBox.Show("El id es nulo");
             }
-            CON.conect.Close();
+            Conexion.conect.Close();
         }
 
         //Se crea una clase publica para poder acceder al id del articulo pasado al iniciar la ventana
@@ -55,16 +54,17 @@ namespace UniverCell
         {
             try
             {
-                CON.conect.Open();
+                Conexion.conect.Open();
 
                 int Id = Convert.ToInt16(art_id);
                 Console.Write("El id del articulo es: " + Id);
                 int Cantidad = Convert.ToInt16(art_txt_box_prec_vent.Value);
 
-                MySqlCommand cmd = new MySqlCommand("call cellmax.agregar_al_inventario(" + Id + ", " + Cantidad + ");", CON.conect);
+                MySqlCommand cmd = new MySqlCommand("call cellmax.agregar_al_inventario(" + Id + ", " + Cantidad + ");",
+                    Conexion.conect);
                 cmd.ExecuteNonQuery();
 
-                CON.conect.Close();
+                Conexion.conect.Close();
 
                 //Si la accion se realiza con exito se muestra un mensaje y luego se cierra la ventana
                 if(MessageBox.Show("Se agregó correctamente el artículo al inventario", "Exito", MessageBoxButton.OK, MessageBoxImage.Asterisk) == MessageBoxResult.OK)

@@ -23,12 +23,12 @@ namespace UniverCell
                 decimal precio_venta = Convert.ToDecimal(art_txt_box_prec_vent.Value);
                 int moneda = Convert.ToInt16(art_combo_moneda.Text);
 
-                CON.conect.Open();
+                Conexion.conect.Open();
                 string comando = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, "+proveedor+", " + moneda + ");";
 
-                MySqlCommand cmd = new MySqlCommand(comando, CON.conect);
+                MySqlCommand cmd = new MySqlCommand(comando, Conexion.conect);
                     cmd.ExecuteNonQuery();
-                CON.conect.Close();
+                Conexion.conect.Close();
                 Limpiar_Formulario();
             }
             catch(Exception ex)
@@ -52,16 +52,13 @@ namespace UniverCell
             try
             {
                 DataTable dt = new DataTable();
-                using (CON.conect)
-                {
-                    CON.conect.Open();
-                    string query = "call cellmax.ver_inventario();";
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(query, CON.conect))
-                        da.Fill(dt);
-                    CON.conect.Close();
-                    Console.WriteLine("Operacion realizada");
-                }
+                string query = "call cellmax.ver_inventario();";
+
+                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                    da.Fill(dt);
+                Console.WriteLine("Operacion realizada");
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
+
             }
             catch (MySqlException ex)
             {
@@ -75,15 +72,15 @@ namespace UniverCell
             {
                 string comando = "SELECT id, nombre, descripcion FROM cellmax.articulos;";
 
-                CON.conect.Open();
+                Conexion.conect.Open();
                 DataTable dt = new DataTable();
-                using (CON.conect)
+                using (Conexion.conect)
                 {
-                    MySqlDataAdapter da = new MySqlDataAdapter(comando, CON.conect);
+                    MySqlDataAdapter da = new MySqlDataAdapter(comando, Conexion.conect);
                     da.Fill(dt);
                     Console.WriteLine("Operacion realizada");
                 }
-                CON.conect.Close();
+                Conexion.conect.Close();
                 dataGrid_articulos.ItemsSource = dt.DefaultView;
             }
             catch(Exception ex)
@@ -121,10 +118,10 @@ namespace UniverCell
                 
                 if (MessageBox.Show("Se dispone a eliminar el articulo: " + Id + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    CON.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand(comando,CON.conect);
+                    Conexion.conect.Open();
+                    MySqlCommand cmd = new MySqlCommand(comando, Conexion.conect);
                     cmd.ExecuteNonQuery();
-                    CON.conect.Close();
+                    Conexion.conect.Close();
 
                     MessageBox.Show("Se eliminó correctamente el articulo");
                     Actualizar_tabla_Articulos();

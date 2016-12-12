@@ -21,8 +21,8 @@ namespace UniverCell
             {
                 try
                 {
-                    CON.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.buscar_articulo('" + vnt_txt_box_art.Text + "');", CON.conect);
+                    Conexion.conect.Open();
+                    MySqlCommand cmd = new MySqlCommand("call cellmax.buscar_articulo('" + vnt_txt_box_art.Text + "');", Conexion.conect);
 
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -34,7 +34,7 @@ namespace UniverCell
                         vnt_txt_prec_unit.Text = reader.GetString("precio_venta");
                         //vnt_txt_prov.Text = reader.GetString("proveedor_id
                     }
-                    CON.conect.Close();
+                    Conexion.conect.Close();
                 }
                 catch (MySqlException ex)
                 {
@@ -203,13 +203,13 @@ namespace UniverCell
                 int Moneda_id = Convert.ToInt32(combo_bx_Moneda.Text);
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
-                CON.conect.Open();
+                Conexion.conect.Open();
 
-                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "');", CON.conect);
+                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "');", Conexion.conect);
                int i = cmd.ExecuteNonQuery();
                 Console.Write("Insertado '"+i+"' fila");
 
-                CON.conect.Close();
+                Conexion.conect.Close();
 
 
             }
@@ -228,21 +228,18 @@ namespace UniverCell
 
         void Actualizar_Tabla()
         {
-            try
-            {
+            try { 
+
                 DataTable dt = new DataTable();
-                using (CON.conect)
-                {
-                    CON.conect.Open();
                     string query = "call cellmax.ver_registro_ventas();";
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(query, CON.conect))
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
                         da.Fill(dt);
-                    CON.conect.Close();
                     Console.WriteLine("Operacion realizada");
-                }
                 dataGrid_ventas.ItemsSource = dt.DefaultView;
+                Conexion.conect.Close();
+
             }
-            catch(MySqlException ex)
+            catch (MySqlException ex)
             {
                 MessageBox.Show("Ocurrió un error en la operación: " + ex);
             }

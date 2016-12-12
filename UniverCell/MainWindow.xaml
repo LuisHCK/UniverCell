@@ -236,20 +236,20 @@
                             </Grid.ColumnDefinitions>
                             <Label x:Name="label15" Content="Tipo de reparación" Margin="10,10,67,0" VerticalAlignment="Top"/>
                             <Label x:Name="label16" Content="Detalles del trabajo" Margin="10,64,67,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="textBox10" Height="23" Margin="10,95,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                            <Controls:NumericUpDown x:Name="txt_box_cantidad_Copy" Minimum ="0" Maximum = "10000" Margin="10,361,10,0" Height="23" TrackMouseWheelWhenMouseOver="True" Grid.ColumnSpan="2" Interval="10" VerticalAlignment="Top"/>
+                            <TextBox x:Name="textBox_detalle_rep" Height="23" Margin="10,95,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                            <Controls:NumericUpDown x:Name="txt_box_prec_rep" Minimum ="0" Maximum = "10000" Margin="10,361,10,0" Height="23" TrackMouseWheelWhenMouseOver="True" Grid.ColumnSpan="2" Interval="10" VerticalAlignment="Top"/>
                             <Label x:Name="label15_Copy" Content="Costo total de la reparación" Margin="10,330,10,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Button x:Name="button2_Copy3" Content="Aceptar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Foreground="White" Background="#FF43A047" Grid.Column="1"/>
-                            <Button x:Name="button2_Copy4" Content="Cancelar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Background="#FFD84315" Foreground="White"/>
-                            <CheckBox x:Name="check_bx_repuesto" Content="¿Requirió Repuesto?" Margin="10,126,48,0" VerticalAlignment="Top" Checked="check_bx_repuesto_Checked" Unchecked="check_bx_repuesto_Unchecked"/>
+                            <Button x:Name="_btn_reparacion" Content="Aceptar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Foreground="White" Background="#FF43A047" Grid.Column="1" Click="btn_reparacion_Clic"/>
+                            <Button x:Name="cancelar_rep_" Content="Cancelar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Background="#FFD84315" Foreground="White" Click="cancelar_rep__Click"/>
+                            <CheckBox x:Name="check_bx_repuesto" Content="¿Requirió Repuesto?" Margin="10,126,48,0" VerticalAlignment="Top" Checked="check_bx_repuesto_Checked" Unchecked="check_bx_repuesto_Unchecked" IsEnabled="False"/>
                             <Label x:Name="lbl_precio_rep" Content="Precio del repuesto" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" IsEnabled="False"/>
                             <Controls:NumericUpDown x:Name="txt_box_rep_precio" Minimum ="0" Maximum = "10000" Margin="10,180,10,0" Height="23" TrackMouseWheelWhenMouseOver="True" Interval="10" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2"/>
                             <Label x:Name="lbl_descr_rep" Content="Descripción" HorizontalAlignment="Left" Margin="10,211,0,0" VerticalAlignment="Top" IsEnabled="False"/>
                             <TextBox x:Name="txt_box_desc_repuesto" Height="23" Margin="10,242,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2"/>
-                            <RadioButton x:Name="radioButton" Content="Software" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                            <RadioButton x:Name="radioButton1" Content="Hardware" Grid.Column="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>
+                            <RadioButton x:Name="radio_software_rep" Content="Software" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                            <RadioButton x:Name="radio_hardware_rep" Content="Hardware" Grid.Column="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Checked="radio_hardware_rep_Checked" Unchecked="radio_hardware_rep_Unchecked" IsChecked="True"/>
                             <Label x:Name="label12" Content="Observaciones" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="textBox" Height="23" Margin="10,299,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                            <TextBox x:Name="_textBox_obs" Height="23" Margin="10,299,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox x:Name="groupBox4_Copy" Header="Reparaciones realizadas" Margin="10" Grid.Column="1" Background="#CCC62820">

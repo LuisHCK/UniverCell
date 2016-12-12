@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,32 @@ namespace UniverCell
     /// </summary>
     public partial class Login : Window
     {
-        Conexion CON = new Conexion();
-
         public Login()
         {
             InitializeComponent();
+            PruebaConexion();
+        }
+        //Probar si la conexion está abierta
+        void PruebaConexion()
+        {
+            try
+            {
+                Conexion.conect.Open();
+                string prueba_conexion = "Select*From usuarios";
+                MySqlCommand cmd = new MySqlCommand(prueba_conexion, Conexion.conect);
+                cmd.ExecuteNonQuery();
+                Conexion.conect.Close();
+            }
+            catch(MySqlException)
+            {
+                Configuracion WinConf = new Configuracion();
+                WinConf.Show();
+                if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                {
+                    WinConf.Close();
+                }
+                this.Close();
+            }
         }
 
         /*La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
@@ -34,7 +56,7 @@ namespace UniverCell
         {
             try
             {
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.usuarios where nombre_usuario = '"+usuario+"';", CON.conect);
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.usuarios where nombre_usuario = '"+usuario+"';", Conexion.conect);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -62,10 +84,10 @@ namespace UniverCell
             try
             {
                 //Conectar con la base de datos para consultar el inventaio
-                CON.conect.Open();
+                Conexion.conect.Open();
                 MySqlCommand cmd = new MySqlCommand();
 
-                cmd.Connection = CON.conect;
+                cmd.Connection = Conexion.conect;
 
                 cmd.CommandText = "select cellmax.login('" + txt_user.Text + "', '" + txt_pass.Password + "')";
                 /*loguear autimaticamente (temporal)
@@ -88,7 +110,7 @@ namespace UniverCell
                     MessageBox.Show("Usuario Incorrecto");
                 }
 
-                CON.conect.Close();
+                Conexion.conect.Close();
             }
             //Si ocurre un error con la conexion a la BD mandar una excepcion
             catch (MySqlException ex)

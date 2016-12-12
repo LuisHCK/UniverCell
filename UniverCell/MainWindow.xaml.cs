@@ -25,8 +25,6 @@ namespace UniverCell
             target.RenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         }
 
-        public Conexion CON = new Conexion();
-
         //Datos del usuario que inició sesión
 
         public MainWindow()
@@ -40,9 +38,9 @@ namespace UniverCell
             MostrarDatosUsuario();
             //Cargar tablas
             Actualizar_Tabla();
-            Actualizar_Tabla_Inventario();
             Actualizar_tabla_Articulos();
             EstadisticasRecargas();
+            Actualizar_Tabla_Inventario();
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
