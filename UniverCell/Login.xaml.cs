@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,21 +25,24 @@ namespace UniverCell
         public Login()
         {
             InitializeComponent();
-            PruebaConexion();
+            IniciarMariaDB();
         }
+
+        private void IniciarMariaDB()
+        {
+            Process proc = new Process();
+            proc.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "mysql_start.bat";
+            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            proc.Start();
+            PruebaConexion();
+
+        }
+
         //Probar si la conexion está abierta
         void PruebaConexion()
         {
-            try
-            {
-                Conexion.conect.Open();
-                string prueba_conexion = "Select*From usuarios";
-                MySqlCommand cmd = new MySqlCommand(prueba_conexion, Conexion.conect);
-                cmd.ExecuteNonQuery();
-                Conexion.conect.Close();
-            }
-            catch(MySqlException)
-            {
+               if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ucll") == false)
+                {
                 Configuracion WinConf = new Configuracion();
                 WinConf.Show();
                 if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)
@@ -56,6 +60,7 @@ namespace UniverCell
         {
             try
             {
+                Conexion.conect.Open();
                 MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.usuarios where nombre_usuario = '"+usuario+"';", Conexion.conect);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -70,6 +75,7 @@ namespace UniverCell
                     Sesion.ced = reader.GetString("cedula");
                     Sesion.fech_ingr = reader.GetString("fecha_ingreso");
                 }
+                Conexion.conect.Close();
             }
             catch (Exception ex)
             {
@@ -80,7 +86,6 @@ namespace UniverCell
         public void button_Click(object sender, RoutedEventArgs e)
         {
             string usr = txt_user.Text;
-            MessageBox.Show(usr);
             try
             {
                 //Conectar con la base de datos para consultar el inventaio
@@ -94,7 +99,8 @@ namespace UniverCell
                 *cmd.CommandText = "select cellmax.login('luishck', '123')";
                 */
                 int login = int.Parse(cmd.ExecuteScalar().ToString());
-                
+                Conexion.conect.Close();
+
                 //Si el login es correcto mandar a la ventana principal
                 if (login == 1)
                 {
@@ -110,7 +116,6 @@ namespace UniverCell
                     MessageBox.Show("Usuario Incorrecto");
                 }
 
-                Conexion.conect.Close();
             }
             //Si ocurre un error con la conexion a la BD mandar una excepcion
             catch (MySqlException ex)

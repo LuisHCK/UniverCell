@@ -25,12 +25,12 @@ namespace UniverCell
             target.RenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         }
 
-        //Datos del usuario que inició sesión
-
+        /// <summary>
+        /// Inicializar Ventana
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-
             /*
              *Preparar la ventana principal  
              */
@@ -41,6 +41,14 @@ namespace UniverCell
             Actualizar_tabla_Articulos();
             EstadisticasRecargas();
             Actualizar_Tabla_Inventario();
+        }
+
+        /*Cargar los datos de la tienda
+         * en caso contrario mandar a la configuracion
+        */
+        private void CargarDatosTienda()
+        {
+
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
@@ -104,6 +112,20 @@ namespace UniverCell
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             atras_btn.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Actualizar los datos de la tienda
+        /// </summary>
+        public static void ActualizarDatosTienda()
+        {
+            MessageBox.Show("Datos actualizados");
+        }
+
+        private void tienda_ajustes_Click(object sender, RoutedEventArgs e)
+        {
+            Ajustes aj = new Ajustes();
+            aj.Show();
         }
     }
 }

@@ -5,26 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniverCell"
         mc:Ignorable="d"
-        Title="Configuracion" Height="551" Width="393" Icon="Resources/icons/icon.png" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        Title="Configuracion" Height="551" Width="343" Icon="Resources/icons/icon.png" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid>
-        <Label x:Name="label" Content="Configuración Básica del Sistema" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="label1" Content="Contraseña maestra" HorizontalAlignment="Left" Margin="50,41,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label2" Content="Esta contraseña se utiliza para funciones internas&#xD;&#xA;del sistema y su uso es obligatorio. Solo deberás&#xD;&#xA;escribirla una vez, pero tenla siempre a mano&#xD;&#xA;por que se requiere para realizar cambios de &#xD;&#xA;administrador." HorizontalAlignment="Left" Margin="50,133,0,0" VerticalAlignment="Top" Height="92" Width="280" IsEnabled="False"/>
-        <Label x:Name="label_Copy" Content="Configuración Avanzada" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="label3" Content="Por favor no cambies ninguno de los campos a&#xD;&#xA;menos que sepas lo que estas haciendo." Margin="50,256,71,0" VerticalAlignment="Top" IsEnabled="False"/>
-        <Label x:Name="label4" Content="Usuario Root" HorizontalAlignment="Left" Margin="55,327,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="55,358,0,0" TextWrapping="Wrap" Text="root" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label5" Content="Puerto" HorizontalAlignment="Left" Margin="210,327,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="210,358,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label6" Content="Host" HorizontalAlignment="Left" Margin="55,389,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="55,420,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label7" Content="Base de Datos" HorizontalAlignment="Left" Margin="210,389,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="23" Margin="210,420,0,0" TextWrapping="Wrap" Text="cellmax" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <CheckBox x:Name="checkBox" Content="Cambiar" HorizontalAlignment="Left" Margin="55,303,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked"/>
-        <Button x:Name="button" Content="Canelar" HorizontalAlignment="Left" Margin="59,460,0,27" Width="116"/>
-        <Button x:Name="listo_btn" Content="Listo" HorizontalAlignment="Left" Margin="210,460,0,27" Width="116" Click="listo_btn_Click"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="55,72,0,0" VerticalAlignment="Top" Width="275"/>
-        <CheckBox x:Name="checkBox1" Content="Ver Contraseña" HorizontalAlignment="Left" Margin="59,103,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="label" Content="Configuración Básica del Sistema" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="196"/>
+        <Label x:Name="label1" Content="Contraseña maestra" HorizontalAlignment="Left" Margin="19,41,0,0" VerticalAlignment="Top" Height="26" Width="115"/>
+        <Label x:Name="label2" Content="Esta contraseña se utiliza para funciones internas del &#xD;&#xA;sistema y su uso es obligatorio. Solo deberás escribirla &#xD;&#xA;una vez, pero tenla siempre a mano por que se &#xD;&#xA;requiere para realizar cambios de administrador." HorizontalAlignment="Left" Margin="19,133,0,0" VerticalAlignment="Top" Height="77" Width="307" IsEnabled="False"/>
+        <Label x:Name="label_Copy" Content="Configuración Avanzada" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="147"/>
+        <Label x:Name="label3" Content="Por favor no cambies ninguno de los campos a&#xD;&#xA;menos que sepas lo que estas haciendo." Margin="19,256,45,0" VerticalAlignment="Top" IsEnabled="False" Height="42"/>
+        <Label x:Name="label4" Content="Usuario Root" HorizontalAlignment="Left" Margin="25,325,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="26" Margin="25,356,0,0" TextWrapping="Wrap" Text="root" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label5" Content="Puerto" HorizontalAlignment="Left" Margin="180,325,0,0" VerticalAlignment="Top" Height="26" Width="45"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="26" Margin="180,356,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label6" Content="Host" HorizontalAlignment="Left" Margin="25,387,0,0" VerticalAlignment="Top" Height="26" Width="35"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="26" Margin="25,418,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label7" Content="Base de Datos" HorizontalAlignment="Left" Margin="180,387,0,0" VerticalAlignment="Top" Height="26" Width="85"/>
+        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="26" Margin="180,418,0,0" TextWrapping="Wrap" Text="cellmax" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <CheckBox x:Name="checkBox" Content="Cambiar" HorizontalAlignment="Left" Margin="22,303,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked" Height="18" Width="68"/>
+        <Button x:Name="button" Content="Canelar" HorizontalAlignment="Left" Margin="25,458,0,29" Width="120"/>
+        <Button x:Name="listo_btn" Content="Listo" HorizontalAlignment="Left" Margin="180,458,0,29" Width="120" Click="listo_btn_Click"/>
+        <PasswordBox x:Name="passwordBox" Margin="20,72,25,0" VerticalAlignment="Top" Height="26"/>
+        <CheckBox x:Name="checkBox1" Content="Ver Contraseña" HorizontalAlignment="Left" Margin="20,103,0,0" VerticalAlignment="Top" Height="18" Width="104"/>
 
     </Grid>
 </Window>

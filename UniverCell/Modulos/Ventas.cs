@@ -228,8 +228,8 @@ namespace UniverCell
 
         void Actualizar_Tabla()
         {
-            try { 
-
+            try {
+                Conexion.conect.Open();
                 DataTable dt = new DataTable();
                     string query = "call cellmax.ver_registro_ventas();";
                     using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
