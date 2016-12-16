@@ -8,11 +8,11 @@ using System.Windows;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("UniverCell")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Software administrativo para tiendas de telefonos móviles")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Living Company")]
 [assembly: AssemblyProduct("UniverCell")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Living Company ©  2016 - All Rigths Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

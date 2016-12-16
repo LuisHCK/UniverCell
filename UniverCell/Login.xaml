@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniverCell"
         mc:Ignorable="d"
-        Title="Login" Height="360" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Login" Height="360" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="Resources/icons/logo.ico">
     <Grid Margin="0,0,-8,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="11*"/>

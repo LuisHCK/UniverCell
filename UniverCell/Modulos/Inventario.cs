@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Windows.Interop;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace UniverCell
 {
@@ -47,10 +48,14 @@ namespace UniverCell
             art_txt_box_prec_vent.Value     = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
        public void Actualizar_Tabla_Inventario()
         {
             try
             {
+                Conexion.conect.Open();
                 DataTable dt = new DataTable();
                 string query = "call cellmax.ver_inventario();";
 
@@ -58,7 +63,7 @@ namespace UniverCell
                     da.Fill(dt);
                 Console.WriteLine("Operacion realizada");
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
-
+                Conexion.conect.Close();
             }
             catch (MySqlException ex)
             {
@@ -66,7 +71,10 @@ namespace UniverCell
             }
         }
 
-       public void Actualizar_tabla_Articulos()
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Actualizar_tabla_Articulos()
         {
             try
             {
@@ -139,17 +147,39 @@ namespace UniverCell
 
         private void inv_btn_vender_art_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView drv = (DataRowView)dataGrid_ventas.SelectedItem;
-            Console.WriteLine(drv);
-            //string Id = (drv["Código Artículo"]).ToString();
-            //vnt_txt_box_art.Text = Id;
-            this.tabControl.SelectedIndex = 2;
+            try
+            {
+                DataRowView drv = (DataRowView)dataGrid_Inventario.SelectedItem;
+                string result = (drv.Row[5]).ToString();
+                //MessageBox.Show(result);
+                vnt_txt_box_art.Text = result;
+                tabControl.SelectedIndex = 1;
+            }
+            catch
+            {
+                MessageBox.Show("La selección no es válida");
+            }
         }
 
         //Buscador de articulos en el inventario
         private void textBox_Buscar_Articulo_TextChanged(object sender, TextChangedEventArgs e)
         {
+            try
+            {
+                Conexion.conect.Open();
+                DataTable dt = new DataTable();
+                string query = "call cellmax.buscar_('" + textBox_Buscar_Articulo.Text + "');";
 
+                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                    da.Fill(dt);
+                Console.WriteLine("Operacion realizada");
+                dataGrid_Inventario.ItemsSource = dt.DefaultView;
+                Conexion.conect.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("No se encontró ningún resultado" + ex, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

@@ -10,9 +10,12 @@ namespace UniverCell
     {
 
 
-        //Crear una variable local para el articulo
+        ///Crear una variable local para el articulo
         public string art_id;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="articulo_id"></param>
         public Editar_articulo(string articulo_id)
         {
             InitializeComponent();

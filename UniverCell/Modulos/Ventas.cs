@@ -155,10 +155,10 @@ namespace UniverCell
            if (vnt_txt_bx_paga_con.Text != "") {
                 try
                 {
-                    decimal total_a_pagar = Convert.ToDecimal(vnt_TOTAL.Text);
-                    decimal paga_con = Convert.ToDecimal(vnt_txt_bx_paga_con.Text);
-                    decimal vuelto = Math.Round((paga_con - total_a_pagar), 2);
-                    vnt_txt_vuelto.Text = Convert.ToString(vuelto);
+                    decimal total_a_pagar   = Convert.ToDecimal(vnt_TOTAL.Text);
+                    decimal paga_con        = Convert.ToDecimal(vnt_txt_bx_paga_con.Text);
+                    decimal vuelto          = Math.Round((paga_con - total_a_pagar), 2);
+                    vnt_txt_vuelto.Text     = Convert.ToString(vuelto);
                 }
                 catch (Exception)
                 {
@@ -171,20 +171,20 @@ namespace UniverCell
             }
         }
 
-        //Limpiar el formulario.
+        ///Limpiar el formulario.
         public void limpiar_from()
         {
-            vnt_txt_bx_disp.Text = null;
-            vnt_txt_bx_cantidad.Value = null;
-            vnt_txt_bx_nombre.Text = null;
-            vnt_txt_descr.Text = null;
-            vnt_txt_prec_unit.Text = null;
-            vnt_txt_prov.Text = null;
-            vnt_txt_subtotal.Text = null;
-            vnt_txt_bx_cantidad.Value = null;
-            vnt_descuento.Value = null;
-            vnt_txt_bx_paga_con.Text = null;
-            vnt_txt_vuelto.Text = null;
+            vnt_txt_bx_disp.Text        = null;
+            vnt_txt_bx_cantidad.Value   = null;
+            vnt_txt_bx_nombre.Text      = null;
+            vnt_txt_descr.Text          = null;
+            vnt_txt_prec_unit.Text      = null;
+            vnt_txt_prov.Text           = null;
+            vnt_txt_subtotal.Text       = null;
+            vnt_txt_bx_cantidad.Value   = null;
+            vnt_descuento.Value         = null;
+            vnt_txt_bx_paga_con.Text    = null;
+            vnt_txt_vuelto.Text         = null;
         }
 
 
@@ -210,15 +210,14 @@ namespace UniverCell
                 Console.Write("Insertado '"+i+"' fila");
 
                 Conexion.conect.Close();
-
-
+                ActualizarTablaVentas();
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error al realizar la venta " + ex);
             }
 
-            Actualizar_Tabla();
+            ActualizarTablaVentas();
         }
 
         private void Rec_btn_Actualizar_Clic(object sender, RoutedEventArgs e)
@@ -226,7 +225,7 @@ namespace UniverCell
             ActualizarTablaRecargas();
         }
 
-        void Actualizar_Tabla()
+        void ActualizarTablaVentas()
         {
             try {
                 Conexion.conect.Open();

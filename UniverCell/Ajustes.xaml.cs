@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +22,14 @@ namespace UniverCell
     /// </summary>
     public partial class Ajustes : Window
     {
+        private MainWindow VentanaPrincipal;
         /// <summary>
         /// Inicializar ventana
         /// </summary>
-        public Ajustes()
+        public Ajustes(MainWindow parent)
         {
+            VentanaPrincipal = parent;
+            Owner = parent;
             InitializeComponent();
             ObtenerDatosTienda();
         }
@@ -88,19 +93,37 @@ namespace UniverCell
                 Conexion.conect.Open();
                 MySqlCommand CMD = new MySqlCommand(Cadena, Conexion.conect);
                 CMD.ExecuteNonQuery();
-                this.Close();
                 Conexion.conect.Close();
-                MainWindow.ActualizarDatosTienda();
+                VentanaPrincipal.Activate();
             }
             catch
             {
                 MessageBox.Show("Ocurrió un error al guardar los datos", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
+            Close();
+            VentanaPrincipal.ActualizarDatosTienda();
+            
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
+        }
+
+        private void BtnCargarImagen_Click(object sender, RoutedEventArgs e)
+        {
+            Archivos.CargarImagen("Ajustes", "Logo", 0);
+            CargarImagen();            
+        }
+        /// <summary>
+        /// Cargar Imagen desde los archivos
+        /// </summary>
+        private void CargarImagen()
+        {
+            string ruta = AppDomain.CurrentDomain.BaseDirectory + "Images\\logo.jpg";
+            FileStream stream = new FileStream(ruta, FileMode.Open, FileAccess.Read);
+            logo_tienda.Source = BitmapFrame.Create(stream,BitmapCreateOptions.None,BitmapCacheOption.OnLoad);
+            stream.Close();
         }
     }
 }

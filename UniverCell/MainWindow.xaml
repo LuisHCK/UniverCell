@@ -1,4 +1,4 @@
-﻿<Window x:Class="UniverCell.MainWindow"
+﻿<Window x:Name="Inicio" x:Class="UniverCell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Inicio" Height="667" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/icon.png">
+        Title="Inicio" Height="667" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico">
     <Window.CacheMode>
         <BitmapCache/>
     </Window.CacheMode>
@@ -77,29 +77,35 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </Controls:Tile>
-                    <GroupBox x:Name="groupBox7" Grid.Column="1" Header="usuario" HorizontalAlignment="Left" Margin="467,10,0,-71" Grid.Row="2" VerticalAlignment="Top" Height="221" Width="463">
+                    <GroupBox x:Name="groupBox7" Grid.Column="1" Header="usuario" HorizontalAlignment="Left" Margin="467,10,0,-71" Grid.Row="2" VerticalAlignment="Top" Height="221" Width="463" Background="#CCFF8A66">
                         <Grid Margin="-5" Background="White">
-                            <Label x:Name="lablel_n1" Content="Nombre:" HorizontalAlignment="Left" Margin="146,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Image x:Name="Avatar" Source="Images/contact-icon.png" Margin="10,10,0,0" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="121"/>
-                            <Label x:Name="label29" Content="Nombre de Usuario:" HorizontalAlignment="Left" Margin="146,36,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Label x:Name="label30" Content="Puesto:" HorizontalAlignment="Left" Margin="146,67,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Label x:Name="label31" Content="Numero de Cedula:" HorizontalAlignment="Left" Margin="146,98,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Label x:Name="label32" Content="Dirección:" HorizontalAlignment="Left" Margin="146,129,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <Label x:Name="label33" Content="Permisos:" HorizontalAlignment="Left" Margin="146,160,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <TextBlock x:Name="text_nombre_comp" HorizontalAlignment="Left" Margin="275,10,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
-                            <TextBlock x:Name="text_usr_nombre" HorizontalAlignment="Left" Margin="275,41,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
-                            <TextBlock x:Name="text_usr_puesto" HorizontalAlignment="Left" Margin="275,72,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
-                            <TextBlock x:Name="text_usr_cedula" HorizontalAlignment="Left" Margin="275,103,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
-                            <TextBlock x:Name="text_usr_dir" HorizontalAlignment="Left" Margin="275,134,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
-                            <TextBlock x:Name="text_usr_perm" HorizontalAlignment="Left" Margin="275,165,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <Label x:Name="lablel_n1" Content="Nombre:" HorizontalAlignment="Left" Margin="146,17,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Image x:Name="Avatar" Source="Resources/icons/contact-icon.png" Margin="10,10,0,0" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="121"/>
+                            <Label x:Name="label29" Content="Nombre de Usuario:" HorizontalAlignment="Left" Margin="146,48,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label30" Content="Puesto:" HorizontalAlignment="Left" Margin="146,79,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label31" Content="Numero de Cedula:" HorizontalAlignment="Left" Margin="146,110,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label32" Content="Dirección:" HorizontalAlignment="Left" Margin="146,141,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBlock x:Name="text_nombre_comp" HorizontalAlignment="Left" Margin="275,22,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_nombre" HorizontalAlignment="Left" Margin="275,53,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_puesto" HorizontalAlignment="Left" Margin="275,84,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_cedula" HorizontalAlignment="Left" Margin="275,115,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_dir" HorizontalAlignment="Left" Margin="275,146,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
                             <Button x:Name="btn_cambiar_foto" Content="Cambiar" HorizontalAlignment="Left" Margin="33,144,0,0" VerticalAlignment="Top" Width="75" Click="btn_cambiar_foto_Click"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox x:Name="groupBox8" Grid.Column="1" Header="Tienda" HorizontalAlignment="Left" Margin="11,10,0,-71" Grid.Row="2" Width="451" Height="221" VerticalAlignment="Top">
                         <Grid Margin="-5" Background="White">
-                            <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Source="SplashScreen1.png"/>
-                            <Label x:Name="label13" Content="Nombre de la Tienda" HorizontalAlignment="Left" Margin="115,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <Button x:Name="tienda_ajustes" Content="Ajustes" Margin="364,146,10,21" Click="tienda_ajustes_Click"/>
+                            <Image x:Name="logo_tienda" HorizontalAlignment="Left" Height="107" Margin="10,25,0,0" VerticalAlignment="Top" Width="140" Source="SplashScreen1.png"/>
+                            <Label x:Name="lbl_tienda_nombre" Content="Nombre de la Tienda" Margin="155,10,10,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                            <Button x:Name="tienda_ajustes" Content="Ajustes" Margin="40,145,334,22" Click="tienda_ajustes_Click"/>
+                            <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="155,44,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="Email:" HorizontalAlignment="Left" Margin="155,128,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="Dirección:" HorizontalAlignment="Left" Margin="155,75,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="lbl_tel_tienda" Content="xxxx-xxxx" Margin="275,44,10,0" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="lbl_dir_tienda" Margin="275,75,10,0" TextWrapping="Wrap" Text="Direccion del establecimiento" VerticalAlignment="Top" Height="48"/>
+                            <Label x:Name="lbl_email_tienda" Content="empresa@ejemplo.com" Margin="275,128,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="label13" Content="Moneda principal:" HorizontalAlignment="Left" Margin="155,161,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="lbl_moneda_tienda" Content="Label" Margin="275,161,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.682"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -212,7 +218,7 @@
                     </GroupBox>
                     <GroupBox x:Name="groupBox3_Copy" Header="Registro de Ventas" Margin="10" Grid.Column="1" Grid.RowSpan="2" Background="#CCF4F7A0">
                         <Grid Margin="-5" Background="White">
-                            <Button x:Name="button2" Content="Actualizar" HorizontalAlignment="Left" Margin="481,10,0,0" VerticalAlignment="Top" Width="75" Click="Rec_btn_Actualizar_Clic"/>
+                            <Button x:Name="button2" Content="Actualizar" HorizontalAlignment="Left" Margin="-311,300,0,0" VerticalAlignment="Top" Width="75" Click="Rec_btn_Actualizar_Clic"/>
                             <DataGrid x:Name="dataGrid_venta_recargas" Margin="10,10,96,10" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding compania}" ClipboardContentBinding="{x:Null}" Header="Compañía" IsReadOnly="True"/>
@@ -321,12 +327,12 @@
                             </Grid.ColumnDefinitions>
                             <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,10,10" AutoGenerateColumns="False" FontSize="14">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" IsReadOnly="True"/>
+                                    <DataGridTextColumn x:Name="ID" Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Nombre" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding existencias}" ClipboardContentBinding="{x:Null}" Header="Existencias" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding precio_compra}" ClipboardContentBinding="{x:Null}" Header="Precio Compra" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding precio_venta}" ClipboardContentBinding="{x:Null}" Header="Precio Venta" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding art_id}" ClipboardContentBinding="{x:Null}" Header="Código Artículo" IsReadOnly="True"/>
+                                    <DataGridTextColumn x:Name="Art_ID" Binding="{Binding art_id}" ClipboardContentBinding="{x:Null}" Header="Código Artículo" IsReadOnly="True"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,5,500,0" VerticalAlignment="Top" FontWeight="Bold"/>

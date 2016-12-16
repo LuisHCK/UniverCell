@@ -53,9 +53,11 @@ namespace UniverCell
             }
         }
 
-        /*La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
-         * la clase estatica sesión
-         */
+/// <summary>
+/// La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
+/// la clase estatica sesión
+/// </summary>
+/// <param name="usuario"></param>
         public void DatosUsuario(string usuario)
         {
             try

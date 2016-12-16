@@ -20,6 +20,9 @@ namespace UniverCell
     /// </summary>
     public partial class Configuracion : Window
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Configuracion()
         {
             InitializeComponent();

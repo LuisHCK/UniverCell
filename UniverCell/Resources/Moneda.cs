@@ -10,13 +10,13 @@ namespace UniverCell
     public class Moneda
     {
         ///Obtener el nombre de una moneda mediante su id
-        public static string NombreMoneda(int id)
+        public static string Nombre(int id)
         {
             string Nombre = null;
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT* FROM cellmax.monedas where id = id;", Conexion.conect);
+                MySqlCommand cmd = new MySqlCommand("SELECT nombre FROM cellmax.monedas where id = "+ id +";", Conexion.conect);
                 MySqlDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
@@ -27,7 +27,7 @@ namespace UniverCell
             }
             catch
             {
-                MessageBox.Show("No se pudo encontrar ninguna moneda con el ID"+ id, "Error",MessageBoxButton.OK,MessageBoxImage.Error,MessageBoxResult.OK,MessageBoxOptions.ServiceNotification);
+                MessageBox.Show("No se pudo encontrar ninguna moneda con el ID: "+ id, "Error",MessageBoxButton.OK,MessageBoxImage.Error,MessageBoxResult.OK,MessageBoxOptions.ServiceNotification);
             }
             return Nombre;
         }
@@ -39,7 +39,7 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT* FROM cellmax.monedas where id = id;", Conexion.conect);
+                MySqlCommand cmd = new MySqlCommand("SELECT* FROM cellmax.monedas where nombre = " + nombre + ";", Conexion.conect);
                 MySqlDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
@@ -54,6 +54,34 @@ namespace UniverCell
             }
             return ID;
         }
+
+        /// <summary>
+        /// Devolver el signo de la moneda 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static string Signo(int ID)
+        {
+            string Simbolo = null;
+            try
+            {
+                Conexion.conect.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT simbolo FROM cellmax.monedas where id = "+ID+";", Conexion.conect);
+                MySqlDataReader Reader = cmd.ExecuteReader();
+
+                while (Reader.Read())
+                {
+                    Simbolo = Reader.GetString("simbolo");
+                }
+                Conexion.conect.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No se pudo encontrar ninguna moneda con el ID: " + ID, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+            }
+            return Simbolo;
+        }
+
 
         ///Llenar un ComboBox con las monedas guardadas en la BD
         public static void CargarMonedas(Ajustes ajustes)

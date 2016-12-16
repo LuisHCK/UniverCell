@@ -26,6 +26,9 @@
         <Label x:Name="label6" Content="Datos del Negocio" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
         <Button x:Name="button1" Content="Aceptar" Grid.Column="1" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
         <Button x:Name="button" Content="Cancelar" HorizontalAlignment="Left" Margin="206,321,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Image x:Name="logo_tienda" Grid.Column="1" HorizontalAlignment="Left" Height="108" Margin="12,197,0,0" VerticalAlignment="Top" Width="122" Source="SplashScreen1.png"/>
+        <Label x:Name="label7" Content="Logotipo" Grid.Column="1" HorizontalAlignment="Left" Margin="12,166,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnCargarImagen" Content="Seleccionar Archivo" Grid.Column="1" HorizontalAlignment="Left" Margin="153,222,0,0" VerticalAlignment="Top" Width="122" Height="32" Click="BtnCargarImagen_Click"/>
 
     </Grid>
 </Window>

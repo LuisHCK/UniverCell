@@ -3,8 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace UniverCell
 {
@@ -36,19 +40,15 @@ namespace UniverCell
              */
             //Cargar los datos del usuario
             MostrarDatosUsuario();
+            CargarAvatar();
             //Cargar tablas
-            Actualizar_Tabla();
+            ActualizarTablaVentas();
             Actualizar_tabla_Articulos();
             EstadisticasRecargas();
+            ActualizarTablaRecargas();
             Actualizar_Tabla_Inventario();
-        }
-
-        /*Cargar los datos de la tienda
-         * en caso contrario mandar a la configuracion
-        */
-        private void CargarDatosTienda()
-        {
-
+            ActualizarDatosTienda();
+            ActualizarRegistroRecargas();
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
@@ -117,15 +117,82 @@ namespace UniverCell
         /// <summary>
         /// Actualizar los datos de la tienda
         /// </summary>
-        public static void ActualizarDatosTienda()
+        public void ActualizarDatosTienda()
         {
-            MessageBox.Show("Datos actualizados");
+            //Leer el fichero de correspondiente al logotipo de la empresa
+            string ruta        = AppDomain.CurrentDomain.BaseDirectory + "Images\\logo.jpg";
+            FileStream stream  = new FileStream(ruta, FileMode.Open, FileAccess.Read);
+            logo_tienda.Source = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            stream.Close();
+
+            //Leer desde la base de datos los datos del negocio
+            try
+            {
+                Conexion.conect.Open();
+                string Comando = "Select*From ajustes;";
+                MySqlCommand cmd = new MySqlCommand(Comando, Conexion.conect);
+                MySqlDataReader Reader = cmd.ExecuteReader();
+
+                while (Reader.Read())
+                {
+                    string nomb   = Reader.GetString("nombre_negocio");
+                    string tel   = Reader.GetString("telefono");
+                    string dir      = Reader.GetString("direccion");
+                    string email = Reader.GetString("email");
+                    Tienda.id_moneda = Reader.GetInt32("id");
+
+                    lbl_tienda_nombre.Content = nomb;
+                    lbl_tel_tienda.Content = tel;
+                    lbl_dir_tienda.Text = dir;
+                    lbl_email_tienda.Content = email;
+                }
+                Conexion.conect.Close();
+                Tienda.nombre_moneda = Moneda.Nombre(Tienda.id_moneda);
+                Tienda.signo_moneda = Moneda.Signo(Tienda.id_moneda);
+
+
+                lbl_moneda_tienda.Content = Tienda.signo_moneda + "," + Tienda.nombre_moneda;
+            }
+            catch
+            {
+                MessageBox.Show("Error al leer los datos de la tienda","Error");
+            }
         }
 
+        ///Cargar el avatar del usuario
+        private void btn_cambiar_foto_Click(object sender, RoutedEventArgs e)
+        {
+            if (Convert.ToInt32(Sesion.lvl) <= 2)
+            {
+                Archivos.CargarImagen("Usuario", "Avatar_" + Sesion.nomb_usuario, 0);
+                CargarAvatar();
+            }
+            else
+            {
+                MessageBox.Show("Solo el administrador puede hacer cambios", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Stop);
+            }
+
+        }
+        private void CargarAvatar()
+        {
+            string ruta = AppDomain.CurrentDomain.BaseDirectory + "Images\\Avatar_" + Sesion.nomb_usuario + ".jpg";
+            FileStream stream = new FileStream(ruta, FileMode.Open, FileAccess.Read);
+            Avatar.Source = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            stream.Close();
+        }
+
+        //Abrir los ajustes de la tienda
         private void tienda_ajustes_Click(object sender, RoutedEventArgs e)
         {
-            Ajustes aj = new Ajustes();
-            aj.Show();
+            if(Convert.ToInt32(Sesion.lvl) <= 2)
+            {
+                Ajustes aj = new Ajustes(this);
+                aj.Show();
+            }
+            else
+            {
+                MessageBox.Show("Solo el administrador puede hacer cambios","Advertencia",MessageBoxButton.OK,MessageBoxImage.Stop);
+            }
         }
     }
 }
