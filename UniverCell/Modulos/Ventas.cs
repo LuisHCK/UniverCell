@@ -7,6 +7,7 @@ using System.Windows;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Windows.Controls;
 
 namespace UniverCell
 {
@@ -200,7 +201,7 @@ namespace UniverCell
             {
                 int Producto_Id = Convert.ToInt32(vnt_txt_box_art.Text);
                 int Cantidad_Producto = Convert.ToInt32(vnt_txt_bx_cantidad.Value);
-                int Moneda_id = Convert.ToInt32(combo_bx_Moneda.Text);
+                int Moneda_id = Moneda.IDMoneda(combo_bx_Moneda.SelectedItem.ToString());
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
                 Conexion.conect.Open();

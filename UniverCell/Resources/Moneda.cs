@@ -1,5 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace UniverCell
 {
@@ -39,7 +42,7 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT* FROM cellmax.monedas where nombre = " + nombre + ";", Conexion.conect);
+                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.monedas where nombre = " + nombre + ";", Conexion.conect);
                 MySqlDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
@@ -50,7 +53,7 @@ namespace UniverCell
             }
             catch
             {
-                MessageBox.Show("No se pudo encontrar ninguna moneda con el Nombre" + nombre, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show("No se pudo encontrar ninguna moneda con el Nombre: " + nombre, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
             return ID;
         }
@@ -84,24 +87,24 @@ namespace UniverCell
 
 
         ///Llenar un ComboBox con las monedas guardadas en la BD
-        public static void CargarMonedas(Ajustes ajustes)
+        public static void CargarMonedas()
         {
-            try
-            {
+            try {
                 Conexion.conect.Open();
-                MySqlCommand CMD = new MySqlCommand("Select*From Monedas;", Conexion.conect);
+                MySqlCommand CMD = new MySqlCommand("Select nombre From Monedas;", Conexion.conect);
                 MySqlDataReader Reader = CMD.ExecuteReader();
-                while (Reader.Read())
+
+                while(Reader.Read())
                 {
                     var nombre = Reader.GetString("nombre");
-                    ajustes.moneda_tienda.Items.Add(nombre);
+                    Tienda.ListaMonedas.Add(nombre);
                 }
                 Conexion.conect.Close();
             }
-            catch
+            catch(Exception ex)
             {
                 Conexion.conect.Close();
-                MessageBox.Show("Ocurrió un error al cargar la lista de monedas.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show("Ocurrió un error al cargar la lista de monedas." + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
         }
     }

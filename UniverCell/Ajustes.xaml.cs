@@ -37,9 +37,6 @@ namespace UniverCell
         //Leer los datos de la tienda
         private void ObtenerDatosTienda()
         {
-            //Las monedas se obtienen mediante una funcion especial para los ComboBox
-            Moneda.CargarMonedas(this);
-
             try
             {
                 Conexion.conect.Open();

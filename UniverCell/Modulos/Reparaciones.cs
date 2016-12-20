@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,28 @@ namespace UniverCell
 {
     public partial class MainWindow
     {
+        /// <summary>
+        /// Obtener el resgistro de reparaciones
+        /// </summary>
+        public void ActualizarTablaReparaciones()
+        {
+            try
+            {
+                Conexion.conect.Open();
+                DataTable dt = new DataTable();
+                string query = "SELECT * FROM cellmax.reparaciones;";
+                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                    da.Fill(dt);
+                Console.WriteLine("Operacion realizada");
+                dataGrid_Reparaciones.ItemsSource = dt.DefaultView;
+                Conexion.conect.Close();
+            }
+            catch(MySqlException ex)
+            {
+                MessageBox.Show("Ocurrió un error al obtener los datos. Detalles del error: " + ex, "Error");
+            }
+        }
+
         private void check_bx_repuesto_Checked(object sender, RoutedEventArgs e)
         {
             lbl_precio_rep.IsEnabled = true;
@@ -39,8 +62,11 @@ namespace UniverCell
         //registrar una reparacion realizada
         private void btn_reparacion_Clic(object s, RoutedEventArgs e)
         {
-            //Obtener el tipo de trabajo que se está registrando
-            string tipo = null;
+            //Guardar el registro solo si los campos están llenos
+            if (textBox_detalle_rep.Text != "" && txt_box_prec_rep.Value > 0)
+            {
+                //Obtener el tipo de trabajo que se está registrando
+                string tipo = null;
                 if (radio_hardware_rep.IsChecked == true)
                 {
                     tipo = radio_hardware_rep.Content.ToString();
@@ -49,21 +75,28 @@ namespace UniverCell
                 {
                     tipo = radio_software_rep.Content.ToString();
                 }
-         
-            string Comando = "INSERT INTO `cellmax`.`reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('"+tipo+"', '"+ textBox_detalle_rep.Text+ "', '"+_textBox_obs.Text + "', '"+ txt_box_rep_precio.Value + "', '"+ txt_box_desc_repuesto.Text + "', '"+ txt_box_prec_rep.Value + "');";
-            try
-            {
-                Conexion.conect.Open();
-                MySqlCommand CMD = new MySqlCommand(Comando, Conexion.conect);
-                CMD.ExecuteNonQuery();
-                Conexion.conect.Close();
-                MessageBox.Show("Se guardó correctamente. ¿Desea imprimir un recibo?","Realizado",MessageBoxButton.YesNo,MessageBoxImage.Question);
-                LimpiarFormReparacion();
+
+                string Comando = "INSERT INTO `cellmax`.`reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('" + tipo + "', '" + textBox_detalle_rep.Text + "', '" + _textBox_obs.Text + "', '" + txt_box_rep_precio.Value + "', '" + txt_box_desc_repuesto.Text + "', '" + txt_box_prec_rep.Value + "');";
+                try
+                {
+                    Conexion.conect.Open();
+                    MySqlCommand CMD = new MySqlCommand(Comando, Conexion.conect);
+                    CMD.ExecuteNonQuery();
+                    Conexion.conect.Close();
+                    MessageBox.Show("Se guardó correctamente. ¿Desea imprimir un recibo?", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    LimpiarFormReparacion();
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Ocurrió un error al guardar los datos " + ex, "Error");
+                }
+                //Actualizar la tabla
             }
-            catch(MySqlException ex)
+            else
             {
-                MessageBox.Show("Ocurrió un error al guardar los datos " + ex, "Error");
+                MessageBox.Show("Los datos no son correctos. Por favor verifícalos y vuelve a intentarlo.","Error", MessageBoxButton.OK,MessageBoxImage.Error);
             }
+            ActualizarTablaReparaciones();
         }
 
         private void cancelar_rep__Click(object sender, RoutedEventArgs e)

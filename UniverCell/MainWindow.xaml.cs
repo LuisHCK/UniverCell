@@ -39,16 +39,18 @@ namespace UniverCell
              *Preparar la ventana principal  
              */
             //Cargar los datos del usuario
+            ActualizarDatosTienda();
             MostrarDatosUsuario();
             CargarAvatar();
             //Cargar tablas
             ActualizarTablaVentas();
-            Actualizar_tabla_Articulos();
             EstadisticasRecargas();
-            ActualizarTablaRecargas();
             Actualizar_Tabla_Inventario();
-            ActualizarDatosTienda();
-            ActualizarRegistroRecargas();
+            ActualizarTablaRecargas();
+            ActualizarTablaReparaciones();
+
+            //Cargar Controles
+            LeerMonedas();
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
@@ -109,9 +111,16 @@ namespace UniverCell
                 atras_btn.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Cargar controles específicos al cambiar de tab
+        /// </summary>
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             atras_btn.IsEnabled = true;
+            if (tabControl.SelectedIndex == 1)
+            {
+                combo_bx_Moneda.SelectedIndex = 0;
+            }
         }
 
         /// <summary>
@@ -157,6 +166,7 @@ namespace UniverCell
             {
                 MessageBox.Show("Error al leer los datos de la tienda","Error");
             }
+            
         }
 
         ///Cargar el avatar del usuario
@@ -192,6 +202,17 @@ namespace UniverCell
             else
             {
                 MessageBox.Show("Solo el administrador puede hacer cambios","Advertencia",MessageBoxButton.OK,MessageBoxImage.Stop);
+            }
+        }
+
+        void LeerMonedas()
+        {
+            Moneda.CargarMonedas();
+
+            foreach(var monedas in Tienda.ListaMonedas)
+            {
+                combo_bx_Moneda.Items.Add(monedas);
+                art_combo_moneda.Items.Add(monedas);
             }
         }
     }

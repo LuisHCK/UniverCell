@@ -12,8 +12,7 @@ namespace UniverCell
     {
         private void art_bnt_crear_editar_Click(object sender, RoutedEventArgs e)
         {
-            Actualizar_Tabla_Inventario();
-            Actualizar_tabla_Articulos();
+            //Actualizar_tabla_Articulos();
 
             try
             {
@@ -22,17 +21,31 @@ namespace UniverCell
                 string descripcion_articulo = art_txt_box_descr.Text;
                 decimal precio_compra = Convert.ToDecimal(art_txt_box_prec_compra.Value);
                 decimal precio_venta = Convert.ToDecimal(art_txt_box_prec_vent.Value);
-                int moneda = Convert.ToInt16(art_combo_moneda.Text);
+                int exist = Convert.ToInt32(art_num_existencias.Value);
+                int id_invent = Convert.ToInt32(art_txt_inv_id.Text);
 
+
+                string comando1 = null;
+                string comando2 = null;
+                if (art_bnt_crear_editar.Content.ToString() == "Editar")
+                {
+                    comando1 = "UPDATE cellmax.inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
+                    comando2 = "UPDATE `cellmax`.`articulos` SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', `precio_compra`='" + precio_compra + "', `precio_venta`='" + precio_venta + "', `moneda_id`='" + Tienda.id_moneda + "' WHERE `id`='" + art_txt_prd_id.Text + "';";
+                }
+                else
+                {
+                    comando1 = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, " + proveedor + ", " + Tienda.id_moneda + ");";
+
+                }
                 Conexion.conect.Open();
-                string comando = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, "+proveedor+", " + moneda + ");";
-
-                MySqlCommand cmd = new MySqlCommand(comando, Conexion.conect);
-                    cmd.ExecuteNonQuery();
+                MySqlCommand cmd = new MySqlCommand(comando1+comando2, Conexion.conect);
+                cmd.ExecuteNonQuery();
                 Conexion.conect.Close();
+
+                Actualizar_Tabla_Inventario();
                 Limpiar_Formulario();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error: " + ex);
                 Limpiar_Formulario();
@@ -41,17 +54,18 @@ namespace UniverCell
 
         void Limpiar_Formulario()
         {
-            art_txt_box_nomb.Text   =  null;
-            art_txt_box_prov.Text    =  null;
-            art_txt_box_descr.Text  =  null;
-            art_txt_box_prec_compra.Value   = null;
-            art_txt_box_prec_vent.Value     = null;
+            art_txt_box_nomb.Text = null;
+            art_txt_box_prov.Text = null;
+            art_txt_box_descr.Text = null;
+            art_txt_box_prec_compra.Value = null;
+            art_txt_box_prec_vent.Value = null;
+            art_bnt_crear_editar.Content = "Crear";
         }
 
         /// <summary>
         /// 
         /// </summary>
-       public void Actualizar_Tabla_Inventario()
+        public void Actualizar_Tabla_Inventario()
         {
             try
             {
@@ -74,43 +88,42 @@ namespace UniverCell
         /// <summary>
         /// 
         /// </summary>
-        public void Actualizar_tabla_Articulos()
-        {
-            try
-            {
-                string comando = "SELECT id, nombre, descripcion FROM cellmax.articulos;";
+        //public void Actualizar_tabla_Articulos()
+        //{
+        //    try
+        //    {
+        //        string comando = "SELECT id, nombre, descripcion FROM cellmax.articulos;";
 
-                Conexion.conect.Open();
-                DataTable dt = new DataTable();
-                using (Conexion.conect)
-                {
-                    MySqlDataAdapter da = new MySqlDataAdapter(comando, Conexion.conect);
-                    da.Fill(dt);
-                    Console.WriteLine("Operacion realizada");
-                }
-                Conexion.conect.Close();
-                dataGrid_articulos.ItemsSource = dt.DefaultView;
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(Convert.ToString(ex));
-            }
-        }
+        //        Conexion.conect.Open();
+        //        DataTable dt = new DataTable();
+        //        using (Conexion.conect)
+        //        {
+        //            MySqlDataAdapter da = new MySqlDataAdapter(comando, Conexion.conect);
+        //            da.Fill(dt);
+        //            Console.WriteLine("Operacion realizada");
+        //        }
+        //        Conexion.conect.Close();
+        //        dataGrid_articulos.ItemsSource = dt.DefaultView;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        MessageBox.Show(Convert.ToString(ex));
+        //    }
+        //}
 
         //Boton para editar un articulo seleccionado
         private void button_inv_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DataRowView drv = (DataRowView)dataGrid_articulos.SelectedItem;
-                string id = (drv["Id"]).ToString();
-
-                Editar_articulo Editar = new Editar_articulo(id);
-                Editar.Show();
+                DataRowView drv = (DataRowView)dataGrid_Inventario.SelectedItem;
+                string result = (drv.Row[5]).ToString();
+                EditarArticulo(result);
             }
-            catch (Exception)
+            catch
             {
-                MessageBox.Show("El artículo seleccionado no es válido, o no se ha seleccionado ninguno","Error",MessageBoxButton.OK,MessageBoxImage.Exclamation);
+                MessageBox.Show("El artículo seleccionado no es válido, o no se ha seleccionado ninguno", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                dataGrid_Inventario.SelectedItem = null;
             }
         }
 
@@ -119,11 +132,11 @@ namespace UniverCell
         {
             try
             {
-                DataRowView drv = (DataRowView)dataGrid_articulos.SelectedItem;
+                DataRowView drv = (DataRowView)dataGrid_Inventario.SelectedItem;
                 string Id = (drv["Id"]).ToString();
                 string Nombre = (drv["nombre"]).ToString();
-                string comando = "DELETE FROM `cellmax`.`articulos` WHERE `id`='"+Id+"';";
-                
+                string comando = "DELETE FROM `cellmax`.`articulos` WHERE `id`='" + Id + "';";
+
                 if (MessageBox.Show("Se dispone a eliminar el articulo: " + Id + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     Conexion.conect.Open();
@@ -132,7 +145,7 @@ namespace UniverCell
                     Conexion.conect.Close();
 
                     MessageBox.Show("Se eliminó correctamente el articulo");
-                    Actualizar_tabla_Articulos();
+                    Actualizar_Tabla_Inventario();
                 }
             }
 
@@ -176,9 +189,44 @@ namespace UniverCell
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
                 Conexion.conect.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("No se encontró ningún resultado" + ex, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        ///Editar articul
+        void EditarArticulo(string articulo_id)
+        {
+            if (articulo_id != null)
+            {
+                try
+                {
+                    Conexion.conect.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT inventario.id, articulos.nombre, articulos.descripcion, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id FROM cellmax.articulos INNER JOIN cellmax.inventario ON cellmax.articulos.id = cellmax.inventario.articulo_id WHERE articulos.id = "+articulo_id+"; ", Conexion.conect);
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        art_txt_inv_id.Text = (reader.GetString("id"));
+                        art_txt_box_nomb.Text = (reader.GetString("nombre"));
+                        art_txt_box_descr.Text = (reader.GetString("descripcion"));
+                        art_txt_box_prec_compra.Value = (reader.GetDouble("precio_compra"));
+                        art_txt_box_prec_vent.Value = (reader.GetDouble("precio_venta"));
+                        art_txt_prd_id.Text = (reader.GetString("art_id"));
+                        art_num_existencias.Value = (reader.GetDouble("existencias"));
+                    }
+
+                    Conexion.conect.Close();
+                    art_bnt_crear_editar.Content = "Editar";
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Ocurrió un error al buscar el articulo seleccionado" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Console.WriteLine(ex);
+                }
+
             }
         }
     }

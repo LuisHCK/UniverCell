@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace UniverCell
 {
@@ -27,5 +29,7 @@ namespace UniverCell
         /// 
         /// </summary>
         public static decimal taza_moneda;
+
+        public static List<string> ListaMonedas = new List<string>();
     }
 }

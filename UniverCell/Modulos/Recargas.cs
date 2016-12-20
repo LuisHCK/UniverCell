@@ -22,7 +22,7 @@ namespace UniverCell
         {
             try
             {
-                if (Rec_txt_box_cantidad.Value != 0 || Rec_txt_box_cantidad.Value != null)
+                if (Rec_txt_box_cantidad.Value > 0)
                 {
                     decimal recarga = Convert.ToDecimal(Rec_txt_box_cantidad.Value);
                     int id = (Combo_id_comp.SelectedIndex) + 1;
@@ -80,12 +80,12 @@ namespace UniverCell
                     if (id == "1")
                     {
                         Tile_Recargas_1.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_1.Content = reader.GetString("saldo");
+                        lbl_saldo_1.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
                     }
                     else if (id == "2")
                     {
                         Tile_Recargas_2.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_2.Content = reader.GetString("saldo");
+                        lbl_saldo_2.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
                     }
                 }
                 Conexion.conect.Close();
@@ -101,24 +101,8 @@ namespace UniverCell
         private void Tile_Recargas_1_Click(object sender, RoutedEventArgs e)
         {
             Editar_Saldo_Recargas Editar_Saldo = new Editar_Saldo_Recargas();
-            Editar_Saldo.Show();
+            var dialogResult = Editar_Saldo.ShowDialog();
+            EstadisticasRecargas();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ActualizarRegistroRecargas()
-        {
-            Conexion.conect.Open();
-            DataTable dt = new DataTable();
-            string query = "call cellmax.ver_inventario();";
-
-            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
-                da.Fill(dt);
-            Console.WriteLine("Operacion realizada");
-            dataGrid_venta_recargas.ItemsSource = dt.DefaultView;
-            Conexion.conect.Close();
-        }
-
     }
 }
