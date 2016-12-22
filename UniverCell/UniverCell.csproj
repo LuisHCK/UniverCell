@@ -143,7 +143,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Editar_articulo.xaml">
+    <Page Include="Proveedores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,8 +164,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Conexion.cs" />
-    <Compile Include="Editar_articulo.xaml.cs">
-      <DependentUpon>Editar_articulo.xaml</DependentUpon>
+    <Compile Include="Proveedores.xaml.cs">
+      <DependentUpon>Proveedores.xaml</DependentUpon>
     </Compile>
     <Compile Include="Editar_Saldo_Recargas.xaml.cs">
       <DependentUpon>Editar_Saldo_Recargas.xaml</DependentUpon>

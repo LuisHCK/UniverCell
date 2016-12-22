@@ -1,12 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace UniverCell
 {
@@ -83,6 +85,24 @@ namespace UniverCell
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
             finally { }
+        }
+
+        /// <summary>
+        /// Funcion publica que permite llenar un datagrid desde la BD
+        /// </summary>
+        /// <param name="dataG"></param>
+        /// <param name="comando"></param>
+        public void ActualizarTabla(DataGrid dataG, string comando)
+        {
+            if (Conexion.conect.State != ConnectionState.Open) { Conexion.conect.Open(); }
+            DataTable dt = new DataTable();
+            string query = comando;
+
+            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                da.Fill(dt);
+            Console.WriteLine("Operacion realizada");
+            dataG.ItemsSource = dt.DefaultView;
+            if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
         }
     }
 }

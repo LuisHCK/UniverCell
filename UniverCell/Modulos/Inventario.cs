@@ -22,7 +22,8 @@ namespace UniverCell
                 decimal precio_compra = Convert.ToDecimal(art_txt_box_prec_compra.Value);
                 decimal precio_venta = Convert.ToDecimal(art_txt_box_prec_vent.Value);
                 int exist = Convert.ToInt32(art_num_existencias.Value);
-                int id_invent = Convert.ToInt32(art_txt_inv_id.Text);
+                int id_invent = 0;
+                if (art_txt_inv_id.Text != "") { id_invent = Convert.ToInt32(art_txt_inv_id.Text); }
 
 
                 string comando1 = null;
@@ -44,6 +45,7 @@ namespace UniverCell
 
                 Actualizar_Tabla_Inventario();
                 Limpiar_Formulario();
+                MessageBox.Show("El artículo fue guardado correctamente", "Exito",MessageBoxButton.OK,MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -133,14 +135,17 @@ namespace UniverCell
             try
             {
                 DataRowView drv = (DataRowView)dataGrid_Inventario.SelectedItem;
-                string Id = (drv["Id"]).ToString();
+                string ArtId = (drv.Row[5]).ToString();
+                string InvId = (drv.Row[0]).ToString();
                 string Nombre = (drv["nombre"]).ToString();
-                string comando = "DELETE FROM `cellmax`.`articulos` WHERE `id`='" + Id + "';";
 
-                if (MessageBox.Show("Se dispone a eliminar el articulo: " + Id + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                string comando1 = "DELETE FROM cellmax.inventario WHERE id=" + InvId + "";
+                string comando2 = "DELETE FROM `cellmax`.`articulos` WHERE `id`='" + ArtId + "';";
+
+                if (MessageBox.Show("Se dispone a eliminar el articulo: " + ArtId + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand(comando, Conexion.conect);
+                    MySqlCommand cmd = new MySqlCommand(comando1+comando2, Conexion.conect);
                     cmd.ExecuteNonQuery();
                     Conexion.conect.Close();
 

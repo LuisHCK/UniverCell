@@ -1,0 +1,25 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UniverCell"
+        xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="UniverCell.Proveedores"
+        mc:Ignorable="d"
+        Title="Gestionar Proveedores" Height="570.94" Width="662.984" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Label x:Name="label" Content="Lista de proveedores" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dataGrid" Margin="10,36,95,10" CanUserReorderColumns="False" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID"/>
+                <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Nombre"/>
+                <DataGridTextColumn Binding="{Binding direccion}" ClipboardContentBinding="{x:Null}" Header="Dirección" MinWidth="100"/>
+                <DataGridTextColumn Binding="{Binding telefono}" ClipboardContentBinding="{x:Null}" Header="Teléfono"/>
+                <DataGridTextColumn Binding="{Binding email}" ClipboardContentBinding="{x:Null}" Header="Email"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="button" Content="Editar" HorizontalAlignment="Right" Margin="0,36,15,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button1" Content="Eliminar" HorizontalAlignment="Right" Margin="0,66,15,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button2" Content="Enviar &#xD;&#xA;Correo" HorizontalAlignment="Left" Margin="567,96,0,0" VerticalAlignment="Top" Width="75" Height="39"/>
+    </Grid>
+</Window>

@@ -215,5 +215,11 @@ namespace UniverCell
                 art_combo_moneda.Items.Add(monedas);
             }
         }
+
+        private void BTN_Inv_Proveedores_Click(object sender, RoutedEventArgs e)
+        {
+            Proveedores Prov = new Proveedores();
+            Prov.ShowDialog();
+        }
     }
 }
