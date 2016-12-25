@@ -51,6 +51,7 @@ namespace UniverCell
 
             //Cargar Controles
             LeerMonedas();
+            CargarProveedores();
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
@@ -216,10 +217,39 @@ namespace UniverCell
             }
         }
 
+        void CargarProveedores()
+        {
+            try
+            {
+                Conexion.conect.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT*FROM cellmax.proveedores;", Conexion.conect);
+                MySqlDataReader Reader = cmd.ExecuteReader();
+                Tienda.ListaProveedores.Clear();
+
+                while (Reader.Read())
+                {
+                    Tienda.ListaProveedores.Add(Reader.GetString("nombre"));
+                }
+                Conexion.conect.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ocurrió un error al obetener la lista de los proveedores", "Error");
+            }
+
+            combo_nombre_proveedor.Items.Clear();
+            foreach (var proveedor in Tienda.ListaProveedores)
+            {
+
+                combo_nombre_proveedor.Items.Add(proveedor);
+            }
+        }
+
         private void BTN_Inv_Proveedores_Click(object sender, RoutedEventArgs e)
         {
             Proveedores Prov = new Proveedores();
             Prov.ShowDialog();
+            CargarProveedores();
         }
     }
 }

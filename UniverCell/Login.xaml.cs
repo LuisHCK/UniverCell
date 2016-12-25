@@ -53,11 +53,11 @@ namespace UniverCell
             }
         }
 
-/// <summary>
-/// La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
-/// la clase estatica sesión
-/// </summary>
-/// <param name="usuario"></param>
+        /// <summary>
+        /// La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
+        /// la clase estatica sesión
+        /// </summary>
+        /// <param name="usuario"></param>
         public void DatosUsuario(string usuario)
         {
             try
@@ -85,6 +85,11 @@ namespace UniverCell
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void button_Click(object sender, RoutedEventArgs e)
         {
             string usr = txt_user.Text;

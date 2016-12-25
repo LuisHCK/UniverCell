@@ -17,39 +17,40 @@ namespace UniverCell
             try
             {
                 string nombre_articulo = art_txt_box_nomb.Text;
-                string proveedor = art_txt_box_prov.Text;
                 string descripcion_articulo = art_txt_box_descr.Text;
                 decimal precio_compra = Convert.ToDecimal(art_txt_box_prec_compra.Value);
                 decimal precio_venta = Convert.ToDecimal(art_txt_box_prec_vent.Value);
                 int exist = Convert.ToInt32(art_num_existencias.Value);
                 int id_invent = 0;
                 if (art_txt_inv_id.Text != "") { id_invent = Convert.ToInt32(art_txt_inv_id.Text); }
-
+                int prov_id = IdProv(combo_nombre_proveedor.SelectedItem.ToString());
 
                 string comando1 = null;
                 string comando2 = null;
                 if (art_bnt_crear_editar.Content.ToString() == "Editar")
                 {
                     comando1 = "UPDATE cellmax.inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
-                    comando2 = "UPDATE `cellmax`.`articulos` SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', `precio_compra`='" + precio_compra + "', `precio_venta`='" + precio_venta + "', `moneda_id`='" + Tienda.id_moneda + "' WHERE `id`='" + art_txt_prd_id.Text + "';";
+                    comando2 = "UPDATE `cellmax`.`articulos` SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = '" + prov_id + "', `precio_compra`='" + precio_compra + "', `precio_venta`='" + precio_venta + "', `moneda_id`='" + Tienda.id_moneda + "' WHERE `id`='" + art_txt_prd_id.Text + "';";
                 }
                 else
                 {
-                    comando1 = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, " + proveedor + ", " + Tienda.id_moneda + ");";
+                    comando1 = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, " + prov_id + ", " + Tienda.id_moneda + ","+ exist +");";
 
                 }
+                if(Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                 Conexion.conect.Open();
                 MySqlCommand cmd = new MySqlCommand(comando1+comando2, Conexion.conect);
                 cmd.ExecuteNonQuery();
+
                 Conexion.conect.Close();
 
                 Actualizar_Tabla_Inventario();
                 Limpiar_Formulario();
-                MessageBox.Show("El artículo fue guardado correctamente", "Exito",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show("El artículo fue guardado correctamente", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ocurrió un error: " + ex);
+                MessageBox.Show("Ocurrió un error al guardar el artículo. Por favor revisa los datos. Detalles del error: " + ex);
                 Limpiar_Formulario();
             }
         }
@@ -57,7 +58,7 @@ namespace UniverCell
         void Limpiar_Formulario()
         {
             art_txt_box_nomb.Text = null;
-            art_txt_box_prov.Text = null;
+            combo_nombre_proveedor.SelectedValue = null;
             art_txt_box_descr.Text = null;
             art_txt_box_prec_compra.Value = null;
             art_txt_box_prec_vent.Value = null;
@@ -77,7 +78,6 @@ namespace UniverCell
 
                 using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
                     da.Fill(dt);
-                Console.WriteLine("Operacion realizada");
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
                 Conexion.conect.Close();
             }
@@ -122,9 +122,9 @@ namespace UniverCell
                 string result = (drv.Row[5]).ToString();
                 EditarArticulo(result);
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("El artículo seleccionado no es válido, o no se ha seleccionado ninguno", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("El artículo seleccionado no es válido, o no se ha seleccionado ninguno" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 dataGrid_Inventario.SelectedItem = null;
             }
         }
@@ -207,6 +207,7 @@ namespace UniverCell
             {
                 try
                 {
+                    if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                     Conexion.conect.Open();
                     MySqlCommand cmd = new MySqlCommand("SELECT inventario.id, articulos.nombre, articulos.descripcion, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id FROM cellmax.articulos INNER JOIN cellmax.inventario ON cellmax.articulos.id = cellmax.inventario.articulo_id WHERE articulos.id = "+articulo_id+"; ", Conexion.conect);
 
@@ -233,6 +234,32 @@ namespace UniverCell
                 }
 
             }
+        }
+
+        /// <summary>
+        /// Obtiene el id del proveedor basado en el nombre
+        /// </summary>
+        /// <param name="nombre"></param>
+        public int IdProv(string nombre)
+        {
+            int ID = 0;
+            try
+            {
+                Conexion.conect.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.proveedores where nombre = '" + nombre + "';", Conexion.conect);
+                MySqlDataReader Reader = cmd.ExecuteReader();
+
+                while (Reader.Read())
+                {
+                    ID = Reader.GetInt32("id");
+                }
+                Conexion.conect.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No se pudo encontrar ningun proveedor con el Nombre: " + nombre, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+            }
+            return ID;
         }
     }
 }

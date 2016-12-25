@@ -300,9 +300,8 @@
                             <Label x:Name="label18" Content="Nombre del producto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="129" Height="26"/>
                             <TextBox x:Name="art_txt_box_nomb" Height="26" Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
                             <Label x:Name="label18_Copy" Content="Proveedor" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="129" Height="26"/>
-                            <TextBox x:Name="art_txt_box_prov" Height="26" Margin="10,98,9,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                            <Button x:Name="art_bnt_crear_editar" Content="Crear" Margin="0,473,9,0" VerticalAlignment="Top" Height="49" Foreground="White" Background="#FF43A047" Click="art_bnt_crear_editar_Click" HorizontalAlignment="Right" Width="151"/>
-                            <Button x:Name="art_btn_cancelar" Content="Cancelar" Margin="10,473,204,0" VerticalAlignment="Top" Height="49" Background="#FFD84315" Foreground="White"/>
+                            <Button x:Name="art_bnt_crear_editar" Content="Crear" Margin="0,460,9,0" VerticalAlignment="Top" Height="49" Foreground="White" Background="#FF43A047" Click="art_bnt_crear_editar_Click" HorizontalAlignment="Right" Width="151"/>
+                            <Button x:Name="art_btn_cancelar" Content="Cancelar" Margin="10,460,204,0" VerticalAlignment="Top" Height="49" Background="#FFD84315" Foreground="White"/>
                             <Label x:Name="label25" Content="Moneda" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" Height="26" Width="54"/>
                             <ComboBox x:Name="art_combo_moneda" Margin="10,160,10,0" VerticalAlignment="Top" IsReadOnly="True" SelectedIndex="0" Height="31"/>
                             <Label x:Name="label21" Content="Descripción" Margin="10,196,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="72" Height="26"/>
@@ -317,31 +316,25 @@
                             <TextBox x:Name="art_txt_inv_id" HorizontalAlignment="Left" Height="23" Margin="10,418,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
                             <Label x:Name="label26_Copy" Content="Cod. Art." HorizontalAlignment="Left" Margin="205,387,0,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="art_txt_prd_id" HorizontalAlignment="Left" Height="23" Margin="205,418,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
+                            <ComboBox x:Name="combo_nombre_proveedor" Margin="10,98,10,0" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox x:Name="groupBox5" Header="artículos en el inventario" Margin="10" Background="#CC00897B" Grid.Column="1">
                         <Grid Margin="-5" Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="223*"/>
                                 <ColumnDefinition Width="41*"/>
                             </Grid.ColumnDefinitions>
-                            <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,10,10" AutoGenerateColumns="False" FontSize="14" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn x:Name="ID" Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Nombre" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding existencias}" ClipboardContentBinding="{x:Null}" Header="Existencias" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding precio_compra}" ClipboardContentBinding="{x:Null}" Header="Precio Compra" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding precio_venta}" ClipboardContentBinding="{x:Null}" Header="Precio Venta" IsReadOnly="True"/>
-                                    <DataGridTextColumn x:Name="Art_ID" Binding="{Binding art_id}" ClipboardContentBinding="{x:Null}" Header="Código Artículo" IsReadOnly="True"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,5,500,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,5,500,0" VerticalAlignment="Top" FontWeight="Bold" Height="26"/>
                             <Button x:Name="inv_btn_vender_art" Content="Vender" Margin="10,36,10,0" VerticalAlignment="Top" Height="40" Background="#FF43A047" BorderBrush="#FF919191" Click="inv_btn_vender_art_Click" Grid.Column="1" Foreground="White"/>
-                            <Label x:Name="label19" Content="Buscar" HorizontalAlignment="Left" Margin="394,5,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-                            <TextBox x:Name="textBox_Buscar_Articulo" HorizontalAlignment="Left" Height="23" Margin="444,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="215" TextChanged="textBox_Buscar_Articulo_TextChanged"/>
-                            <Button x:Name="button3" Content="Eliminar" Margin="10,81,10,0" VerticalAlignment="Top" Height="40" BorderBrush="#FFFF7272" Background="#FFFF6363" Foreground="White" Click="button3_Click" Grid.Column="1"/>
-                            <Button x:Name="BTN_Inv_Proveedores" Content="Proveedores" Margin="10,482,10,0" VerticalAlignment="Top" Grid.Column="1" Height="40" Background="#FF979797" BorderBrush="#FF919191" Foreground="White" Click="BTN_Inv_Proveedores_Click"/>
-                            <Button x:Name="inv_agregar_inv" Content="Agregar al &#xA;inventario" Margin="10,126,10,0" VerticalAlignment="Top" Height="40" Click="button_inv_Click" Grid.Column="1"/>
+                            <Label x:Name="label19" Content="Buscar" HorizontalAlignment="Left" Margin="394,5,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="47"/>
+                            <TextBox x:Name="textBox_Buscar_Articulo" HorizontalAlignment="Left" Height="26" Margin="444,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="215" TextChanged="textBox_Buscar_Articulo_TextChanged"/>
+                            <Button x:Name="button3" Content="Eliminar" Margin="10,126,10,0" VerticalAlignment="Top" Height="40" BorderBrush="#FFFF7272" Background="#FFFF6363" Foreground="White" Click="button3_Click" Grid.Column="1"/>
+                            <Button x:Name="inv_agregar_inv" Content="Editar Artículo" Margin="10,81,10,0" VerticalAlignment="Top" Height="40" Click="button_inv_Click" Grid.Column="1"/>
+                            <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,10,10" Background="#FFE8E8E8" IsReadOnly="True"/>
                         </Grid>
                     </GroupBox>
                 </Grid>

@@ -30,6 +30,14 @@ namespace UniverCell
         /// </summary>
         public static decimal taza_moneda;
 
+        /// <summary>
+        /// Almacena en una lista las monedas con las que se trabaja
+        /// </summary>
         public static List<string> ListaMonedas = new List<string>();
+
+        /// <summary>
+        /// Almacena en una lista las monedas con las que se trabaja
+        /// </summary>
+        public static List<string> ListaProveedores = new List<string>();
     }
 }

@@ -42,7 +42,7 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.monedas where nombre = " + nombre + ";", Conexion.conect);
+                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.monedas where nombre = '" + nombre + "';", Conexion.conect);
                 MySqlDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
@@ -96,8 +96,7 @@ namespace UniverCell
 
                 while(Reader.Read())
                 {
-                    var nombre = Reader.GetString("nombre");
-                    Tienda.ListaMonedas.Add(nombre);
+                    Tienda.ListaMonedas.Add(Reader.GetString("nombre"));
                 }
                 Conexion.conect.Close();
             }

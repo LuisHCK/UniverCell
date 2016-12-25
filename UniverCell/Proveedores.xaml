@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:UniverCell"
         xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="UniverCell.Proveedores"
         mc:Ignorable="d"
-        Title="Gestionar Proveedores" Height="570.94" Width="662.984" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Gestionar Proveedores" Height="585.97" Width="662.984" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid>
-        <Label x:Name="label" Content="Lista de proveedores" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dataGrid" Margin="10,36,95,10" CanUserReorderColumns="False" IsReadOnly="True" AutoGenerateColumns="False">
+        <Label x:Name="label" Content="Lista de proveedores" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <DataGrid x:Name="dataGrid" Margin="10,36,95,107" CanUserReorderColumns="False" IsReadOnly="True" AutoGenerateColumns="False" Background="#FFEAEAEA">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID"/>
                 <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Nombre"/>
@@ -18,8 +18,20 @@
                 <DataGridTextColumn Binding="{Binding email}" ClipboardContentBinding="{x:Null}" Header="Email"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="button" Content="Editar" HorizontalAlignment="Right" Margin="0,36,15,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="button1" Content="Eliminar" HorizontalAlignment="Right" Margin="0,66,15,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="button2" Content="Enviar &#xD;&#xA;Correo" HorizontalAlignment="Left" Margin="567,96,0,0" VerticalAlignment="Top" Width="75" Height="39"/>
+        <Button x:Name="btn_editar" Content="Editar" HorizontalAlignment="Right" Margin="0,36,10,0" VerticalAlignment="Top" Width="80" Click="btn_editar_Click"/>
+        <Button x:Name="btn_eliminar" Content="Eliminar" HorizontalAlignment="Right" Margin="0,66,10,0" VerticalAlignment="Top" Width="80" Click="btn_eliminar_Click"/>
+        <Button x:Name="button2" Content="Enviar &#xD;&#xA;Correo" Margin="567,96,10,0" VerticalAlignment="Top" Height="39"/>
+        <Label x:Name="label1" Content="Nombre" HorizontalAlignment="Left" Margin="10,440,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_nombre" HorizontalAlignment="Left" Height="23" Margin="69,440,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
+        <Label x:Name="label2" Content="Direción" HorizontalAlignment="Left" Margin="10,480,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_dir" HorizontalAlignment="Left" Height="52" Margin="69,480,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
+        <Label x:Name="label3" Content="Teléfono" HorizontalAlignment="Left" Margin="225,440,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_tel" HorizontalAlignment="Left" Height="23" Margin="285,440,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <Label x:Name="label4" Content="Email" HorizontalAlignment="Left" Margin="225,480,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_email" HorizontalAlignment="Left" Height="23" Margin="285,480,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <Button x:Name="btn_guardar" Content="Guardar" HorizontalAlignment="Left" Margin="470,458,0,0" VerticalAlignment="Top" Width="75" Height="35" Background="#FF009300" Foreground="White" Click="button3_Click"/>
+        <Button x:Name="button4" Content="Cancelar" HorizontalAlignment="Left" Margin="567,458,0,0" VerticalAlignment="Top" Width="75" Height="35" Foreground="White" Background="#FFFB0000"/>
+        <Label x:Name="label5" Content="Cod." HorizontalAlignment="Left" Margin="229,520,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_ID" HorizontalAlignment="Left" Height="23" Margin="285,520,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
     </Grid>
 </Window>

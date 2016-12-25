@@ -94,15 +94,14 @@ namespace UniverCell
         /// <param name="comando"></param>
         public void ActualizarTabla(DataGrid dataG, string comando)
         {
-            if (Conexion.conect.State != ConnectionState.Open) { Conexion.conect.Open(); }
+            Conexion.conect.Open();
             DataTable dt = new DataTable();
             string query = comando;
 
-            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+            MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect);
                 da.Fill(dt);
-            Console.WriteLine("Operacion realizada");
             dataG.ItemsSource = dt.DefaultView;
-            if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
+            Conexion.conect.Close();
         }
     }
 }

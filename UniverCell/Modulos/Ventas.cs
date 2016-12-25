@@ -206,9 +206,8 @@ namespace UniverCell
 
                 Conexion.conect.Open();
 
-                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "');", Conexion.conect);
-               int i = cmd.ExecuteNonQuery();
-                Console.Write("Insertado '"+i+"' fila");
+                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "',"+ Sesion.id_usuario +");", Conexion.conect);
+               cmd.ExecuteNonQuery();
 
                 Conexion.conect.Close();
                 ActualizarTablaVentas();
@@ -239,7 +238,7 @@ namespace UniverCell
                 Conexion.conect.Close();
 
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error en la operación: " + ex);
             }
