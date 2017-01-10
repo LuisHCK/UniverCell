@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace UniverCell
 {
@@ -66,6 +55,16 @@ namespace UniverCell
             {
                 MessageBox.Show("Ocurrió un error al guardar la configuración, verifica que los datos ingresados son válidos.");
             }
+        }
+
+        private void checkBox1_Checked(object sender, RoutedEventArgs e)
+        {
+            textBlock_pass.Text = passwordBox.Password;
+        }
+
+        private void checkBox1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            textBlock_pass.Text = null;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniverCell"
         mc:Ignorable="d"
-        Title="Ajustes" Height="387" Width="584">
+        Title="Ajustes" Height="402" Width="584">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="205*"/>
@@ -24,8 +24,8 @@
         <Label x:Name="label5" Content="Moneda Principal" Grid.Column="1" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="moneda_tienda" Grid.Column="1" Margin="10,135,10,0" VerticalAlignment="Top" SelectedIndex="1"/>
         <Label x:Name="label6" Content="Datos del Negocio" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-        <Button x:Name="button1" Content="Aceptar" Grid.Column="1" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" Width="75" Click="button1_Click"/>
-        <Button x:Name="button" Content="Cancelar" HorizontalAlignment="Left" Margin="206,321,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button1" Content="Aceptar" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,25" Width="75" Click="button1_Click" Height="25" VerticalAlignment="Bottom"/>
+        <Button x:Name="button" Content="Cancelar" HorizontalAlignment="Left" Margin="206,0,0,25" Width="75" Click="button_Click" Height="25" VerticalAlignment="Bottom"/>
         <Image x:Name="logo_tienda" Grid.Column="1" HorizontalAlignment="Left" Height="108" Margin="12,197,0,0" VerticalAlignment="Top" Width="122" Source="SplashScreen1.png"/>
         <Label x:Name="label7" Content="Logotipo" Grid.Column="1" HorizontalAlignment="Left" Margin="12,166,0,0" VerticalAlignment="Top"/>
         <Button x:Name="BtnCargarImagen" Content="Seleccionar Archivo" Grid.Column="1" HorizontalAlignment="Left" Margin="153,222,0,0" VerticalAlignment="Top" Width="122" Height="32" Click="BtnCargarImagen_Click"/>

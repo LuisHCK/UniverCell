@@ -106,5 +106,29 @@ namespace UniverCell
                 MessageBox.Show("Ocurrió un error al cargar la lista de monedas." + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void CargarMonedas1(ComboBox Combo)
+        {
+            try
+            {
+                Conexion.conect.Open();
+                MySqlCommand CMD = new MySqlCommand("Select nombre From Monedas;", Conexion.conect);
+                MySqlDataReader Reader = CMD.ExecuteReader();
+
+                while (Reader.Read())
+                {
+                    Combo.Items.Add(Reader.GetString("nombre"));
+                }
+                Conexion.conect.Close();
+            }
+            catch (Exception ex)
+            {
+                Conexion.conect.Close();
+                MessageBox.Show("Ocurrió un error al cargar la lista de monedas." + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+            }
+        }
     }
 }

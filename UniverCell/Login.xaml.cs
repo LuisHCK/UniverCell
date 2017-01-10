@@ -31,18 +31,24 @@ namespace UniverCell
         private void IniciarMariaDB()
         {
             Process proc = new Process();
-            proc.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "mysql_start.bat";
+            proc.StartInfo.FileName = "C:\\xampp\\xampp_start.exe";
             proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             proc.Start();
+            //Esperar a que cargue MySQL
+            System.Threading.Thread.Sleep(5000);
             PruebaConexion();
-
         }
 
         //Probar si la conexion está abierta
         void PruebaConexion()
         {
-               if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ucll") == false)
-                {
+            try
+            {
+                Conexion.conect.Open();
+                Conexion.conect.Close();
+            }
+            catch
+            {
                 Configuracion WinConf = new Configuracion();
                 WinConf.Show();
                 if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)
@@ -51,7 +57,17 @@ namespace UniverCell
                 }
                 this.Close();
             }
+            //if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ucll") == false)
+            // {
+            // Configuracion WinConf = new Configuracion();
+            // WinConf.Show();
+            // if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            // {
+            //     WinConf.Close();
+            // }
+            // this.Close();
         }
+        
 
         /// <summary>
         /// La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 

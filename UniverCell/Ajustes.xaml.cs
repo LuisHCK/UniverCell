@@ -37,6 +37,9 @@ namespace UniverCell
         //Leer los datos de la tienda
         private void ObtenerDatosTienda()
         {
+            //Obtener las monedas 
+            Moneda.CargarMonedas1(this.moneda_tienda);
+
             try
             {
                 Conexion.conect.Open();

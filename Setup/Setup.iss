@@ -2,16 +2,16 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "UniverCell"
-#define MyAppVersion "v1.0.0"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Living Company"
-#define MyAppURL "https://livingcompany.github.io/"
+#define MyAppURL "https://livingcompany.github.io"
 #define MyAppExeName "UniverCell.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{71DBF721-C69D-4982-986F-1FD8F6A848E4}
+AppId={{4F1DF107-9F7E-4ABD-96E9-2F8B96D87438}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -20,10 +20,11 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName=C:\{#MyAppName}
+DisableDirPage=yes
 DisableProgramGroupPage=yes
 OutputDir=C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\Setup
 OutputBaseFilename=setup
-SetupIconFile=C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\logo.ico
+SetupIconFile=C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\logo.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -32,13 +33,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checked
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checked; OnlyBelowVersion: 0,6.1
-Name: StartAfterInstall; Description: Instalar Base de Datos 
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\config.ucl"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\config.ucll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\Livecharts.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\Livecharts.pdb"; DestDir: "{app}"; Flags: ignoreversion
@@ -51,6 +49,7 @@ Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\MahApps.Metro.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\MySql.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\MySql.Data.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\mysql_start.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\System.Windows.Interactivity.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.exe.config"; DestDir: "{app}"; Flags: ignoreversion
@@ -59,16 +58,22 @@ Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.vshost.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.vshost.exe.manifest"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\UniverCell\bin\Release\UniverCell.XML"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Luis Centeno\Documents\Visual Studio 2015\Projects\UniverCell\xampp.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\xampp\xampp.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-Filename: "{app}\xampp.exe"; Flags: shellexec; Tasks: StartAfterInstall
+Filename: "{app}\xampp.exe"; Flags: postinstall
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: postinstall skipifsilent
+
+[Code]
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  if CurPageID = wpFinished then
+    WizardForm.RunList.Visible := False;
+end;
 
 
