@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,11 +19,11 @@ namespace UniverCell
         /// <summary>
         /// 
         /// </summary>
-        public static string CadenaConexion = decripted;
+        public static string CadenaConexion = "Data Source=" + AppDomain.CurrentDomain.BaseDirectory + "UniverCell.db;Version=3;";
         /// <summary>
         /// 
         /// </summary>
-        public static MySqlConnection conect = new MySqlConnection(CadenaConexion);
+        public static SQLiteConnection conect = new SQLiteConnection(CadenaConexion);        
     } 
 
 }

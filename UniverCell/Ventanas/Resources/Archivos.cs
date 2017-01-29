@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -98,7 +98,7 @@ namespace UniverCell
             DataTable dt = new DataTable();
             string query = comando;
 
-            MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect);
+            SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect);
                 da.Fill(dt);
             dataG.ItemsSource = dt.DefaultView;
             Conexion.conect.Close();

@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -44,17 +44,16 @@ namespace UniverCell
             {
                 Conexion.conect.Open();
                 string Comando = "Select*From ajustes;";
-                MySqlCommand cmd = new MySqlCommand(Comando, Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand(Comando, Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    nombre_tienda.Text = Reader.GetString("nombre_negocio");
-                    telefono_tienda.Text = Reader.GetString("telefono");
-                    email_tienda.Text = Reader.GetString("email");
-                    ciudad_tienda.Text = Reader.GetString("ciudad");
-                    direccion_tienda.Text = Reader.GetString("direccion");
-
+                    nombre_tienda.Text = Reader["nombre_negocio"].ToString();
+                    telefono_tienda.Text = Reader["telefono"].ToString();
+                    email_tienda.Text = Reader["email"].ToString();
+                    ciudad_tienda.Text = Reader["ciudad"].ToString();
+                    direccion_tienda.Text = Reader["direccion"].ToString();
                 }
                 Conexion.conect.Close();
             }
@@ -91,7 +90,7 @@ namespace UniverCell
                 }
 
                 Conexion.conect.Open();
-                MySqlCommand CMD = new MySqlCommand(Cadena, Conexion.conect);
+                SQLiteCommand CMD = new SQLiteCommand(Cadena, Conexion.conect);
                 CMD.ExecuteNonQuery();
                 Conexion.conect.Close();
                 VentanaPrincipal.Activate();

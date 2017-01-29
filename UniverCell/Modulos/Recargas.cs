@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,7 +28,7 @@ namespace UniverCell
                     int id = (Combo_id_comp.SelectedIndex) + 1;
 
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.vender_recarga(" + recarga + ", " + id + ");", Conexion.conect);
+                    SQLiteCommand cmd = new SQLiteCommand("call vender_recarga(" + recarga + ", " + id + ");", Conexion.conect);
                     cmd.ExecuteNonQuery();
                     Conexion.conect.Close();
 
@@ -54,9 +54,9 @@ namespace UniverCell
         {
             DataTable dt = new DataTable();
             Conexion.conect.Open();
-            string query = "SELECT saldo_recargas.compania, recargas.valor, saldo_recargas.ganancia, recargas.fecha_venta FROM cellmax.recargas INNER JOIN saldo_recargas on recargas.saldo_id = saldo_recargas.id order by fecha_venta desc;";
+            string query = "SELECT saldo_recargas.compania, recargas.valor, saldo_recargas.ganancia, recargas.fecha_venta FROM recargas INNER JOIN saldo_recargas on recargas.saldo_id = saldo_recargas.id order by fecha_venta desc;";
 
-            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+            using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                 da.Fill(dt);
             Conexion.conect.Close();
             Console.WriteLine("Operacion realizada");
@@ -69,23 +69,23 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.saldo_recargas;", Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM saldo_recargas;", Conexion.conect);
 
-                MySqlDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    string id = reader.GetString("id");
+                    string id = reader["id"].ToString();
 
                     if (id == "1")
                     {
-                        Tile_Recargas_1.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_1.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
+                        Tile_Recargas_1.Title = ("Saldo en: " + reader["compania"].ToString());
+                        lbl_saldo_1.Content = Tienda.signo_moneda + ": " + reader["saldo"].ToString();
                     }
                     else if (id == "2")
                     {
-                        Tile_Recargas_2.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_2.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
+                        Tile_Recargas_2.Title = ("Saldo en: " + reader["compania"].ToString());
+                        lbl_saldo_2.Content = Tienda.signo_moneda + ": " + reader["saldo"].ToString();
                     }
                 }
                 Conexion.conect.Close();

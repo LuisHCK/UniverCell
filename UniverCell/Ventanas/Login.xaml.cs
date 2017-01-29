@@ -1,19 +1,6 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace UniverCell
 {
@@ -22,22 +9,27 @@ namespace UniverCell
     /// </summary>
     public partial class Login : Window
     {
+        /// <summary>
+        /// Inicializar Ventana
+        /// </summary>
         public Login()
         {
             InitializeComponent();
-            IniciarMariaDB();
+            PruebaConexion();
+            //IniciarMariaDB();
         }
 
-        private void IniciarMariaDB()
-        {
-            Process proc = new Process();
-            proc.StartInfo.FileName = "C:\\xampp\\xampp_start.exe";
-            proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            proc.Start();
-            //Esperar a que cargue MySQL
-            System.Threading.Thread.Sleep(5000);
-            PruebaConexion();
-        }
+        // Dejar MySql y usar SqLite
+        //private void IniciarMariaDB()
+        //{
+        //    Process proc = new Process();
+        //    proc.StartInfo.FileName = "C:\\xampp\\xampp_start.exe";
+        //    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        //    proc.Start();
+        //    //Esperar a que cargue MySQL
+        //    System.Threading.Thread.Sleep(5000);
+        //    
+        //}
 
         //Probar si la conexion está abierta
         void PruebaConexion()
@@ -67,7 +59,7 @@ namespace UniverCell
             // }
             // this.Close();
         }
-        
+
 
         /// <summary>
         /// La funcion obtiene los datos de un usuario basado en el nombre de usuario y lo almacena en 
@@ -79,19 +71,19 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.usuarios where nombre_usuario = '"+usuario+"';", Conexion.conect);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM usuarios where nombre_usuario = '" + usuario + "';", Conexion.conect);
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Sesion.id_usuario = reader.GetString("id");
-                    Sesion.nomb_usuario = reader.GetString("nombre_usuario");
-                    Sesion.nomb_completo = reader.GetString("nombre_completo");
-                    Sesion.puest = reader.GetString("puesto");
-                    Sesion.dir = reader.GetString("direccion");
-                    Sesion.lvl = reader.GetString("lvl");
-                    Sesion.ced = reader.GetString("cedula");
-                    Sesion.fech_ingr = reader.GetString("fecha_ingreso");
+                    Sesion.id_usuario = reader["id"].ToString();
+                    Sesion.nomb_usuario = reader["nombre_usuario"].ToString();
+                    Sesion.nomb_completo = reader["nombre_completo"].ToString();
+                    Sesion.puest = reader["puesto"].ToString();
+                    Sesion.dir = reader["direccion"].ToString();
+                    Sesion.lvl = reader["lvl"].ToString();
+                    Sesion.ced = reader["cedula"].ToString();
+                    Sesion.fech_ingr = reader["fecha_ingreso"].ToString();
                 }
                 Conexion.conect.Close();
             }
@@ -109,41 +101,30 @@ namespace UniverCell
         public void button_Click(object sender, RoutedEventArgs e)
         {
             string usr = txt_user.Text;
+
             try
             {
-                //Conectar con la base de datos para consultar el inventaio
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand();
 
-                cmd.Connection = Conexion.conect;
-
-                cmd.CommandText = "select cellmax.login('" + txt_user.Text + "', '" + txt_pass.Password + "')";
-                /*loguear autimaticamente (temporal)
-                *cmd.CommandText = "select cellmax.login('luishck', '123')";
-                */
-                int login = int.Parse(cmd.ExecuteScalar().ToString());
+                SQLiteCommand cmd = new SQLiteCommand("select Count(*) from usuarios where nombre_usuario = '" + txt_user.Text + "' and contrasena ='" + txt_pass.Password + "'", Conexion.conect);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
                 Conexion.conect.Close();
 
-                //Si el login es correcto mandar a la ventana principal
-                if (login == 1)
+                if (count > 0)
                 {
                     DatosUsuario(usr);
-
-                    MainWindow VentPrincipal = new MainWindow();
-                    VentPrincipal.Show();
+                    MainWindow Mw = new MainWindow();
+                    Mw.Show();
                     this.Close();
                 }
-                //Caso contrario mandar un mensaje de error
                 else
                 {
-                    MessageBox.Show("Usuario Incorrecto");
+                    MessageBox.Show("El nombre de usuario o la contraseña no son correctos", "Error", MessageBoxButton.OK,MessageBoxImage.Error);
                 }
-
             }
-            //Si ocurre un error con la conexion a la BD mandar una excepcion
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Ocurió un error" + ex);
+                MessageBox.Show("Error" + ex);
             }
         }
     }

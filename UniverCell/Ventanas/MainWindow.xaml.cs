@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,11 +42,11 @@ namespace UniverCell
             ActualizarDatosTienda();
             MostrarDatosUsuario();
             CargarAvatar();
-            //Cargar tablas
+                /*Cargar tablas*/
             ActualizarTablaVentas();
             EstadisticasRecargas();
-            Actualizar_Tabla_Inventario();
             ActualizarTablaRecargas();
+            Actualizar_Tabla_Inventario();
             ActualizarTablaReparaciones();
 
             //Cargar Controles
@@ -139,17 +139,17 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                string Comando = "Select*From ajustes;";
-                MySqlCommand cmd = new MySqlCommand(Comando, Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                string Comando = "Select*From 'ajustes';";
+                SQLiteCommand cmd = new SQLiteCommand(Comando, Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    string nomb   = Reader.GetString("nombre_negocio");
-                    string tel   = Reader.GetString("telefono");
-                    string dir      = Reader.GetString("direccion");
-                    string email = Reader.GetString("email");
-                    Tienda.id_moneda = Reader.GetInt32("id");
+                    string nomb   = Reader["nombre_negocio"].ToString();
+                    string tel   = Reader["telefono"].ToString();
+                    string dir      = Reader["direccion"].ToString();
+                    string email = Reader["email"].ToString();
+                    Tienda.id_moneda = Convert.ToInt32(Reader["id"]);
 
                     lbl_tienda_nombre.Content = nomb;
                     lbl_tel_tienda.Content = tel;
@@ -163,9 +163,9 @@ namespace UniverCell
 
                 lbl_moneda_tienda.Content = Tienda.signo_moneda + "," + Tienda.nombre_moneda;
             }
-            catch
+            catch(SQLiteException ex)
             {
-                MessageBox.Show("Error al leer los datos de la tienda","Error");
+                MessageBox.Show("Error al leer los datos de la tienda "+ex.Message,"Error");
             }
             
         }
@@ -186,10 +186,16 @@ namespace UniverCell
         }
         private void CargarAvatar()
         {
-            string ruta = AppDomain.CurrentDomain.BaseDirectory + "Images\\Avatar_" + Sesion.nomb_usuario + ".jpg";
-            FileStream stream = new FileStream(ruta, FileMode.Open, FileAccess.Read);
-            Avatar.Source = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-            stream.Close();
+            try
+            {
+                string ruta = AppDomain.CurrentDomain.BaseDirectory + "Images\\Avatar_" + Sesion.nomb_usuario + ".jpg";
+                FileStream stream = new FileStream(ruta, FileMode.Open, FileAccess.Read);
+                Avatar.Source = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                stream.Close();
+            }
+            catch{
+                MessageBox.Show("No se puede cargar el archivo de imagen", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         //Abrir los ajustes de la tienda
@@ -222,13 +228,13 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT*FROM cellmax.proveedores;", Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT*FROM proveedores;", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
                 Tienda.ListaProveedores.Clear();
 
                 while (Reader.Read())
                 {
-                    Tienda.ListaProveedores.Add(Reader.GetString("nombre"));
+                    Tienda.ListaProveedores.Add(Reader["nombre"].ToString());
                 }
                 Conexion.conect.Close();
             }

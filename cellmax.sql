@@ -383,7 +383,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_articulo`(in art_id int)
 BEGIN
 SELECT articulos.id, articulos.nombre, articulos.descripcion, articulos.precio_venta, inventario.existencias, articulos.proveedor_id
-	FROM cellmax.inventario 
+	FROM inventario 
 		INNER JOIN articulos 
 			where(inventario.articulo_id= art_id and articulos.id = art_id);
 END
@@ -398,8 +398,8 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `comprar_saldo`(in ID_SALDO int, in COMP varchar(45), in CANTIDAD decimal)
 BEGIN
 	SET SQL_SAFE_UPDATES = 0;
-		UPDATE cellmax.saldo_recargas  SET saldo= (saldo + CANTIDAD)
-		WHERE cellmax.saldo_recargas.id = ID_SALDO OR cellmax.saldo_recargas.compania = COMP;
+		UPDATE saldo_recargas  SET saldo= (saldo + CANTIDAD)
+		WHERE saldo_recargas.id = ID_SALDO OR saldo_recargas.compania = COMP;
 		SET SQL_SAFE_UPDATES = 1;
 END
 ;;
@@ -426,7 +426,7 @@ DROP PROCEDURE IF EXISTS `nueva_saldo_recargas`;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `nueva_saldo_recargas`(in COMPANY varchar(45), in SALD decimal, in MONED_ID int)
 BEGIN
-	INSERT into cellmax.saldo_recargas(compania, saldo, moneda_id)
+	INSERT into saldo_recargas(compania, saldo, moneda_id)
     VALUES(COMPANY,SALD,MONED_ID);
 END
 ;;
@@ -465,12 +465,12 @@ DROP PROCEDURE IF EXISTS `vender_producto`;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vender_producto`(in ART int, in CANT int, in MONED int, in TOTAL_VNT decimal)
 BEGIN
-	INSERT INTO cellmax.ventas (codigo_articulo, cantidad, moneda_id, fecha_venta, total) 
+	INSERT INTO ventas (codigo_articulo, cantidad, moneda_id, fecha_venta, total) 
     VALUES (ART, CANT, MONED, NOW(), TOTAL_VNT);
 
     /**ACTUALIZAR LAS EXISTENCIAS EN INVENTARIO**/
-    update cellmax.inventario set existencias = inventario.existencias - CANT 
-		where cellmax.inventario.articulo_id = ART;        
+    update inventario set existencias = inventario.existencias - CANT 
+		where inventario.articulo_id = ART;        
 
 END
 ;;
@@ -483,7 +483,7 @@ DROP PROCEDURE IF EXISTS `vender_recarga`;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vender_recarga`(in _valor decimal, in _saldo_id int)
 BEGIN
-	INSERT INTO cellmax.recargas (saldo_id, valor) VALUES (_saldo_id, _valor);
+	INSERT INTO recargas (saldo_id, valor) VALUES (_saldo_id, _valor);
 END
 ;;
 DELIMITER ;
@@ -509,8 +509,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ver_inventario`()
 BEGIN
 	SELECT inventario.id, articulos.nombre, inventario.existencias, 
     articulos.precio_compra, articulos.precio_venta, articulos.id as art_id
-		FROM cellmax.articulos
-			INNER JOIN cellmax.inventario ON cellmax.articulos.id = cellmax.inventario.articulo_id;
+		FROM articulos
+			INNER JOIN inventario ON articulos.id = inventario.articulo_id;
 END
 ;;
 DELIMITER ;
@@ -523,8 +523,8 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ver_registro_ventas`()
 BEGIN
 SELECT ventas.id, codigo_articulo, articulos.nombre, articulos.precio_venta, ventas.cantidad,ventas.moneda_id, ventas.total, ventas.fecha_venta 
-FROM cellmax.ventas
-inner join cellmax.articulos on cellmax.ventas.codigo_articulo = articulos.id;
+FROM ventas
+inner join articulos on ventas.codigo_articulo = articulos.id;
 END
 ;;
 DELIMITER ;
@@ -548,7 +548,7 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS `recargas_AFTER_INSERT`;
 DELIMITER ;;
 CREATE TRIGGER `recargas_AFTER_INSERT` AFTER INSERT ON `recargas` FOR EACH ROW BEGIN
-	update cellmax.saldo_recargas set saldo = saldo_recargas.saldo - new.valor where cellmax.saldo_recargas.id =
+	update saldo_recargas set saldo = saldo_recargas.saldo - new.valor where saldo_recargas.id =
     new.saldo_id;
 END
 ;;
@@ -557,7 +557,7 @@ DROP TRIGGER IF EXISTS `reparaciones_AFTER_INSERT`;
 DELIMITER ;;
 CREATE TRIGGER `reparaciones_AFTER_INSERT` AFTER INSERT ON `reparaciones` FOR EACH ROW BEGIN
     /*INSERTAR LOS VALORES EN CAJA*/
-    INSERT INTO cellmax.caja(concepto, descripcion, entrada, reparacion_id)
+    INSERT INTO caja(concepto, descripcion, entrada, reparacion_id)
     VALUES(new.tipo,new.detalles,new.precio,new.id);
 END
 ;;
@@ -569,11 +569,11 @@ CREATE TRIGGER `ventas_AFTER_INSERT` AFTER INSERT ON `ventas` FOR EACH ROW BEGIN
     DECLARE DESCR varchar(94);
     DECLARE MONED int;
     
-    select nombre, descripcion into CONCEPT, DESCR from cellmax.articulos
-    where cellmax.articulos.id = new.codigo_articulo;
+    select nombre, descripcion into CONCEPT, DESCR from articulos
+    where articulos.id = new.codigo_articulo;
     
     /*INSERTAR LOS VALORES EN CAJA*/
-    INSERT INTO cellmax.caja(concepto, descripcion, entrada, moneda_id, venta_id)
+    INSERT INTO caja(concepto, descripcion, entrada, moneda_id, venta_id)
     VALUES(CONCEPT,DESCR,new.total,new.moneda_id,new.id);
 END
 ;;

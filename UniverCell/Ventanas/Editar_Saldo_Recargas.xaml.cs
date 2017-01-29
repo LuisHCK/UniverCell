@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,9 @@ namespace UniverCell
     /// </summary>
     public partial class Editar_Saldo_Recargas : Window
     {
+        /// <summary>
+        /// Perite editar el saldo de las recargas
+        /// </summary>
         public Editar_Saldo_Recargas()
         {
             InitializeComponent();
@@ -34,9 +37,9 @@ namespace UniverCell
                 object conect = Conexion.conect;
                 Conexion.conect.Open();
                 decimal cantidad = Convert.ToDecimal(textBox_cantidad_agregada.Text);
-                string comando = "call cellmax.comprar_saldo(null, '" + Combo_id_comp.SelectedValue.ToString() + "', " + cantidad + ");";
+                string comando = "call comprar_saldo(null, '" + Combo_id_comp.SelectedValue.ToString() + "', " + cantidad + ");";
 
-                MySqlCommand CMD = new MySqlCommand(comando, Conexion.conect);
+                SQLiteCommand CMD = new SQLiteCommand(comando, Conexion.conect);
 
                 CMD.ExecuteNonQuery();
                 Conexion.conect.Close();
@@ -55,13 +58,13 @@ namespace UniverCell
         public void Obtener_companias()
         {
             Conexion.conect.Open();
-            MySqlCommand CMD = new MySqlCommand("select saldo_recargas.id, saldo_recargas.compania FROM saldo_recargas;", Conexion.conect);
+            SQLiteCommand CMD = new SQLiteCommand("select saldo_recargas.id, saldo_recargas.compania FROM saldo_recargas;", Conexion.conect);
 
-            MySqlDataReader reader = CMD.ExecuteReader();
+            SQLiteDataReader reader = CMD.ExecuteReader();
 
             while (reader.Read())
             {
-                Combo_id_comp.Items.Add(reader.GetString("compania"));
+                Combo_id_comp.Items.Add(reader["compania"].ToString());
             }
             Conexion.conect.Close();
         }

@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,14 +20,13 @@ namespace UniverCell
             {
                 Conexion.conect.Open();
                 DataTable dt = new DataTable();
-                string query = "SELECT * FROM cellmax.reparaciones;";
-                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                string query = "SELECT * FROM reparaciones;";
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                     da.Fill(dt);
-                Console.WriteLine("Operacion realizada");
                 dataGrid_Reparaciones.ItemsSource = dt.DefaultView;
                 Conexion.conect.Close();
             }
-            catch(MySqlException ex)
+            catch(SQLiteException ex)
             {
                 MessageBox.Show("Ocurrió un error al obtener los datos. Detalles del error: " + ex, "Error");
             }
@@ -80,13 +79,13 @@ namespace UniverCell
                 try
                 {
                     Conexion.conect.Open();
-                    MySqlCommand CMD = new MySqlCommand(Comando, Conexion.conect);
+                    SQLiteCommand CMD = new SQLiteCommand(Comando, Conexion.conect);
                     CMD.ExecuteNonQuery();
                     Conexion.conect.Close();
                     MessageBox.Show("Se guardó correctamente. ¿Desea imprimir un recibo?", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     LimpiarFormReparacion();
                 }
-                catch (MySqlException ex)
+                catch (SQLiteException ex)
                 {
                     MessageBox.Show("Ocurrió un error al guardar los datos " + ex, "Error");
                 }

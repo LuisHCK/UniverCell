@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 using System.Data;
-using System.Windows.Controls;
 
 namespace UniverCell
 {
@@ -23,21 +17,21 @@ namespace UniverCell
                 try
                 {
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.buscar_articulo('" + vnt_txt_box_art.Text + "');", Conexion.conect);
+                    SQLiteCommand cmd = new SQLiteCommand("call buscar_articulo('" + vnt_txt_box_art.Text + "');", Conexion.conect);
 
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    SQLiteDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        vnt_txt_bx_nombre.Text = reader.GetString("nombre");
-                        vnt_txt_bx_disp.Text = reader.GetString("existencias");
-                        vnt_txt_descr.Text = reader.GetString("descripcion");
-                        vnt_txt_prec_unit.Text = reader.GetString("precio_venta");
-                        //vnt_txt_prov.Text = reader.GetString("proveedor_id
+                        vnt_txt_bx_nombre.Text = reader["nombre"].ToString();
+                        vnt_txt_bx_disp.Text = reader["existencias"].ToString();
+                        vnt_txt_descr.Text = reader["descripcion"].ToString();
+                        vnt_txt_prec_unit.Text = reader["precio_venta"].ToString();
+                        //vnt_txt_prov.Text = reader["proveedor_id
                     }
                     Conexion.conect.Close();
                 }
-                catch (MySqlException ex)
+                catch (SQLiteException ex)
                 {
                     vnt_txt_box_art.Text = null;
                     MessageBox.Show("El código no es válido." + ex );
@@ -206,7 +200,7 @@ namespace UniverCell
 
                 Conexion.conect.Open();
 
-                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "',"+ Sesion.id_usuario +");", Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand("call vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "',"+ Sesion.id_usuario +");", Conexion.conect);
                cmd.ExecuteNonQuery();
 
                 Conexion.conect.Close();
@@ -227,22 +221,16 @@ namespace UniverCell
 
         void ActualizarTablaVentas()
         {
-            try {
-                Conexion.conect.Open();
-                DataTable dt = new DataTable();
-                    string query = "call cellmax.ver_registro_ventas();";
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
-                        da.Fill(dt);
-                    Console.WriteLine("Operacion realizada");
-                dataGrid_ventas.ItemsSource = dt.DefaultView;
-                Conexion.conect.Close();
-
+            try
+            {
+                ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
+                DataTable a = pa.ActualizarTablaVentas();
+                dataGrid_ventas.ItemsSource = a.DefaultView;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error en la operación: " + ex);
             }
-
         }
     }
 }

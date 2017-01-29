@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -19,12 +19,12 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT nombre FROM cellmax.monedas where id = "+ id +";", Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT nombre FROM monedas where id = '"+ id +"';", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    Nombre = Reader.GetString("nombre");
+                    Nombre = Reader["nombre"].ToString();
                 }
                 Conexion.conect.Close();
             }
@@ -42,12 +42,12 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.monedas where nombre = '" + nombre + "';", Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT id FROM monedas where nombre = '" + nombre + "';", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    ID = Reader.GetInt32("id");
+                    ID = Convert.ToInt32(Reader["id"]);
                 }
                 Conexion.conect.Close();
             }
@@ -69,12 +69,12 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT simbolo FROM cellmax.monedas where id = "+ID+";", Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT simbolo FROM monedas where id = '"+ID+"';", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    Simbolo = Reader.GetString("simbolo");
+                    Simbolo = Reader["simbolo"].ToString();
                 }
                 Conexion.conect.Close();
             }
@@ -91,12 +91,12 @@ namespace UniverCell
         {
             try {
                 Conexion.conect.Open();
-                MySqlCommand CMD = new MySqlCommand("Select nombre From Monedas;", Conexion.conect);
-                MySqlDataReader Reader = CMD.ExecuteReader();
+                SQLiteCommand CMD = new SQLiteCommand("Select nombre From monedas;", Conexion.conect);
+                SQLiteDataReader Reader = CMD.ExecuteReader();
 
                 while(Reader.Read())
                 {
-                    Tienda.ListaMonedas.Add(Reader.GetString("nombre"));
+                    Tienda.ListaMonedas.Add(Reader["nombre"].ToString());
                 }
                 Conexion.conect.Close();
             }
@@ -115,12 +115,12 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand CMD = new MySqlCommand("Select nombre From Monedas;", Conexion.conect);
-                MySqlDataReader Reader = CMD.ExecuteReader();
+                SQLiteCommand CMD = new SQLiteCommand("Select nombre From monedas;", Conexion.conect);
+                SQLiteDataReader Reader = CMD.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    Combo.Items.Add(Reader.GetString("nombre"));
+                    Combo.Items.Add(Reader["nombre"].ToString());
                 }
                 Conexion.conect.Close();
             }

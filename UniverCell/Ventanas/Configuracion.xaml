@@ -15,14 +15,12 @@
         <Label x:Name="label2" Content="Crea una una cuenta con todos los permisos para&#xD;&#xA;administrar el sistema. " HorizontalAlignment="Left" Margin="25,180,0,0" VerticalAlignment="Top" Height="45" Width="290" IsEnabled="False"/>
         <Label x:Name="label_Copy" Content="Configuración Avanzada" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="147"/>
         <Label x:Name="label3" Content="Por favor no cambies ninguno de los campos a&#xD;&#xA;menos que sepas lo que estas haciendo." Margin="19,256,45,0" VerticalAlignment="Top" IsEnabled="False" Height="42"/>
-        <Label x:Name="label4" Content="Usuario Root" HorizontalAlignment="Left" Margin="25,325,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="26" Margin="25,356,0,0" TextWrapping="Wrap" Text="root" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label5" Content="Puerto" HorizontalAlignment="Left" Margin="180,325,0,0" VerticalAlignment="Top" Height="26" Width="45"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="26" Margin="180,356,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label6" Content="Host" HorizontalAlignment="Left" Margin="25,387,0,0" VerticalAlignment="Top" Height="26" Width="35"/>
-        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="26" Margin="25,418,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Label x:Name="label7" Content="Base de Datos" HorizontalAlignment="Left" Margin="180,387,0,0" VerticalAlignment="Top" Height="26" Width="85"/>
-        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="26" Margin="180,418,0,0" TextWrapping="Wrap" Text="cellmax" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label4" Content="Contraseña" HorizontalAlignment="Left" Margin="180,330,0,0" VerticalAlignment="Top" Height="26" Width="79"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="26" Margin="180,361,0,0" TextWrapping="Wrap" Text="contraseña" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label5" Content="Puerto" HorizontalAlignment="Left" Margin="180,387,0,0" VerticalAlignment="Top" Height="26" Width="45"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="26" Margin="180,418,0,0" TextWrapping="Wrap" Text="3306" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label x:Name="label7" Content="Base de Datos" HorizontalAlignment="Left" Margin="25,330,0,0" VerticalAlignment="Top" Height="26" Width="85"/>
+        <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="26" Margin="25,361,0,0" TextWrapping="Wrap" Text="cellmax" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <CheckBox x:Name="checkBox" Content="Cambiar" HorizontalAlignment="Left" Margin="22,303,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked" Height="18" Width="68"/>
         <Button x:Name="button" Content="Canelar" HorizontalAlignment="Left" Margin="25,458,0,29" Width="120"/>
         <Button x:Name="listo_btn" Content="Listo" HorizontalAlignment="Left" Margin="180,458,0,29" Width="120" Click="listo_btn_Click"/>
@@ -32,6 +30,7 @@
         <Label x:Name="label8" Content="Nombre de usuario" HorizontalAlignment="Left" Margin="25,72,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label9" Content="Contraseña" HorizontalAlignment="Left" Margin="25,103,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlock_pass" Margin="140,159,22,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="#FFDDFFA2"/>
+        <Button x:Name="btnCargarBD" Content="Cargar BD" HorizontalAlignment="Left" Margin="25,392,0,0" VerticalAlignment="Top" Width="120" Click="btnCargarBD_Click"/>
 
     </Grid>
 </Window>

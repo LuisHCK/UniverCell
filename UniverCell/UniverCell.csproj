@@ -94,9 +94,12 @@
       <HintPath>..\packages\MahApps.Metro.1.4.0-ALPHA036\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.104.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\System.Data.SQLite\2013\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="system.windows.controls.ribbon" />
     <Reference Include="System.Windows.Forms" />
@@ -121,25 +124,26 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Ventanas\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Ajustes.xaml.cs">
+    <Compile Include="Ventanas\Resources\ProcedimientosAlmacenados.cs" />
+    <Compile Include="Ventanas\Ajustes.xaml.cs">
       <DependentUpon>Ajustes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configuracion.xaml.cs">
+    <Compile Include="Ventanas\Configuracion.xaml.cs">
       <DependentUpon>Configuracion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Archivos.cs" />
-    <Compile Include="Resources\Crypto.cs" />
-    <Compile Include="Resources\Moneda.cs" />
-    <Compile Include="Resources\Tienda.cs" />
-    <Page Include="Ajustes.xaml">
+    <Compile Include="Ventanas\Resources\Archivos.cs" />
+    <Compile Include="Ventanas\Resources\Crypto.cs" />
+    <Compile Include="Ventanas\Resources\Moneda.cs" />
+    <Compile Include="Ventanas\Resources\Tienda.cs" />
+    <Page Include="Ventanas\Ajustes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configuracion.xaml">
+    <Page Include="Ventanas\Configuracion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,33 +151,33 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Editar_Saldo_Recargas.xaml">
+    <Page Include="Ventanas\Editar_Saldo_Recargas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Login.xaml">
+    <Page Include="Ventanas\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Ventanas\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Ventanas\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Conexion.cs" />
+    <Compile Include="Ventanas\Resources\Conexion.cs" />
     <Compile Include="Proveedores.xaml.cs">
       <DependentUpon>Proveedores.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editar_Saldo_Recargas.xaml.cs">
+    <Compile Include="Ventanas\Editar_Saldo_Recargas.xaml.cs">
       <DependentUpon>Editar_Saldo_Recargas.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Login.xaml.cs">
+    <Compile Include="Ventanas\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Ventanas\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -183,7 +187,7 @@
     <Compile Include="Modulos\Inventario.cs" />
     <Compile Include="Modulos\Recargas.cs" />
     <Compile Include="Modulos\Reparaciones.cs" />
-    <Compile Include="Resources\Sesion.cs" />
+    <Compile Include="Ventanas\Resources\Sesion.cs" />
     <Compile Include="Modulos\Ventas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -213,7 +217,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\currency-icon.png" />
+    <Resource Include="Ventanas\Resources\icons\currency-icon.png" />
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="SplashScreen1.png">
@@ -221,27 +225,27 @@
     </SplashScreen>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\contact-icon.png">
+    <Resource Include="Ventanas\Resources\icons\contact-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\cart-12.png" />
+    <Resource Include="Ventanas\Resources\icons\cart-12.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\point-of-service.png" />
+    <Resource Include="Ventanas\Resources\icons\point-of-service.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\presentation-9.png" />
+    <Resource Include="Ventanas\Resources\icons\presentation-9.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\diagram-3.png" />
+    <Resource Include="Ventanas\Resources\icons\diagram-3.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\presentation-4.png" />
+    <Resource Include="Ventanas\Resources\icons\presentation-4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\strongbox.png" />
+    <Resource Include="Ventanas\Resources\icons\strongbox.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -256,10 +260,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\icon.png" />
+    <Resource Include="Ventanas\Resources\icons\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons\logo.ico" />
+    <Resource Include="Ventanas\Resources\icons\logo.ico" />
     <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup />

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 using System.Data;
 using System.Windows.Interop;
 using System.Windows.Controls;
@@ -13,7 +13,6 @@ namespace UniverCell
         private void art_bnt_crear_editar_Click(object sender, RoutedEventArgs e)
         {
             //Actualizar_tabla_Articulos();
-
             try
             {
                 string nombre_articulo = art_txt_box_nomb.Text;
@@ -29,17 +28,17 @@ namespace UniverCell
                 string comando2 = null;
                 if (art_bnt_crear_editar.Content.ToString() == "Editar")
                 {
-                    comando1 = "UPDATE cellmax.inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
+                    comando1 = "UPDATE inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
                     comando2 = "UPDATE `cellmax`.`articulos` SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = '" + prov_id + "', `precio_compra`='" + precio_compra + "', `precio_venta`='" + precio_venta + "', `moneda_id`='" + Tienda.id_moneda + "' WHERE `id`='" + art_txt_prd_id.Text + "';";
                 }
                 else
                 {
-                    comando1 = "call cellmax.crear_articulos('" + nombre_articulo + "', '" + descripcion_articulo + "', " + precio_compra + ", " + precio_venta + ", null, " + prov_id + ", " + Tienda.id_moneda + ","+ exist +");";
-
+                    ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
+                    pa.CrearArt(nombre_articulo,descripcion_articulo,precio_compra,precio_venta,'1',prov_id);
                 }
                 if(Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand(comando1+comando2, Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand(comando1+comando2, Conexion.conect);
                 cmd.ExecuteNonQuery();
 
                 Conexion.conect.Close();
@@ -74,14 +73,14 @@ namespace UniverCell
             {
                 Conexion.conect.Open();
                 DataTable dt = new DataTable();
-                string query = "call cellmax.ver_inventario();";
+                string query = "SELECT inventario.id, articulos.nombre, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id, proveedores.nombre as prov_nombre FROM articulos INNER JOIN inventario ON articulos.id = inventario.articulo_id INNER JOIN proveedores ON articulos.proveedor_id = proveedores.id; ";
 
-                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                     da.Fill(dt);
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
                 Conexion.conect.Close();
             }
-            catch (MySqlException ex)
+            catch (SQLiteException ex)
             {
                 MessageBox.Show("Ocurrió un error en la operación: " + ex);
             }
@@ -94,13 +93,13 @@ namespace UniverCell
         //{
         //    try
         //    {
-        //        string comando = "SELECT id, nombre, descripcion FROM cellmax.articulos;";
+        //        string comando = "SELECT id, nombre, descripcion FROM articulos;";
 
         //        Conexion.conect.Open();
         //        DataTable dt = new DataTable();
         //        using (Conexion.conect)
         //        {
-        //            MySqlDataAdapter da = new MySqlDataAdapter(comando, Conexion.conect);
+        //            SQLiteDataAdapter da = new SQLiteDataAdapter(comando, Conexion.conect);
         //            da.Fill(dt);
         //            Console.WriteLine("Operacion realizada");
         //        }
@@ -139,13 +138,13 @@ namespace UniverCell
                 string InvId = (drv.Row[0]).ToString();
                 string Nombre = (drv["nombre"]).ToString();
 
-                string comando1 = "DELETE FROM cellmax.inventario WHERE id=" + InvId + "";
+                string comando1 = "DELETE FROM inventario WHERE id=" + InvId + "";
                 string comando2 = "DELETE FROM `cellmax`.`articulos` WHERE `id`='" + ArtId + "';";
 
                 if (MessageBox.Show("Se dispone a eliminar el articulo: " + ArtId + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand(comando1+comando2, Conexion.conect);
+                    SQLiteCommand cmd = new SQLiteCommand(comando1+comando2, Conexion.conect);
                     cmd.ExecuteNonQuery();
                     Conexion.conect.Close();
 
@@ -154,12 +153,9 @@ namespace UniverCell
                 }
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("La selección no es valida, verifica el articulo seleccionado e intentalo de nuevo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Console.Write(ex);
-
             }
         }
 
@@ -186,9 +182,9 @@ namespace UniverCell
             {
                 Conexion.conect.Open();
                 DataTable dt = new DataTable();
-                string query = "call cellmax.buscar_('" + textBox_Buscar_Articulo.Text + "');";
+                string query = "call buscar_('" + textBox_Buscar_Articulo.Text + "');";
 
-                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                     da.Fill(dt);
                 Console.WriteLine("Operacion realizada");
                 dataGrid_Inventario.ItemsSource = dt.DefaultView;
@@ -209,25 +205,25 @@ namespace UniverCell
                 {
                     if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("SELECT inventario.id, articulos.nombre, articulos.descripcion, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id FROM cellmax.articulos INNER JOIN cellmax.inventario ON cellmax.articulos.id = cellmax.inventario.articulo_id WHERE articulos.id = "+articulo_id+"; ", Conexion.conect);
+                    SQLiteCommand cmd = new SQLiteCommand("SELECT inventario.id, articulos.nombre, articulos.descripcion, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id FROM articulos INNER JOIN inventario ON articulos.id = inventario.articulo_id WHERE articulos.id = "+articulo_id+"; ", Conexion.conect);
 
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    SQLiteDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        art_txt_inv_id.Text = (reader.GetString("id"));
-                        art_txt_box_nomb.Text = (reader.GetString("nombre"));
-                        art_txt_box_descr.Text = (reader.GetString("descripcion"));
-                        art_txt_box_prec_compra.Value = (reader.GetDouble("precio_compra"));
-                        art_txt_box_prec_vent.Value = (reader.GetDouble("precio_venta"));
-                        art_txt_prd_id.Text = (reader.GetString("art_id"));
-                        art_num_existencias.Value = (reader.GetDouble("existencias"));
+                        art_txt_inv_id.Text = (reader["id"].ToString());
+                        art_txt_box_nomb.Text = (reader["nombre"]).ToString();
+                        art_txt_box_descr.Text = (reader["descripcion"].ToString());
+                        art_txt_box_prec_compra.Value = Convert.ToDouble(reader["precio_compra"]);
+                        art_txt_box_prec_vent.Value = Convert.ToDouble(reader["precio_venta"]);
+                        art_txt_prd_id.Text = (reader["art_id"].ToString());
+                        art_num_existencias.Value = Convert.ToDouble(reader[("existencias")]);
                     }
 
                     Conexion.conect.Close();
                     art_bnt_crear_editar.Content = "Editar";
                 }
-                catch (MySqlException ex)
+                catch (SQLiteException ex)
                 {
                     MessageBox.Show("Ocurrió un error al buscar el articulo seleccionado" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     Console.WriteLine(ex);
@@ -246,12 +242,12 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT id FROM cellmax.proveedores where nombre = '" + nombre + "';", Conexion.conect);
-                MySqlDataReader Reader = cmd.ExecuteReader();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT id FROM proveedores where nombre = '" + nombre + "';", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
 
                 while (Reader.Read())
                 {
-                    ID = Reader.GetInt32("id");
+                    ID = Convert.ToInt32(Reader["id"]);
                 }
                 Conexion.conect.Close();
             }
