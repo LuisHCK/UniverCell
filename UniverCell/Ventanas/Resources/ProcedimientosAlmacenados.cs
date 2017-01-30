@@ -69,7 +69,7 @@ namespace UniverCell
             SQLiteCommand cmd1 = new SQLiteCommand(ComandoInsert, Conexion.conect);
             SQLiteCommand cmd2 = new SQLiteCommand(ComandoUpdate, Conexion.conect);
             cmd1.ExecuteNonQuery();
-            cmd2.ExecuteNonQuery()
+            cmd2.ExecuteNonQuery();
             Conexion.conect.Close();
         }
     }
