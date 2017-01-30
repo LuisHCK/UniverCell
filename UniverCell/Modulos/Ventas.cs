@@ -16,8 +16,10 @@ namespace UniverCell
             {
                 try
                 {
+                    string id = vnt_txt_box_art.Text;
                     Conexion.conect.Open();
-                    SQLiteCommand cmd = new SQLiteCommand("call buscar_articulo('" + vnt_txt_box_art.Text + "');", Conexion.conect);
+                    string comando = "SELECT articulos.id, articulos.nombre, articulos.descripcion, articulos.precio_venta, inventario.existencias, articulos.proveedor_id FROM inventario INNER JOIN articulos where(inventario.articulo_id = " + id + " and articulos.id = " + id + "); ";
+                    SQLiteCommand cmd = new SQLiteCommand(comando, Conexion.conect);
 
                     SQLiteDataReader reader = cmd.ExecuteReader();
 
@@ -198,12 +200,9 @@ namespace UniverCell
                 int Moneda_id = Moneda.IDMoneda(combo_bx_Moneda.SelectedItem.ToString());
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
-                Conexion.conect.Open();
-
-                SQLiteCommand cmd = new SQLiteCommand("call vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "',"+ Sesion.id_usuario +");", Conexion.conect);
-               cmd.ExecuteNonQuery();
-
-                Conexion.conect.Close();
+                //Llamar a clase de procedimientos almacenados
+                ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
+                pa.RealizarVenta(Producto_Id, Cantidad_Producto, Moneda_id, Total_Venta, Convert.ToInt32(Sesion.id_usuario));
                 ActualizarTablaVentas();
             }
             catch (Exception ex)

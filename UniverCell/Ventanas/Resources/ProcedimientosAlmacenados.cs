@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SQLite;
 
 namespace UniverCell
@@ -50,6 +51,26 @@ namespace UniverCell
                 da.Fill(dt);
             Conexion.conect.Close();
             return dt;
+        }
+        /// <summary>
+        /// Realiza una venta del articulo indicado
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <param name="cantidad"></param>
+        /// <param name="moneda_id"></param>
+        /// <param name="total"></param>
+        /// <param name="usuario"></param>
+        public void RealizarVenta(int codigo, decimal cantidad, int moneda_id, decimal total, int usuario )
+        {
+            string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, moneda_id, fecha_venta, total, usuario_id) VALUES("+ codigo +", " + cantidad + ", " + moneda_id + ", '" + DateTime.Now + "', " + total + ", " + usuario + "); ";
+            string ComandoUpdate = "UPDATE inventario set existencias = inventario.existencias - " + cantidad + " WHERE inventario.articulo_id = " + codigo + ";";
+
+            Conexion.conect.Open();
+            SQLiteCommand cmd1 = new SQLiteCommand(ComandoInsert, Conexion.conect);
+            SQLiteCommand cmd2 = new SQLiteCommand(ComandoUpdate, Conexion.conect);
+            cmd1.ExecuteNonQuery();
+            cmd2.ExecuteNonQuery()
+            Conexion.conect.Close();
         }
     }
 }
