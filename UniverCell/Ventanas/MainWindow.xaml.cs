@@ -52,6 +52,40 @@ namespace UniverCell
             //Cargar Controles
             LeerMonedas();
             CargarProveedores();
+
+            //Verificar si se han creado los datos del negocio
+            VerificarDatosNegocio();
+        }
+
+        private void VerificarDatosNegocio()
+        {
+            try
+            {
+                Conexion.conect.Open();
+                SQLiteCommand cmd = new SQLiteCommand("SELECT*FROM ajustes;", Conexion.conect);
+                SQLiteDataReader Reader = cmd.ExecuteReader();
+
+                int id = 0;
+                while (Reader.Read())
+                {
+                    id = Convert.ToInt32(Reader["id"]);
+                }
+                Conexion.conect.Close();
+
+                if (id == 0)
+                {
+                    if (MessageBox.Show("No se han especificado los datos del negocio. ¿Desea ingresar los datos ahora?","No hay datos",MessageBoxButton.YesNo)== MessageBoxResult.Yes)
+                    {
+                        Ajustes aj = new Ajustes();
+                        aj.ShowDialog();
+                        ActualizarDatosTienda();
+                    }
+                }
+            }
+            catch(SQLiteException ex)
+            {
+                MessageBox.Show("Los datos no son válidos "+ ex, "No hay datos");
+            }
         }
 
         private void Label_Usuario(object sender, RoutedEventArgs e)
@@ -203,8 +237,9 @@ namespace UniverCell
         {
             if(Convert.ToInt32(Sesion.lvl) <= 2)
             {
-                Ajustes aj = new Ajustes(this);
-                aj.Show();
+                Ajustes aj = new Ajustes();
+                aj.ShowDialog();
+                ActualizarDatosTienda();
             }
             else
             {

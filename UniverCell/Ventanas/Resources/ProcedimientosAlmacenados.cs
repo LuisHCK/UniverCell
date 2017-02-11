@@ -29,9 +29,9 @@ namespace UniverCell
         /// <param name="nomb"></param>
         /// <param name="prov"></param>
         /// <returns></returns>
-        public void CrearArt(string nomb, string descr, decimal prec_comp, decimal prec_vent, int cat, int prov)
+        public void CrearArt(string nomb, string descr, decimal prec_comp, decimal prec_vent, int cat, int prov, int cant)
       {
-            var art = "insert into articulos(nombre, descripcion, precio_compra, precio_venta, categoria_id, proveedor_id)values('" + nomb + "', '" + descr + "', '" + prec_comp + "', '" + prec_vent + "', '" + cat + "', '" + prov + "');";
+            var art = "insert into articulos('nombre', 'descripcion', 'precio_compra', 'precio_venta', 'categoria_id', 'proveedor_id', 'cantidad_inicial')values('" + nomb + "', '" + descr + "', '" + prec_comp + "', '" + prec_vent + "', '" + cat + "', '" + prov + "'," + cant + ");";
 
             Conexion.conect.Open();
             SQLiteCommand cmd = new SQLiteCommand(art, Conexion.conect);
@@ -62,7 +62,7 @@ namespace UniverCell
         /// <param name="usuario"></param>
         public void RealizarVenta(int codigo, decimal cantidad, int moneda_id, decimal total, int usuario )
         {
-            string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, moneda_id, fecha_venta, total, usuario_id) VALUES("+ codigo +", " + cantidad + ", " + moneda_id + ", '" + DateTime.Now + "', " + total + ", " + usuario + "); ";
+            string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, fecha_venta, total, usuario_id) VALUES("+ codigo +", " + cantidad + ", '" + DateTime.Now + "', " + total + ", " + usuario + "); ";
             string ComandoUpdate = "UPDATE inventario set existencias = inventario.existencias - " + cantidad + " WHERE inventario.articulo_id = " + codigo + ";";
 
             Conexion.conect.Open();

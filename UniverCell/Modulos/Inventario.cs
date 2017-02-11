@@ -29,12 +29,12 @@ namespace UniverCell
                 if (art_bnt_crear_editar.Content.ToString() == "Editar")
                 {
                     comando1 = "UPDATE inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
-                    comando2 = "UPDATE `cellmax`.`articulos` SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = '" + prov_id + "', `precio_compra`='" + precio_compra + "', `precio_venta`='" + precio_venta + "', `moneda_id`='" + Tienda.id_moneda + "' WHERE `id`='" + art_txt_prd_id.Text + "';";
+                    comando2 = "UPDATE articulos SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = " + prov_id + ", `precio_compra`=" + precio_compra + ", `precio_venta`=" + precio_venta + ", WHERE `id`='" + art_txt_prd_id.Text + "';";
                 }
                 else
                 {
                     ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
-                    pa.CrearArt(nombre_articulo,descripcion_articulo,precio_compra,precio_venta,'1',prov_id);
+                    pa.CrearArt(nombre_articulo,descripcion_articulo,precio_compra,precio_venta,'1',prov_id,exist);
                 }
                 if(Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                 Conexion.conect.Open();

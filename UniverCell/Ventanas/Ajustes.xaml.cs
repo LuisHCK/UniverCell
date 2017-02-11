@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data;
 
 namespace UniverCell
 {
@@ -22,17 +23,16 @@ namespace UniverCell
     /// </summary>
     public partial class Ajustes : Window
     {
-        private MainWindow VentanaPrincipal;
         /// <summary>
         /// Inicializar ventana
         /// </summary>
-        public Ajustes(MainWindow parent)
+        public Ajustes()
         {
-            VentanaPrincipal = parent;
-            Owner = parent;
             InitializeComponent();
             ObtenerDatosTienda();
         }
+        //id ajustes
+        int id = 0;
 
         //Leer los datos de la tienda
         private void ObtenerDatosTienda()
@@ -49,6 +49,7 @@ namespace UniverCell
 
                 while (Reader.Read())
                 {
+                    id = Convert.ToInt32(Reader["id"]);
                     nombre_tienda.Text = Reader["nombre_negocio"].ToString();
                     telefono_tienda.Text = Reader["telefono"].ToString();
                     email_tienda.Text = Reader["email"].ToString();
@@ -71,16 +72,16 @@ namespace UniverCell
             string Email = email_tienda.Text;
             string Ciudad = ciudad_tienda.Text;
             string Direccion = direccion_tienda.Text;
-            int Moned = Moneda.IDMoneda(moneda_tienda.SelectedItem.ToString());
+            //int Moned = Moneda.IDMoneda(moneda_tienda.SelectedItem.ToString());
 
-            string CadenaCrear = "INSERT INTO `cellmax`.`ajustes` (`nombre_negocio`, `moneda_id`, `email`, `ciudad`, `telefono`, `direccion`) VALUES ('" + Nombre + "', '" + Moned + "', '" + Email + "', '" + Ciudad + "', "+ Telefono +", '" + Direccion + "');";
+            string CadenaCrear = "INSERT INTO ajustes (`nombre_negocio`, `email`, `ciudad`, `telefono`, `direccion`) VALUES ('" + Nombre + "',  '" + Email + "', '" + Ciudad + "', '"+ Telefono +"', '" + Direccion + "');";
 
-            string CadenaActualizar = "UPDATE `cellmax`.`ajustes` SET `nombre_negocio`='" + Nombre + "', `moneda_id`=" + Moned + ", `email`='" + Email + "', `ciudad`='" + Ciudad + "', `telefono`='" + Telefono + "', `direccion`='" + Direccion + "' WHERE `id`='1';";
+            string CadenaActualizar = "UPDATE ajustes SET `nombre_negocio`='" + Nombre + "',`email`='" + Email + "', `ciudad`='" + Ciudad + "', `telefono`='" + Telefono + "', `direccion`='" + Direccion + "';";
             try
             {
                 string Cadena = null;
                 //Verificar si se deben crear nuevos datos o actualizarlos
-                if (Nombre == "" && Telefono == "" && Email == "" && Ciudad == "" && Direccion == "")
+                if (id == 0)
                 {
                     Cadena = CadenaCrear;
                 }
@@ -89,18 +90,19 @@ namespace UniverCell
                     Cadena = CadenaActualizar;
                 }
 
+                if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                 Conexion.conect.Open();
                 SQLiteCommand CMD = new SQLiteCommand(Cadena, Conexion.conect);
                 CMD.ExecuteNonQuery();
                 Conexion.conect.Close();
-                VentanaPrincipal.Activate();
+                MessageBox.Show(Cadena);
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Ocurrió un error al guardar los datos", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+                MessageBox.Show("Ocurrió un error al guardar los datos" + ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
             Close();
-            VentanaPrincipal.ActualizarDatosTienda();
+            //VentanaPrincipal.ActualizarDatosTienda();
             
         }
 
