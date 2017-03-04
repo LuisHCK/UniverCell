@@ -39,8 +39,9 @@ namespace UniverCell
                 Conexion.conect.Open();
                 Conexion.conect.Close();
             }
-            catch
+            catch(Exception ex)
             {
+                MessageBox.Show(Convert.ToString(ex));
                 Configuracion WinConf = new Configuracion();
                 WinConf.Show();
                 if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)

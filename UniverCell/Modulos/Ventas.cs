@@ -17,7 +17,11 @@ namespace UniverCell
                 try
                 {
                     string id = vnt_txt_box_art.Text;
-                    Conexion.conect.Open();
+                    if (Conexion.conect.State == ConnectionState.Open)
+                    {
+                        Conexion.conect.Close();
+                    }
+                        Conexion.conect.Open();
                     string comando = "SELECT articulos.id, articulos.nombre, articulos.descripcion, articulos.precio_venta, inventario.existencias, articulos.proveedor_id FROM inventario INNER JOIN articulos where(inventario.articulo_id = " + id + " and articulos.id = " + id + "); ";
                     SQLiteCommand cmd = new SQLiteCommand(comando, Conexion.conect);
 
@@ -195,14 +199,29 @@ namespace UniverCell
         {
             try
             {
-                int Producto_Id = Convert.ToInt32(vnt_txt_box_art.Text);
+                int Articulo_Id = Convert.ToInt32(vnt_txt_box_art.Text);
                 int Cantidad_Producto = Convert.ToInt32(vnt_txt_bx_cantidad.Value);
-                int Moneda_id = Moneda.IDMoneda(combo_bx_Moneda.SelectedItem.ToString());
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
-                //Llamar a clase de procedimientos almacenados
-                ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
-                pa.RealizarVenta(Producto_Id, Cantidad_Producto, Moneda_id, Total_Venta, Convert.ToInt32(Sesion.id_usuario));
+                string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, total, usuario_id) VALUES(@cod_art, @cantd, @totl, @usr_id);";
+                string ComandoUpdate = "UPDATE inventario set existencias = inventario.existencias - @cantd WHERE inventario.articulo_id = @cod_art;";
+
+                Conexion.conect.Open();
+                //Guarda el registro de la venta
+                SQLiteCommand cmd1 = new SQLiteCommand(ComandoInsert, Conexion.conect);
+                cmd1.Parameters.Add(new SQLiteParameter("@cod_art", Articulo_Id));
+                cmd1.Parameters.Add(new SQLiteParameter("@cantd", Cantidad_Producto));
+                cmd1.Parameters.Add(new SQLiteParameter("@totl", Total_Venta));
+                cmd1.Parameters.Add(new SQLiteParameter("@usr_id", Sesion.id_usuario));
+                cmd1.ExecuteNonQuery();
+
+                //Extrae del inventario la cantidad de producto
+                SQLiteCommand cmd2 = new SQLiteCommand(ComandoUpdate, Conexion.conect);
+                cmd2.Parameters.Add(new SQLiteParameter("@cantd", Cantidad_Producto));
+                cmd2.Parameters.Add(new SQLiteParameter("@cod_art", Articulo_Id));
+                cmd2.ExecuteNonQuery();
+                Conexion.conect.Close();
+
                 ActualizarTablaVentas();
             }
             catch (Exception ex)

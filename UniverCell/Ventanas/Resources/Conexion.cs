@@ -14,8 +14,8 @@ namespace UniverCell
     /// </summary>
     public static class Conexion
     {
-        private static string cript = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "config.ucll");
-        private static string decripted = Crypto.StringCipher.Decrypt(cript, "UniverCell");
+        //private static string cript = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "config.ucll");
+        //private static string decripted = Crypto.StringCipher.Decrypt(cript, "UniverCell");
         /// <summary>
         /// 
         /// </summary>

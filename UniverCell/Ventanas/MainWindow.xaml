@@ -8,7 +8,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="Inicio" Height="667" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico">
+        Title="Inicio" Height="692" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico">
     <Window.CacheMode>
         <BitmapCache/>
     </Window.CacheMode>
@@ -166,19 +166,9 @@
                             <Label x:Name="label24" Content="Moneda" HorizontalAlignment="Left" Margin="10,352,0,0" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox x:Name="groupBox1" Header="Lista de venta" Margin="10" IsEnabled="False" Background="#CCFF6B00" BorderBrush="#CCFF6D00" Grid.Column="1">
+                    <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Registro de Ventas" Margin="10,10,10,119">
                         <Grid Margin="-5" Background="White">
-                            <DataGrid x:Name="dataGrid_ventas" Margin="10" MaxColumnWidth="85" AutoGenerateColumns="False" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="Registro" CanUserReorder="False" IsReadOnly="True" MaxWidth="80"/>
-                                    <DataGridTextColumn Binding="{Binding codigo_articulo}" ClipboardContentBinding="{x:Null}" Header="Código Artículo" CanUserReorder="False" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding nombre}" ClipboardContentBinding="{x:Null}" Header="Cantidad" CanUserReorder="False"/>
-                                    <DataGridTextColumn Binding="{Binding precio_venta}" ClipboardContentBinding="{x:Null}" Header="Precio de Venta" CanUserReorder="False" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding cantidad}" ClipboardContentBinding="{x:Null}" Header="Cantidad" CanUserReorder="False" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding moneda_id}" ClipboardContentBinding="{x:Null}" Header="Moneda" CanUserReorder="False" IsReadOnly="True"/>
-                                    <DataGridTextColumn Binding="{Binding total}" ClipboardContentBinding="{x:Null}" Header="Total" CanUserReorder="False" IsReadOnly="True"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <DataGrid x:Name="dataGrid_ventas" Margin="10" IsReadOnly="True"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -302,20 +292,18 @@
                             <Label x:Name="label18_Copy" Content="Proveedor" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="129" Height="26"/>
                             <Button x:Name="art_bnt_crear_editar" Content="Crear" Margin="0,460,9,0" VerticalAlignment="Top" Height="49" Foreground="White" Background="#FF43A047" Click="art_bnt_crear_editar_Click" HorizontalAlignment="Right" Width="151"/>
                             <Button x:Name="art_btn_cancelar" Content="Cancelar" Margin="10,460,204,0" VerticalAlignment="Top" Height="49" Background="#FFD84315" Foreground="White"/>
-                            <Label x:Name="label25" Content="Moneda" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" Height="26" Width="54"/>
-                            <ComboBox x:Name="art_combo_moneda" Margin="10,160,10,0" VerticalAlignment="Top" IsReadOnly="True" SelectedIndex="0" Height="31"/>
-                            <Label x:Name="label21" Content="Descripción" Margin="10,196,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="72" Height="26"/>
-                            <TextBox x:Name="art_txt_box_descr" Height="31" Margin="10,217,10,0" TextWrapping="Wrap" VerticalAlignment="Top" SpellCheck.IsEnabled="True"/>
-                            <Label x:Name="label22" Content="Precio de compra" HorizontalAlignment="Left" Margin="10,253,0,0" VerticalAlignment="Top" Height="26" Width="103"/>
-                            <Controls:NumericUpDown x:Name="art_txt_box_prec_compra" Minimum ="0" Maximum = "10000" Margin="10,284,204,0" Height="31" VerticalAlignment="Top"/>
-                            <Label x:Name="label22_Copy" Content="Precio de venta" HorizontalAlignment="Left" Margin="205,253,0,0" VerticalAlignment="Top" Height="26" Width="92"/>
-                            <Controls:NumericUpDown x:Name="art_txt_box_prec_vent" Minimum ="0" Maximum = "10000" Margin="205,284,10,0" Height="31" VerticalAlignment="Top"/>
-                            <Label x:Name="label20" Content="Existencias" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top"/>
-                            <Controls:NumericUpDown x:Name="art_num_existencias" Minimum ="0" Maximum = "10000" Margin="10,351,10,0" Height="31" VerticalAlignment="Top"/>
-                            <Label x:Name="label26" Content="Cod. Inv." HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="art_txt_inv_id" HorizontalAlignment="Left" Height="23" Margin="10,418,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
-                            <Label x:Name="label26_Copy" Content="Cod. Art." HorizontalAlignment="Left" Margin="205,387,0,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="art_txt_prd_id" HorizontalAlignment="Left" Height="23" Margin="205,418,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
+                            <Label x:Name="label21" Content="Descripción" Margin="10,129,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="72" Height="26"/>
+                            <TextBox x:Name="art_txt_box_descr" Height="31" Margin="10,160,10,0" TextWrapping="Wrap" VerticalAlignment="Top" SpellCheck.IsEnabled="True"/>
+                            <Label x:Name="label22" Content="Precio de compra" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Height="26" Width="103"/>
+                            <Controls:NumericUpDown x:Name="art_txt_box_prec_compra" Minimum ="0" Maximum = "10000" Margin="10,227,204,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label22_Copy" Content="Precio de venta" HorizontalAlignment="Left" Margin="205,196,0,0" VerticalAlignment="Top" Height="26" Width="92"/>
+                            <Controls:NumericUpDown x:Name="art_txt_box_prec_vent" Minimum ="0" Maximum = "10000" Margin="205,227,10,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label20" Content="Existencias" HorizontalAlignment="Left" Margin="10,263,0,0" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="art_num_existencias" Minimum ="0" Maximum = "10000" Margin="10,294,10,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label26" Content="Cod. Inv." HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="art_txt_inv_id" HorizontalAlignment="Left" Height="23" Margin="10,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
+                            <Label x:Name="label26_Copy" Content="Cod. Art." HorizontalAlignment="Left" Margin="205,330,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="art_txt_prd_id" HorizontalAlignment="Left" Height="23" Margin="205,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
                             <ComboBox x:Name="combo_nombre_proveedor" Margin="10,98,10,0" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>

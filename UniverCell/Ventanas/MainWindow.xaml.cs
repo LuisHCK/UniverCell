@@ -254,7 +254,6 @@ namespace UniverCell
             foreach(var monedas in Tienda.ListaMonedas)
             {
                 combo_bx_Moneda.Items.Add(monedas);
-                art_combo_moneda.Items.Add(monedas);
             }
         }
 
@@ -262,14 +261,19 @@ namespace UniverCell
         {
             try
             {
+
                 Conexion.conect.Open();
                 SQLiteCommand cmd = new SQLiteCommand("SELECT*FROM proveedores;", Conexion.conect);
                 SQLiteDataReader Reader = cmd.ExecuteReader();
-                Tienda.ListaProveedores.Clear();
+
+                Tienda.ListData.Clear();
 
                 while (Reader.Read())
                 {
-                    Tienda.ListaProveedores.Add(Reader["nombre"].ToString());
+                    Tienda.ListData.Add(new ComboProveedores
+                    {
+                        Id = Convert.ToInt32(Reader["id"]), Value = Reader["nombre"].ToString()
+                    });
                 }
                 Conexion.conect.Close();
             }
@@ -279,11 +283,11 @@ namespace UniverCell
             }
 
             combo_nombre_proveedor.Items.Clear();
-            foreach (var proveedor in Tienda.ListaProveedores)
-            {
+            combo_nombre_proveedor.ItemsSource = Tienda.ListData;
+            combo_nombre_proveedor.DisplayMemberPath = "Value";
+            combo_nombre_proveedor.SelectedValuePath = "Id";
 
-                combo_nombre_proveedor.Items.Add(proveedor);
-            }
+            combo_nombre_proveedor.SelectedValue = "1";
         }
 
         private void BTN_Inv_Proveedores_Click(object sender, RoutedEventArgs e)

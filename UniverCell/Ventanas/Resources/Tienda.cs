@@ -9,6 +9,15 @@ using System.Windows.Documents;
 namespace UniverCell
 {
     /// <summary>
+    /// 
+    /// </summary>
+    public class ComboProveedores
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+    }
+
+    /// <summary>
     /// Clase publica que almacena datos de la tienda
     /// </summary>
     public static class Tienda
@@ -38,6 +47,8 @@ namespace UniverCell
         /// <summary>
         /// Almacena en una lista las monedas con las que se trabaja
         /// </summary>
-        public static List<string> ListaProveedores = new List<string>();
+        //public static List<string> ListaProveedores = new List<string>();
+        public static List<ComboProveedores> ListData = new List<ComboProveedores>();
+
     }
 }

@@ -75,9 +75,10 @@ namespace UniverCell
                     tipo = radio_software_rep.Content.ToString();
                 }
 
-                string Comando = "INSERT INTO `cellmax`.`reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('" + tipo + "', '" + textBox_detalle_rep.Text + "', '" + _textBox_obs.Text + "', '" + txt_box_rep_precio.Value + "', '" + txt_box_desc_repuesto.Text + "', '" + txt_box_prec_rep.Value + "');";
+                string Comando = "INSERT INTO `reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('" + tipo + "', '" + textBox_detalle_rep.Text + "', '" + _textBox_obs.Text + "', '" + txt_box_rep_precio.Value + "', '" + txt_box_desc_repuesto.Text + "', '" + txt_box_prec_rep.Value + "');";
                 try
                 {
+                    if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                     Conexion.conect.Open();
                     SQLiteCommand CMD = new SQLiteCommand(Comando, Conexion.conect);
                     CMD.ExecuteNonQuery();

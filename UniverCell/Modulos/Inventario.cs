@@ -10,6 +10,7 @@ namespace UniverCell
 {
     public partial class MainWindow
     {
+
         private void art_bnt_crear_editar_Click(object sender, RoutedEventArgs e)
         {
             //Actualizar_tabla_Articulos();
@@ -22,27 +23,35 @@ namespace UniverCell
                 int exist = Convert.ToInt32(art_num_existencias.Value);
                 int id_invent = 0;
                 if (art_txt_inv_id.Text != "") { id_invent = Convert.ToInt32(art_txt_inv_id.Text); }
-                int prov_id = IdProv(combo_nombre_proveedor.SelectedItem.ToString());
+
+                int prov_id = Convert.ToInt32(combo_nombre_proveedor.SelectedValue);
+                if (prov_id < 1)
+                {
+                    prov_id = 1;
+                }
 
                 string comando1 = null;
                 string comando2 = null;
                 if (art_bnt_crear_editar.Content.ToString() == "Editar")
                 {
                     comando1 = "UPDATE inventario SET existencias=" + exist + " WHERE id=" + id_invent + ";";
-                    comando2 = "UPDATE articulos SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = " + prov_id + ", `precio_compra`=" + precio_compra + ", `precio_venta`=" + precio_venta + ", WHERE `id`='" + art_txt_prd_id.Text + "';";
+                    comando2 = "UPDATE articulos SET `nombre`='" + nombre_articulo + "', `descripcion`='" + descripcion_articulo + "', proveedor_id = " + prov_id + ", `precio_compra`=" + precio_compra + ", `precio_venta`=" + precio_venta + " WHERE `id`='" + art_txt_prd_id.Text + "';";
+
+                    if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
+                    Conexion.conect.Open();
+                    SQLiteCommand cmd1 = new SQLiteCommand(comando1, Conexion.conect);
+                    SQLiteCommand cmd2 = new SQLiteCommand(comando2, Conexion.conect);
+
+                    cmd1.ExecuteNonQuery();
+                    cmd2.ExecuteNonQuery();
+
+                    Conexion.conect.Close();
                 }
                 else
                 {
                     ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
                     pa.CrearArt(nombre_articulo,descripcion_articulo,precio_compra,precio_venta,'1',prov_id,exist);
                 }
-                if(Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
-                Conexion.conect.Open();
-                SQLiteCommand cmd = new SQLiteCommand(comando1+comando2, Conexion.conect);
-                cmd.ExecuteNonQuery();
-
-                Conexion.conect.Close();
-
                 Actualizar_Tabla_Inventario();
                 Limpiar_Formulario();
                 MessageBox.Show("El artículo fue guardado correctamente", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -57,7 +66,7 @@ namespace UniverCell
         void Limpiar_Formulario()
         {
             art_txt_box_nomb.Text = null;
-            combo_nombre_proveedor.SelectedValue = null;
+            combo_nombre_proveedor.SelectedValue = 1;
             art_txt_box_descr.Text = null;
             art_txt_box_prec_compra.Value = null;
             art_txt_box_prec_vent.Value = null;
@@ -138,14 +147,16 @@ namespace UniverCell
                 string InvId = (drv.Row[0]).ToString();
                 string Nombre = (drv["nombre"]).ToString();
 
-                string comando1 = "DELETE FROM inventario WHERE id=" + InvId + "";
-                string comando2 = "DELETE FROM `cellmax`.`articulos` WHERE `id`='" + ArtId + "';";
+                string comando1 = "DELETE FROM inventario WHERE id='" + InvId + "';";
+                string comando2 = "DELETE FROM articulos WHERE id='" + ArtId + "';";
 
                 if (MessageBox.Show("Se dispone a eliminar el articulo: " + ArtId + ": " + Nombre, "Advertencia", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     Conexion.conect.Open();
-                    SQLiteCommand cmd = new SQLiteCommand(comando1+comando2, Conexion.conect);
-                    cmd.ExecuteNonQuery();
+                    SQLiteCommand cmd1 = new SQLiteCommand(comando1, Conexion.conect);
+                    SQLiteCommand cmd2 = new SQLiteCommand(comando2, Conexion.conect);
+                    cmd1.ExecuteNonQuery();
+                    cmd2.ExecuteNonQuery();
                     Conexion.conect.Close();
 
                     MessageBox.Show("Se eliminó correctamente el articulo");
@@ -153,9 +164,9 @@ namespace UniverCell
                 }
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("La selección no es valida, verifica el articulo seleccionado e intentalo de nuevo", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("La selección no es valida, verifica el articulo seleccionado e intentalo de nuevo"+ex, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -178,21 +189,29 @@ namespace UniverCell
         //Buscador de articulos en el inventario
         private void textBox_Buscar_Articulo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                Conexion.conect.Open();
-                DataTable dt = new DataTable();
-                string query = "call buscar_('" + textBox_Buscar_Articulo.Text + "');";
 
-                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
-                    da.Fill(dt);
-                Console.WriteLine("Operacion realizada");
-                dataGrid_Inventario.ItemsSource = dt.DefaultView;
-                Conexion.conect.Close();
-            }
-            catch (Exception ex)
+            if(textBox_Buscar_Articulo.Text != "")
             {
-                MessageBox.Show("No se encontró ningún resultado" + ex, "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                try
+                {
+                    string funcion_busqueda = "SELECT inventario.id, articulos.nombre, inventario.existencias, articulos.precio_compra, articulos.precio_venta, articulos.id as art_id FROM articulos INNER JOIN inventario ON articulos.id = inventario.articulo_id WHERE articulos.nombre LIKE '%" + textBox_Buscar_Articulo.Text + "%';";
+                    Conexion.conect.Open();
+                    DataTable dt = new DataTable();
+
+                    using (SQLiteDataAdapter da = new SQLiteDataAdapter(funcion_busqueda, Conexion.conect))
+                        da.Fill(dt);
+                    Console.WriteLine("Operacion realizada");
+                    dataGrid_Inventario.ItemsSource = dt.DefaultView;
+                    Conexion.conect.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se encontró ningún resultado", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            else
+            {
+                Actualizar_Tabla_Inventario();
             }
         }
 
@@ -230,32 +249,6 @@ namespace UniverCell
                 }
 
             }
-        }
-
-        /// <summary>
-        /// Obtiene el id del proveedor basado en el nombre
-        /// </summary>
-        /// <param name="nombre"></param>
-        public int IdProv(string nombre)
-        {
-            int ID = 0;
-            try
-            {
-                Conexion.conect.Open();
-                SQLiteCommand cmd = new SQLiteCommand("SELECT id FROM proveedores where nombre = '" + nombre + "';", Conexion.conect);
-                SQLiteDataReader Reader = cmd.ExecuteReader();
-
-                while (Reader.Read())
-                {
-                    ID = Convert.ToInt32(Reader["id"]);
-                }
-                Conexion.conect.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No se pudo encontrar ningun proveedor con el Nombre: " + nombre, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
-            }
-            return ID;
         }
     }
 }
