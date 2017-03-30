@@ -17,6 +17,12 @@ namespace UniverCell
         public string Value { get; set; }
     }
 
+    public class ComboCompanias
+    {
+        public int Id;
+        public string Value;
+    }
+
     /// <summary>
     /// Clase publica que almacena datos de la tienda
     /// </summary>
@@ -49,6 +55,7 @@ namespace UniverCell
         /// </summary>
         //public static List<string> ListaProveedores = new List<string>();
         public static List<ComboProveedores> ListData = new List<ComboProveedores>();
+        public static List<ComboCompanias> ListaCompanias = new List<ComboCompanias>();
 
     }
 }

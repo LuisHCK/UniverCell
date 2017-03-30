@@ -28,7 +28,9 @@ namespace UniverCell
                     int id = (Combo_id_comp.SelectedIndex) + 1;
 
                     Conexion.conect.Open();
-                    SQLiteCommand cmd = new SQLiteCommand("call vender_recarga(" + recarga + ", " + id + ");", Conexion.conect);
+                    SQLiteCommand cmd = new SQLiteCommand("INSERT INTO recargas (saldo_id, valor) VALUES (@saldo_id, @valor);", Conexion.conect);
+                    cmd.Parameters.Add(new SQLiteParameter("@saldo_id", Combo_id_comp.SelectedValue));
+                    cmd.Parameters.Add(new SQLiteParameter("@valor", Rec_txt_box_cantidad.Value));
                     cmd.ExecuteNonQuery();
                     Conexion.conect.Close();
 
@@ -41,9 +43,9 @@ namespace UniverCell
                     MessageBox.Show("La Cantidad no es válida", "Error");
                 }
             }
-            catch
+            catch(SQLiteException ex)
             {
-                MessageBox.Show("Ocurrió un error al realizar la venta, por favor verifica los datos e intentalo nuevamente", "Error");
+                MessageBox.Show("Ocurrió un error al realizar la venta, por favor verifica los datos e intentalo nuevamente" +ex, "Error");
             }
         }
 
@@ -62,7 +64,12 @@ namespace UniverCell
             Console.WriteLine("Operacion realizada");
             dataGrid_venta_recargas.ItemsSource = dt.DefaultView;
         }
-        
+
+
+        private void actualizar_tabla_recargas_Click(object sender, RoutedEventArgs e)
+        {
+            ActualizarTablaRecargas();
+        }
         ///Generar estadísticas de las recargas vendidas 
         public void EstadisticasRecargas()
         {

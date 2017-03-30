@@ -195,6 +195,11 @@ namespace UniverCell
             vnt_txt_box_art.Text = null;
         }
 
+        /// <summary>
+        /// Realizar la Venta de un artículo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void vnt_btn_vender_Clic(object sender, RoutedEventArgs e)
         {
             try
@@ -220,6 +225,12 @@ namespace UniverCell
                 cmd2.Parameters.Add(new SQLiteParameter("@cantd", Cantidad_Producto));
                 cmd2.Parameters.Add(new SQLiteParameter("@cod_art", Articulo_Id));
                 cmd2.ExecuteNonQuery();
+
+                string concepto = vnt_txt_bx_nombre.Text;
+                string descripcion = Convert.ToString(vnt_txt_bx_cantidad.Value + " " + vnt_txt_bx_nombre.Text);
+                SQLiteCommand cmd3 = new SQLiteCommand("INSERT INTO caja_registro(concepto,descripcion,valor,usuario_id,tipo) VALUES('" + concepto + "','" + descripcion + "','" + vnt_TOTAL.Text + "', '"+Sesion.id_usuario+"','VENTA')", Conexion.conect);
+                cmd3.ExecuteNonQuery();
+
                 Conexion.conect.Close();
 
                 ActualizarTablaVentas();

@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Living Company")]
 [assembly: AssemblyProduct("UniverCell")]
-[assembly: AssemblyCopyright("Living Company ©  2016 - All Rigths Reserved")]
+[assembly: AssemblyCopyright("Living Company ©  2017 - All Rigths Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

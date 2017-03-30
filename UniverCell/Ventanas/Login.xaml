@@ -14,8 +14,8 @@
             <ColumnDefinition Width="11*"/>
         </Grid.ColumnDefinitions>
         <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="116,35,0,0" VerticalAlignment="Top" Width="100" OpacityMask="Black" Source="Resources/icons/contact-icon.png" Grid.ColumnSpan="2" Grid.Column="1"/>
-        <TextBox x:Name="txt_user" Margin="10,160,11,129" TextWrapping="Wrap" Grid.ColumnSpan="2" Grid.Column="1" MaxLines="1" TextAlignment="Center" FontWeight="Bold" Text="luishck"/>
-        <PasswordBox x:Name="txt_pass" Margin="10,207,11,82" Grid.ColumnSpan="2" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Password="123"/>
+        <TextBox x:Name="txt_user" Margin="10,160,11,129" TextWrapping="Wrap" Grid.ColumnSpan="2" Grid.Column="1" MaxLines="1" TextAlignment="Center" FontWeight="Bold"/>
+        <PasswordBox x:Name="txt_pass" Margin="10,207,11,82" Grid.ColumnSpan="2" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Button x:Name="button" Content="Iniciar" Grid.Column="1" Margin="10,254,11,35" Grid.ColumnSpan="2" Background="#FF0CB863" BorderBrush="{x:Null}" Foreground="White" FontSize="16" FontWeight="Bold" Click="button_Click"/>
 
     </Grid>

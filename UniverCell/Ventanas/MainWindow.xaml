@@ -194,10 +194,7 @@
                             </Grid.ColumnDefinitions>
                             <Label x:Name="label14" Content="Cantidad" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
                             <Label x:Name="label12_Copy" Content="Compañía" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64"/>
-                            <ComboBox x:Name="Combo_id_comp" Margin="10,36,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="26" SelectedIndex="1">
-                                <ComboBoxItem Content="Claro" Tag="1"/>
-                                <ComboBoxItem Content="Movistar" Tag="2"/>
-                            </ComboBox>
+                            <ComboBox x:Name="Combo_id_comp" Margin="10,36,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="26" SelectedIndex="1"/>
                             <Controls:NumericUpDown x:Name="Rec_txt_box_cantidad" Minimum ="0" Maximum = "10000" Margin="10,98,10,0" Interval="10" TrackMouseWheelWhenMouseOver="True" Grid.ColumnSpan="2" FontSize="20" Height="37" VerticalAlignment="Top"/>
                             <Button x:Name="button4" Content="Cancelar" Margin="10,159,10,0" VerticalAlignment="Top" Height="47" Background="Red" Foreground="White" FontSize="12"/>
                             <Button x:Name="btn_vender_recarga" Content="Vender" Background="#FF079300" Foreground="White" BorderBrush="#FF707070" Height="47" VerticalAlignment="Top" FontSize="12" Click="btn_vender_recarga_Click" Margin="10,158,10,0" Grid.Column="1"/>
@@ -206,7 +203,7 @@
                     <GroupBox x:Name="groupBox3_Copy" Header="Registro de Ventas" Margin="10" Grid.Column="1" Grid.RowSpan="2" Background="#CCF4F7A0">
                         <Grid Margin="-5" Background="White">
                             <Button x:Name="button2" Content="Actualizar" HorizontalAlignment="Left" Margin="-311,300,0,0" VerticalAlignment="Top" Width="75" Click="Rec_btn_Actualizar_Clic"/>
-                            <DataGrid x:Name="dataGrid_venta_recargas" Margin="10,10,96,10" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid x:Name="dataGrid_venta_recargas" Margin="10,10,90,10" AutoGenerateColumns="False" IsReadOnly="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding compania}" ClipboardContentBinding="{x:Null}" Header="Compañía" IsReadOnly="True"/>
                                     <DataGridTextColumn Binding="{Binding valor}" ClipboardContentBinding="{x:Null}" Header="Valor" IsReadOnly="True"/>
@@ -214,6 +211,7 @@
                                     <DataGridTextColumn Binding="{Binding fecha_venta}" ClipboardContentBinding="{x:Null}" IsReadOnly="True" Header="Fecha - Hora"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            <Button x:Name="actualizar_tabla_recargas" Content="Actualizar" Margin="487,10,10,0" VerticalAlignment="Top" Click="actualizar_tabla_recargas_Click"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox x:Name="groupBox6" Header="Saldo de recarcas" Margin="10" Grid.Row="1" Background="#CCAB47BC">
@@ -331,7 +329,20 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Caja" Height="39" VerticalAlignment="Top" Margin="29,0,-29,0">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Saldo en caja" HorizontalAlignment="Left" Height="411" Margin="10,10,0,0" VerticalAlignment="Top" Width="534">
+                        <Grid Margin="-5" Background="White">
+                            <DataGrid Margin="10,219,10,10"/>
+                            <Controls:Tile x:Name="Tile_Saldo_Caja" Title="Saldo Actual en Caja" TiltFactor="2" Width="271" Height="117" Margin="19,44,0,0" Background="#D8F57C00" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Label x:Name="lbl_saldo_caja" Content="Label" Foreground="White" FontSize="36" Margin="-30"/>
+                            </Controls:Tile>
+                            <Button Content="Efectuar Cierre de Caja" Margin="329,44,28,297"/>
+                            <Label Content="Saldo a dejar en caja" HorizontalAlignment="Left" Margin="329,98,0,0" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="txt_saldo_dejar" Minimum ="0" Maximum = "10000" Margin="329,124,28,0" Interval="10" TrackMouseWheelWhenMouseOver="True" FontSize="20" Height="37" VerticalAlignment="Top"/>
+                            <Label Content="Registros de Caja" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <Button x:Name="button5" Content="Button" Height="100" Width="75"/>
         </TabControl>

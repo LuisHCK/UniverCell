@@ -42,13 +42,6 @@ namespace UniverCell
             catch(Exception ex)
             {
                 MessageBox.Show(Convert.ToString(ex));
-                Configuracion WinConf = new Configuracion();
-                WinConf.Show();
-                if (MessageBox.Show("Aun no se ha configurado el acceso al sistema. ¿Desea realizar la configuracion ahora?", "Alerta", MessageBoxButton.YesNo) == MessageBoxResult.No)
-                {
-                    WinConf.Close();
-                }
-                this.Close();
             }
             //if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ucll") == false)
             // {

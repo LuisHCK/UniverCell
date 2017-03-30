@@ -44,7 +44,7 @@ namespace UniverCell
         /// </summary>
         public DataTable ActualizarTablaVentas()
         {
-            Conexion.conect.Open();
+            if (Conexion.conect.State == ConnectionState.Closed) { Conexion.conect.Open(); }
             DataTable dt = new DataTable();
             string query = "SELECT ventas.id, codigo_articulo, articulos.nombre, articulos.precio_venta, ventas.cantidad, ventas.total, ventas.fecha_venta FROM ventas inner join articulos on ventas.codigo_articulo = articulos.id;";
             using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))

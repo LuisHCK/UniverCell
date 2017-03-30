@@ -55,6 +55,9 @@ namespace UniverCell
 
             //Verificar si se han creado los datos del negocio
             VerificarDatosNegocio();
+
+            //Cargar datos de caja
+            ActualizarCaja();
         }
 
         private void VerificarDatosNegocio()
@@ -261,10 +264,13 @@ namespace UniverCell
         {
             try
             {
-
+                // Carga los combobox para los proveedores de productos y de recargas
                 Conexion.conect.Open();
                 SQLiteCommand cmd = new SQLiteCommand("SELECT*FROM proveedores;", Conexion.conect);
+                SQLiteCommand cmd2 = new SQLiteCommand("SELECT id, compania FROM saldo_recargas;", Conexion.conect);
+
                 SQLiteDataReader Reader = cmd.ExecuteReader();
+                SQLiteDataReader Reader2 = cmd2.ExecuteReader();
 
                 Tienda.ListData.Clear();
 
@@ -275,6 +281,16 @@ namespace UniverCell
                         Id = Convert.ToInt32(Reader["id"]), Value = Reader["nombre"].ToString()
                     });
                 }
+
+                while (Reader2.Read())
+                {
+                    Tienda.ListaCompanias.Add(new ComboCompanias
+                    {
+                        Id = Convert.ToInt32(Reader2["id"]),
+                        Value = Reader2["compania"].ToString()
+                    });
+                }
+
                 Conexion.conect.Close();
             }
             catch
@@ -282,12 +298,20 @@ namespace UniverCell
                 MessageBox.Show("Ocurrió un error al obetener la lista de los proveedores", "Error");
             }
 
+            // COmbo proveedores
             combo_nombre_proveedor.Items.Clear();
             combo_nombre_proveedor.ItemsSource = Tienda.ListData;
             combo_nombre_proveedor.DisplayMemberPath = "Value";
             combo_nombre_proveedor.SelectedValuePath = "Id";
-
             combo_nombre_proveedor.SelectedValue = "1";
+
+            //Combo compañías
+            Combo_id_comp.Items.Clear();
+            Combo_id_comp.ItemsSource = Tienda.ListaCompanias;
+            Combo_id_comp.DisplayMemberPath = "Value";
+            Combo_id_comp.SelectedValuePath = "Id";
+            combo_bx_Moneda.SelectedValue = "1";
+
         }
 
         private void BTN_Inv_Proveedores_Click(object sender, RoutedEventArgs e)
@@ -295,6 +319,13 @@ namespace UniverCell
             Proveedores Prov = new Proveedores();
             Prov.ShowDialog();
             CargarProveedores();
+        }
+
+        private void ActualizarCaja()
+        {
+            
+            cmd.CommandText = "SELECT COUNT(*) FROM table_name";
+            Int32 count = (Int32)cmd.ExecuteScalar();
         }
     }
 }
