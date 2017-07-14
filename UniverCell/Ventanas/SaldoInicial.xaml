@@ -14,12 +14,8 @@
             x:Name="saldo_inicial_bx" Minimum ="0" 
             Maximum = "10000" Margin="10,62,10,0" 
             Height="26" VerticalAlignment="Top" 
-            TrackMouseWheelWhenMouseOver="True" 
-            ValueIncremented="vnt_txt_bx_Increment"
-            ValueDecremented="vnt_txt_bx_Decrement"
-            ValueChanged="vnt_txt_bx_ValueChanged" Value="0"
-                            />
-        <Button Content="aceptar&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,110,0,23" Width="272" Background="#FF4444FF" Foreground="White" Click="Button_Click"/>
+            TrackMouseWheelWhenMouseOver="True"/>
+        <Button Content="aceptar&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,110,0,23" Width="272" Background="#FF4444FF" Foreground="White"/>
 
     </Grid>
 </Window>

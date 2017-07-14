@@ -1,14 +1,11 @@
 ﻿<Window x:Name="Inicio" x:Class="UniverCell.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UniverCell"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Loaded="Window_Loaded"
-        Title="Inicio" Height="692" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico">
+        Title="Inicio" Height="692" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico" Background="White">
     <Window.CacheMode>
         <BitmapCache/>
     </Window.CacheMode>
@@ -23,8 +20,11 @@
     <Grid>
         <Button x:Name="atras_btn" Content="Atras" VerticalAlignment="Top" Click="atras_btn_Click" Margin="1132,10,10,0"/>
         <TabControl x:Name="tabControl" Margin="0,10,10,0" SelectionChanged="tabControl_SelectionChanged" Cursor="">
-            <TabItem Header="Inicio" Margin="10,0,-10,0">
-                <Grid Background="#FFE5E5E5">
+            <TabControl.Background>
+                <ImageBrush/>
+            </TabControl.Background>
+            <TabItem Header="Inicio">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="8"/>
                         <RowDefinition Height="330"/>
@@ -63,10 +63,10 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </Controls:Tile>
-                    <Controls:Tile x:Name="tile_estadisticas" Title="Estadísticas" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="316,167,324,13" Background="#CC009688" Click="tile_estadisticas_Click" Grid.Row="1">
+                    <Controls:Tile x:Name="tile_estadisticas" Title="Facturas" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="316,167,324,13" Background="#CC009688" Click="tile_estadisticas_Click" Grid.Row="1">
                         <Rectangle Width="80" Height="80">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="Resources/icons/presentation-4.png"/>
+                                <ImageBrush ImageSource="Resources/icons/invoice-icon.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </Controls:Tile>
@@ -110,7 +110,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Ventas" Margin="13,0,-13,0" Controls:ControlsHelper.HeaderFontSize="26">
+            <TabItem Header="Ventas" Controls:ControlsHelper.HeaderFontSize="26">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="51*"/>
@@ -173,7 +173,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Recargas" Height="39" VerticalAlignment="Top" Margin="17,0,-17,0">
+            <TabItem Header="Recargas">
                 <Grid Background="#FFE5E5E5" RenderTransformOrigin="0.505,0.509">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="253*"/>
@@ -232,7 +232,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Reparaciones" Height="39" VerticalAlignment="Top" Margin="19,0,-19,0">
+            <TabItem Header="Reparaciones">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="404*"/>
@@ -271,7 +271,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Inventario" Height="39" VerticalAlignment="Top" Margin="22,0,-22,0">
+            <TabItem Header="Inventario">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -325,10 +325,75 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Estadísticas" Height="39" VerticalAlignment="Top" Margin="25,0,-25,0">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Facturas">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="groupBox2_Copy1" Header="Productos" HorizontalAlignment="Left" Height="362" Margin="10,10,0,-78" VerticalAlignment="Top" Width="374">
+                        <Grid Margin="-5" Background="White">
+                            <DataGrid DataContext="ArticulosItems" x:Name="DataGrid_factura_Productos" ItemsSource="{Binding Path=Productos}"
+                  Grid.Row="0" Margin="10,41,10,40" AutoGenerateColumns="False" SelectedItem="{Binding Path=SelectedArticulo, Mode=TwoWay}" SelectionChanged="DataGrid_factura_Productos_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Codigo" Binding="{Binding id}"/>
+                                    <DataGridTextColumn Header="Nombre"
+                                    Binding="{Binding nombre}" />
+
+                                    <DataGridTextColumn Header="Precio"
+                                    Binding="{Binding precio_venta}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Controls:NumericUpDown x:Name="CantidadArticulo" Minimum="1" Maximum="100000000000000000" Background="White" Margin="10,299,261,8" ValueChanged="CantidadArticulo_ValueChanged"/>
+
+                            <Button x:Name="Agregar_Producto_Factura" Content="Agregar Producto" HorizontalAlignment="Left" Margin="246,298,0,0" VerticalAlignment="Top" Width="116" Click="Agregar_Producto_Factura_Click"/>
+                            <TextBox x:Name="BuscarProductoFactura" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" KeyDown="BuscarProductoFactura_KeyDown" Controls:TextBoxHelper.Watermark="Buscar Artículo"/>
+                            <Button x:Name="btn_actualizar_prod" Content="Actualizar" HorizontalAlignment="Left" Margin="287,9,0,0" VerticalAlignment="Top" Width="75" Click="btn_actualizar_prod_Click"/>
+                            <TextBox x:Name="SubtotalArticulo" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="116,299,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Controls:TextBoxHelper.Watermark="Sub Total" IsEnabled="False"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox2_Copy" Header="Servicios" HorizontalAlignment="Left" Height="219" Margin="10,377,0,-303" VerticalAlignment="Top" Width="374" Background="#CCDA1111">
+                        <Grid Margin="-5" Background="#FFF9F9F9">
+                            <Label x:Name="label28" Content="Concepto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="FacturaServicioConcepto" Height="49" Margin="10,52,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="PrecioTotalServicio" Minimum="1" Maximum="100000000000000000" Background="White" Margin="10,146,223,18"/>
+                            <Label x:Name="label33" Content="Precio" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="BtnAgregarServicioFactura" Content="Agregar" HorizontalAlignment="Left" Margin="270,9,0,0" VerticalAlignment="Top" Width="94" Background="#FF00B400" Foreground="White" Click="BtnAgregarServicioFactura_Click" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="0.131"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+                            <Button x:Name="button1" Content="Limpiar" HorizontalAlignment="Left" Margin="190,9,0,0" VerticalAlignment="Top" Width="75" Background="#FFFF5454" BorderBrush="#FFFF8B8B" Foreground="White"/>
+                            <Controls:NumericUpDown x:Name="CantidadTotalServicio" Minimum="1" Maximum="100000000000000000" Background="White" Margin="223,146,10,18"/>
+                            <Label x:Name="label33_Copy" Content="Cantidad" HorizontalAlignment="Left" Margin="222,115,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox2" Header="Lista" HorizontalAlignment="Left" Height="362" Margin="389,10,0,-74" VerticalAlignment="Top" Width="802" Background="#CC11DA88">
+                        <Grid Margin="-5,-5,-5,-4" Background="#FFF9F9F9">
+                            <DataGrid DataContext="FacturaItems" CanUserAddRows="False" CanUserReorderColumns="False" x:Name="dataGridFacturaItems" Height="284" Margin="10,0" VerticalAlignment="Top" IsReadOnly="True" OverridesDefaultStyle="True" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                    <DataGridTextColumn Binding="{Binding id}" Header="Codigo"/>
+                                    <DataGridTextColumn Binding="{Binding concepto}" Header="Concepto" MaxWidth="200"/>
+                                    <DataGridTextColumn Binding="{Binding precio}" Header="Precio"/>
+                                    <DataGridTextColumn Binding="{Binding cantidad}" Header="Cantidad"/>
+                                    <DataGridTextColumn Binding="{Binding subtotal}" Header="Sub-Total"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <TextBox x:Name="FacturaClienteNombre" HorizontalAlignment="Left" Margin="64,0,0,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="250"/>
+                            <Label x:Name="label25" Content="Cliente" HorizontalAlignment="Left" Margin="12,0,0,17" VerticalAlignment="Bottom"/>
+                            <Label x:Name="label27" Content="Pago" HorizontalAlignment="Left" Margin="314,0,0,17" VerticalAlignment="Bottom"/>
+                            <CheckBox x:Name="FacturaPagoContado" Content="Contado" HorizontalAlignment="Left" Margin="356,0,0,21" VerticalAlignment="Bottom"/>
+                            <CheckBox x:Name="FacturaPagoCredito" Content="Crédito" HorizontalAlignment="Left" Margin="431,0,0,21" VerticalAlignment="Bottom"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
-            <TabItem Header="Caja" Height="39" VerticalAlignment="Top" Margin="29,0,-29,0">
+            <TabItem Header="Caja">
                 <Grid Background="#FFE5E5E5">
                     <GroupBox Header="Saldo en caja" HorizontalAlignment="Left" Height="411" Margin="10,10,0,0" VerticalAlignment="Top" Width="534">
                         <Grid Margin="-5" Background="White">

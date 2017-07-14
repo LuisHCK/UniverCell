@@ -204,7 +204,7 @@ namespace UniverCell
                     dataGrid_Inventario.ItemsSource = dt.DefaultView;
                     Conexion.conect.Close();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show("No se encontró ningún resultado", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }

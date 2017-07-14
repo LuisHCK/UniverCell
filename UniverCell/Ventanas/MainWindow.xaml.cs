@@ -1,14 +1,10 @@
 ﻿using System.Data.SQLite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace UniverCell
 {
@@ -20,14 +16,14 @@ namespace UniverCell
         /* Solución temporal al error de renderizado causado por el re-login en windows
          * Se cambió el método de renderizado de hardware a software
          * https://github.com/MahApps/MahApps.Metro/issues/2734#issuecomment-260839524
-         */
+         *
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var w = (Window)sender;
             var src = PresentationSource.FromVisual(w) as System.Windows.Interop.HwndSource;
             var target = src.CompositionTarget;
             target.RenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-        }
+        }*/
 
         /// <summary>
         /// Inicializar Ventana
@@ -57,7 +53,7 @@ namespace UniverCell
             VerificarDatosNegocio();
 
             //Cargar datos de caja
-            ActualizarCaja();
+            //ActualizarCaja();
         }
 
         private void VerificarDatosNegocio()
@@ -231,7 +227,7 @@ namespace UniverCell
                 stream.Close();
             }
             catch{
-                MessageBox.Show("No se puede cargar el archivo de imagen", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //No hacer nada :V
             }
         }
 
@@ -323,9 +319,10 @@ namespace UniverCell
 
         private void ActualizarCaja()
         {
-            
-            cmd.CommandText = "SELECT COUNT(*) FROM table_name";
+            SQLiteCommand cmd = new SQLiteCommand();
+            cmd.CommandText = "SELECT COUNT(*) FROM caja";
             Int32 count = (Int32)cmd.ExecuteScalar();
         }
+
     }
 }
