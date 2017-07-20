@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Data;
 
 namespace UniverCell
 {
@@ -53,7 +54,8 @@ namespace UniverCell
             VerificarDatosNegocio();
 
             //Cargar datos de caja
-            //ActualizarCaja();
+            ActualizarCaja();
+            facturasRealizadas();
         }
 
         private void VerificarDatosNegocio()
@@ -263,10 +265,8 @@ namespace UniverCell
                 // Carga los combobox para los proveedores de productos y de recargas
                 Conexion.conect.Open();
                 SQLiteCommand cmd = new SQLiteCommand("SELECT*FROM proveedores;", Conexion.conect);
-                SQLiteCommand cmd2 = new SQLiteCommand("SELECT id, compania FROM saldo_recargas;", Conexion.conect);
 
                 SQLiteDataReader Reader = cmd.ExecuteReader();
-                SQLiteDataReader Reader2 = cmd2.ExecuteReader();
 
                 Tienda.ListData.Clear();
 
@@ -275,15 +275,6 @@ namespace UniverCell
                     Tienda.ListData.Add(new ComboProveedores
                     {
                         Id = Convert.ToInt32(Reader["id"]), Value = Reader["nombre"].ToString()
-                    });
-                }
-
-                while (Reader2.Read())
-                {
-                    Tienda.ListaCompanias.Add(new ComboCompanias
-                    {
-                        Id = Convert.ToInt32(Reader2["id"]),
-                        Value = Reader2["compania"].ToString()
                     });
                 }
 
@@ -302,11 +293,7 @@ namespace UniverCell
             combo_nombre_proveedor.SelectedValue = "1";
 
             //Combo compañías
-            Combo_id_comp.Items.Clear();
-            Combo_id_comp.ItemsSource = Tienda.ListaCompanias;
-            Combo_id_comp.DisplayMemberPath = "Value";
-            Combo_id_comp.SelectedValuePath = "Id";
-            combo_bx_Moneda.SelectedValue = "1";
+
 
         }
 
@@ -317,12 +304,26 @@ namespace UniverCell
             CargarProveedores();
         }
 
-        private void ActualizarCaja()
+        private void FacturaPagoContado_Checked(object sender, RoutedEventArgs e)
         {
-            SQLiteCommand cmd = new SQLiteCommand();
-            cmd.CommandText = "SELECT COUNT(*) FROM caja";
-            Int32 count = (Int32)cmd.ExecuteScalar();
+            FacturaPagoCredito.IsChecked = false;
         }
 
+        private void FacturaPagoCredito_Checked(object sender, RoutedEventArgs e)
+        {
+            FacturaPagoContado.IsChecked = false;
+        }
+
+        private class Item
+        {
+            public double saldo;
+            public DateTime fecha_apertura;
+            public string fecha_cierre;
+        }
+
+        private void button7_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("No se ha detectado ninguna impresora conectada. ¿Reintentar?", "Error de Impresión", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+        }
     }
 }

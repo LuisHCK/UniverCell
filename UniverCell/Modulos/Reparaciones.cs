@@ -83,8 +83,10 @@ namespace UniverCell
                     SQLiteCommand CMD = new SQLiteCommand(Comando, Conexion.conect);
                     CMD.ExecuteNonQuery();
                     Conexion.conect.Close();
-                    MessageBox.Show("Se guardó correctamente. ¿Desea imprimir un recibo?", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    MessageBox.Show("Se guardó correctamente. Imprimendo Recibo...", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
                     LimpiarFormReparacion();
+
+                    AgregarACaja(Convert.ToDouble(txt_box_prec_rep.Value));
                 }
                 catch (SQLiteException ex)
                 {

@@ -1,6 +1,7 @@
 ﻿using System.Data.SQLite;
 using System;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace UniverCell
 {
@@ -39,9 +40,9 @@ namespace UniverCell
                 Conexion.conect.Open();
                 Conexion.conect.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(Convert.ToString(ex));
+                System.Windows.MessageBox.Show(Convert.ToString(ex));
             }
             //if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ucll") == false)
             // {
@@ -83,7 +84,7 @@ namespace UniverCell
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error" + ex);
+                System.Windows.MessageBox.Show("Error" + ex);
             }
         }
 
@@ -93,6 +94,19 @@ namespace UniverCell
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public void button_Click(object sender, RoutedEventArgs e)
+        {
+            Loguear();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                Loguear();
+            }
+        }
+
+        public void Loguear()
         {
             string usr = txt_user.Text;
 
@@ -113,12 +127,12 @@ namespace UniverCell
                 }
                 else
                 {
-                    MessageBox.Show("El nombre de usuario o la contraseña no son correctos", "Error", MessageBoxButton.OK,MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show("El nombre de usuario o la contraseña no son correctos", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error" + ex);
+                System.Windows.MessageBox.Show("Error" + ex);
             }
         }
     }

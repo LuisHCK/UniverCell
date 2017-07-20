@@ -25,18 +25,21 @@ namespace UniverCell
                 if (Rec_txt_box_cantidad.Value > 0)
                 {
                     decimal recarga = Convert.ToDecimal(Rec_txt_box_cantidad.Value);
-                    int id = (Combo_id_comp.SelectedIndex) + 1;
+                    int id = (Combo_id_compr.SelectedIndex) + 1;
 
                     Conexion.conect.Open();
                     SQLiteCommand cmd = new SQLiteCommand("INSERT INTO recargas (saldo_id, valor) VALUES (@saldo_id, @valor);", Conexion.conect);
-                    cmd.Parameters.Add(new SQLiteParameter("@saldo_id", Combo_id_comp.SelectedValue));
+                    cmd.Parameters.Add(new SQLiteParameter("@saldo_id", id));
                     cmd.Parameters.Add(new SQLiteParameter("@valor", Rec_txt_box_cantidad.Value));
                     cmd.ExecuteNonQuery();
                     Conexion.conect.Close();
 
+                    AgregarACaja(Convert.ToDouble(Rec_txt_box_cantidad.Value));
+
                     ActualizarTablaRecargas();
                     EstadisticasRecargas();
                     Rec_txt_box_cantidad.Value = null;
+
                 }
                 else
                 {
@@ -87,12 +90,12 @@ namespace UniverCell
                     if (id == "1")
                     {
                         Tile_Recargas_1.Title = ("Saldo en: " + reader["compania"].ToString());
-                        lbl_saldo_1.Content = Tienda.signo_moneda + ": " + reader["saldo"].ToString();
+                        lbl_saldo_1.Content = Tienda.signo_moneda + reader["saldo"].ToString();
                     }
                     else if (id == "2")
                     {
                         Tile_Recargas_2.Title = ("Saldo en: " + reader["compania"].ToString());
-                        lbl_saldo_2.Content = Tienda.signo_moneda + ": " + reader["saldo"].ToString();
+                        lbl_saldo_2.Content = Tienda.signo_moneda + reader["saldo"].ToString();
                     }
                 }
                 Conexion.conect.Close();
