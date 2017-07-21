@@ -325,5 +325,6 @@ namespace UniverCell
         {
             MessageBox.Show("No se ha detectado ninguna impresora conectada. ¿Reintentar?", "Error de Impresión", MessageBoxButton.OKCancel, MessageBoxImage.Question);
         }
+
     }
 }

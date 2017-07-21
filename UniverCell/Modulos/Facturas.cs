@@ -178,8 +178,9 @@ namespace UniverCell
                 MessageBox.Show("La factura a nombre de: " + cliente + " se realizó con exito.", "Realizado", MessageBoxButton.OK, MessageBoxImage.Information);
                 Conexion.conect.Close();
 
-                facturasRealizadas();
                 AgregarACaja(Convert.ToDouble(total));
+
+                facturasRealizadas();
             }
             catch (Exception ex)
             {

@@ -26,8 +26,9 @@ namespace UniverCell
         public Editar_Saldo_Recargas()
         {
             InitializeComponent();
-            Obtener_companias();
         }
+        private static string saldo;
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -36,10 +37,15 @@ namespace UniverCell
                 Console.WriteLine("Item: "+ Combo_id_comp.SelectedValue);
                 object conect = Conexion.conect;
                 Conexion.conect.Open();
-                decimal cantidad = Convert.ToDecimal(textBox_cantidad_agregada.Text);
-                string comando = "call comprar_saldo(null, '" + Combo_id_comp.SelectedValue.ToString() + "', " + cantidad + ");";
+                
+                //Sumar la cantidad existente mas la cantidad comprada
+                decimal cantidad = Convert.ToDecimal(textBox_cantidad_agregada.Text) + Convert.ToDecimal(saldo);
+
+                string comando = "UPDATE saldo_recargas SET saldo = @nuevo_saldo WHERE id=@saldo_id";
 
                 SQLiteCommand CMD = new SQLiteCommand(comando, Conexion.conect);
+                CMD.Parameters.AddWithValue("@nuevo_saldo", cantidad);
+                CMD.Parameters.AddWithValue("@saldo_id", Combo_id_comp.SelectedIndex+1);
 
                 CMD.ExecuteNonQuery();
                 Conexion.conect.Close();
@@ -55,18 +61,39 @@ namespace UniverCell
             }
         }
 
-        public void Obtener_companias()
+        /// <summary>
+        /// Obtiene el saldo de recargas
+        /// </summary>
+        public void obtenerSaldo()
         {
-            Conexion.conect.Open();
-            SQLiteCommand CMD = new SQLiteCommand("select saldo_recargas.id, saldo_recargas.compania FROM saldo_recargas;", Conexion.conect);
+            string query = "SELECT saldo FROM saldo_recargas WHERE id = @saldo_id;";
+            SQLiteCommand cmd = new SQLiteCommand(query, Conexion.conect);
+            cmd.Parameters.AddWithValue("@saldo_id", Combo_id_comp.SelectedIndex+1);
 
-            SQLiteDataReader reader = CMD.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                Combo_id_comp.Items.Add(reader["compania"].ToString());
+                if ( Conexion.conect.State == System.Data.ConnectionState.Open) { Conexion.conect.Close(); }
+
+                Conexion.conect.Open();
+
+                SQLiteDataReader Reader = cmd.ExecuteReader();
+                while (Reader.Read())
+                {
+                    saldo = Reader["saldo"].ToString();
+                }         
+                txt_cantidad_actual.Text = saldo;
+
+                Conexion.conect.Close();
             }
-            Conexion.conect.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error: " + ex, "Error");
+            }
+        }
+
+        private void Combo_id_comp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            obtenerSaldo();
         }
     }
 }

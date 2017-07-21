@@ -11,7 +11,10 @@
             <ColumnDefinition Width="150*"/>
             <ColumnDefinition Width="151*"/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="Combo_id_comp" Margin="10,69,10,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="Combo_id_comp" Margin="10,69,10,0" VerticalAlignment="Top" Height="26" Grid.ColumnSpan="2" SelectionChanged="Combo_id_comp_SelectionChanged" SelectedIndex="0">
+            <ComboBoxItem Content="Movistar"/>
+            <ComboBoxItem Content="Claro"/>
+        </ComboBox>
         <Label x:Name="label" Content="Compañía" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Height="26" Width="64"/>
         <Label x:Name="label1" Content="Actualiza el estado actual del saldo de recargas" Margin="10,10,10,0" VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="2" Height="26"/>
         <Label x:Name="label2" Content="Cantidad actual" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Height="26" Width="92"/>

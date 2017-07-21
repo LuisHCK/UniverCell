@@ -26,20 +26,35 @@ namespace UniverCell
                 {
                     decimal recarga = Convert.ToDecimal(Rec_txt_box_cantidad.Value);
                     int id = (Combo_id_compr.SelectedIndex) + 1;
+                    double cantidad = 0;
+                    if(id == 1)
+                    {
+                        cantidad = Convert.ToDouble(lbl_saldo_1.Content);
+                    }
+                    else if (id == 2)
+                    {
+                        cantidad = Convert.ToDouble(lbl_saldo_2.Content);
+                    }
 
-                    Conexion.conect.Open();
                     SQLiteCommand cmd = new SQLiteCommand("INSERT INTO recargas (saldo_id, valor) VALUES (@saldo_id, @valor);", Conexion.conect);
                     cmd.Parameters.Add(new SQLiteParameter("@saldo_id", id));
                     cmd.Parameters.Add(new SQLiteParameter("@valor", Rec_txt_box_cantidad.Value));
-                    cmd.ExecuteNonQuery();
-                    Conexion.conect.Close();
 
-                    AgregarACaja(Convert.ToDouble(Rec_txt_box_cantidad.Value));
+                    if(Rec_txt_box_cantidad.Value <= cantidad)
+                    {
+                        Conexion.conect.Open();
+                        cmd.ExecuteNonQuery();
+                        Conexion.conect.Close();
 
-                    ActualizarTablaRecargas();
-                    EstadisticasRecargas();
-                    Rec_txt_box_cantidad.Value = null;
-
+                        AgregarACaja(Convert.ToDouble(Rec_txt_box_cantidad.Value));
+                        ActualizarTablaRecargas();
+                        EstadisticasRecargas();
+                        Rec_txt_box_cantidad.Value = null;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No hay saldo suficiente", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -67,7 +82,6 @@ namespace UniverCell
             Console.WriteLine("Operacion realizada");
             dataGrid_venta_recargas.ItemsSource = dt.DefaultView;
         }
-
 
         private void actualizar_tabla_recargas_Click(object sender, RoutedEventArgs e)
         {
@@ -99,7 +113,6 @@ namespace UniverCell
                     }
                 }
                 Conexion.conect.Close();
-
             }
             catch (Exception ex)
             {

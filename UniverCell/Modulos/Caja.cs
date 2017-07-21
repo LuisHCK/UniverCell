@@ -101,12 +101,16 @@ namespace UniverCell
             }
         }
 
+        /// <summary>
+        /// Agregar a la caja
+        /// </summary>
+        /// <param name="cantidad"></param>
         public void AgregarACaja(double cantidad)
         {
             double caja_actual = Convert.ToDouble(lbl_saldo_caja.Content);
             double nueva_cantidad = caja_actual + cantidad;
 
-            MessageBox.Show("Cantidad: " + nueva_cantidad); 
+            //ssageBox.Show("Cantidad: " + nueva_cantidad); 
 
             string query = "UPDATE caja SET saldo = @cantidad WHERE caja.id=@caja_id";
             SQLiteCommand cmd = new SQLiteCommand(query, Conexion.conect);

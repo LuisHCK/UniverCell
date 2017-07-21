@@ -7,6 +7,7 @@ namespace UniverCell
 {
     public partial class MainWindow
     {
+        private static double Existencias = 0;
 
         private void vnt_txt_box_art_TextChanged(object sender, RoutedEventArgs e)
         {
@@ -30,10 +31,21 @@ namespace UniverCell
                     while (reader.Read())
                     {
                         vnt_txt_bx_nombre.Text = reader["nombre"].ToString();
-                        vnt_txt_bx_disp.Text = reader["existencias"].ToString();
+
+                        if(Convert.ToDouble(reader["existencias"].ToString()) > 0)
+                        {
+                            vnt_txt_bx_disp.Text = Convert.ToString(Convert.ToDouble(reader["existencias"].ToString()) - 1);
+                        }
+                        else
+                        {
+                            vnt_txt_bx_disp.Text = reader["existencias"].ToString();
+                        }
+
                         vnt_txt_descr.Text = reader["descripcion"].ToString();
                         vnt_txt_prec_unit.Text = reader["precio_venta"].ToString();
                         vnt_txt_bx_cantidad.Value = 1;
+
+                        Existencias = Convert.ToDouble(reader["existencias"].ToString());
                     }
                     Conexion.conect.Close();
 
@@ -224,7 +236,7 @@ namespace UniverCell
                 int Cantidad_Producto = Convert.ToInt32(vnt_txt_bx_cantidad.Value);
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
-                if (Convert.ToDouble(vnt_txt_bx_disp.Text) >= vnt_txt_bx_cantidad.Value)
+                if (Existencias >= vnt_txt_bx_cantidad.Value)
                 {
                     string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, total, usuario_id) VALUES(@cod_art, @cantd, @totl, @usr_id);";
                     string ComandoUpdate = "UPDATE inventario set existencias = inventario.existencias - @cantd WHERE inventario.articulo_id = @cod_art;";
@@ -254,7 +266,7 @@ namespace UniverCell
                     AgregarACaja(Convert.ToDouble(vnt_TOTAL.Text));
 
                     ActualizarTablaVentas();
-
+                    Actualizar_Tabla_Inventario();
 
                     limpiar_from();
 

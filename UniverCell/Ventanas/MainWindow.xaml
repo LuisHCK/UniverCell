@@ -99,7 +99,7 @@
                         <Grid Margin="-5" Background="White">
                             <Image x:Name="logo_tienda" HorizontalAlignment="Left" Height="107" Margin="10,25,0,0" VerticalAlignment="Top" Width="140" Source="SplashScreen1.png"/>
                             <Label x:Name="lbl_tienda_nombre" Content="Nombre de la Tienda" Margin="155,10,10,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-                            <Button x:Name="tienda_ajustes" Content="Ajustes" Margin="10,121,299,38" Click="tienda_ajustes_Click"/>
+                            <Button x:Name="tienda_ajustes" Content="Ajustes" Margin="10,139,309,20" Click="tienda_ajustes_Click"/>
                             <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="155,44,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                             <Label Content="Email:" HorizontalAlignment="Left" Margin="155,113,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                             <Label Content="Dirección:" HorizontalAlignment="Left" Margin="155,75,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
@@ -336,7 +336,7 @@
                     </Grid.RowDefinitions>
                     <GroupBox x:Name="groupBox2_Copy1" Header="Productos" HorizontalAlignment="Left" Height="362" Margin="10,10,0,-78" VerticalAlignment="Top" Width="374">
                         <Grid Margin="-5" Background="White">
-                            <DataGrid DataContext="ArticulosItems" x:Name="DataGrid_factura_Productos" ItemsSource="{Binding Path=Productos}"
+                            <DataGrid DataContext="ArticulosItems" IsReadOnly="True" x:Name="DataGrid_factura_Productos" ItemsSource="{Binding Path=Productos}"
                   Grid.Row="0" Margin="10,41,10,40" AutoGenerateColumns="False" SelectedItem="{Binding Path=SelectedArticulo, Mode=TwoWay}" SelectionChanged="DataGrid_factura_Productos_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Codigo" Binding="{Binding id}"/>
