@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 using System.Data;
 
 namespace UniverCell
@@ -28,7 +28,7 @@ namespace UniverCell
                 {
                     Conexion.conect.Close();
                 }
-                arc.ActualizarTabla(this.dataGrid, "SELECT * From cellmax.proveedores;");
+                arc.ActualizarTabla(this.dataGrid, "SELECT * From proveedores;");
             }
             catch(Exception)
             {
@@ -64,7 +64,7 @@ namespace UniverCell
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand(comando,Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand(comando,Conexion.conect);
                 cmd.ExecuteNonQuery();
                 Conexion.conect.Close();
                 ActualizarTablaProv();
@@ -115,7 +115,7 @@ namespace UniverCell
                 string id = (drv.Row[0]).ToString();
 
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("DELETE FROM `cellmax`.`proveedores` WHERE `id`= '" + id + "';", Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand("DELETE FROM `cellmax`.`proveedores` WHERE `id`= '" + id + "';", Conexion.conect);
                 cmd.ExecuteNonQuery();
                 Conexion.conect.Close();
                 ActualizarTablaProv();

@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,25 +25,45 @@ namespace UniverCell
                 if (Rec_txt_box_cantidad.Value > 0)
                 {
                     decimal recarga = Convert.ToDecimal(Rec_txt_box_cantidad.Value);
-                    int id = (Combo_id_comp.SelectedIndex) + 1;
+                    int id = (Combo_id_compr.SelectedIndex) + 1;
+                    double cantidad = 0;
+                    if(id == 1)
+                    {
+                        cantidad = Convert.ToDouble(lbl_saldo_1.Content);
+                    }
+                    else if (id == 2)
+                    {
+                        cantidad = Convert.ToDouble(lbl_saldo_2.Content);
+                    }
 
-                    Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.vender_recarga(" + recarga + ", " + id + ");", Conexion.conect);
-                    cmd.ExecuteNonQuery();
-                    Conexion.conect.Close();
+                    SQLiteCommand cmd = new SQLiteCommand("INSERT INTO recargas (saldo_id, valor) VALUES (@saldo_id, @valor);", Conexion.conect);
+                    cmd.Parameters.Add(new SQLiteParameter("@saldo_id", id));
+                    cmd.Parameters.Add(new SQLiteParameter("@valor", Rec_txt_box_cantidad.Value));
 
-                    ActualizarTablaRecargas();
-                    EstadisticasRecargas();
-                    Rec_txt_box_cantidad.Value = null;
+                    if(Rec_txt_box_cantidad.Value <= cantidad)
+                    {
+                        Conexion.conect.Open();
+                        cmd.ExecuteNonQuery();
+                        Conexion.conect.Close();
+
+                        AgregarACaja(Convert.ToDouble(Rec_txt_box_cantidad.Value));
+                        ActualizarTablaRecargas();
+                        EstadisticasRecargas();
+                        Rec_txt_box_cantidad.Value = null;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No hay saldo suficiente", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("La Cantidad no es válida", "Error");
                 }
             }
-            catch
+            catch(SQLiteException ex)
             {
-                MessageBox.Show("Ocurrió un error al realizar la venta, por favor verifica los datos e intentalo nuevamente", "Error");
+                MessageBox.Show("Ocurrió un error al realizar la venta, por favor verifica los datos e intentalo nuevamente" +ex, "Error");
             }
         }
 
@@ -54,42 +74,45 @@ namespace UniverCell
         {
             DataTable dt = new DataTable();
             Conexion.conect.Open();
-            string query = "SELECT saldo_recargas.compania, recargas.valor, saldo_recargas.ganancia, recargas.fecha_venta FROM cellmax.recargas INNER JOIN saldo_recargas on recargas.saldo_id = saldo_recargas.id order by fecha_venta desc;";
+            string query = "SELECT saldo_recargas.compania, recargas.valor, saldo_recargas.ganancia, recargas.fecha_venta FROM recargas INNER JOIN saldo_recargas on recargas.saldo_id = saldo_recargas.id order by fecha_venta desc;";
 
-            using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+            using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                 da.Fill(dt);
             Conexion.conect.Close();
             Console.WriteLine("Operacion realizada");
             dataGrid_venta_recargas.ItemsSource = dt.DefaultView;
         }
-        
+
+        private void actualizar_tabla_recargas_Click(object sender, RoutedEventArgs e)
+        {
+            ActualizarTablaRecargas();
+        }
         ///Generar estadísticas de las recargas vendidas 
         public void EstadisticasRecargas()
         {
             try
             {
                 Conexion.conect.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM cellmax.saldo_recargas;", Conexion.conect);
+                SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM saldo_recargas;", Conexion.conect);
 
-                MySqlDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    string id = reader.GetString("id");
+                    string id = reader["id"].ToString();
 
                     if (id == "1")
                     {
-                        Tile_Recargas_1.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_1.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
+                        Tile_Recargas_1.Title = ("Saldo en: " + reader["compania"].ToString());
+                        lbl_saldo_1.Content = Tienda.signo_moneda + reader["saldo"].ToString();
                     }
                     else if (id == "2")
                     {
-                        Tile_Recargas_2.Title = ("Saldo en: " + reader.GetString("compania"));
-                        lbl_saldo_2.Content = Tienda.signo_moneda + ": " + reader.GetString("saldo");
+                        Tile_Recargas_2.Title = ("Saldo en: " + reader["compania"].ToString());
+                        lbl_saldo_2.Content = Tienda.signo_moneda + reader["saldo"].ToString();
                     }
                 }
                 Conexion.conect.Close();
-
             }
             catch (Exception ex)
             {

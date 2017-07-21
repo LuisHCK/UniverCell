@@ -1,0 +1,440 @@
+﻿<Window x:Name="Inicio" x:Class="UniverCell.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="Inicio" Height="704" Width="1225" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="True" AutomationProperties.IsOffscreenBehavior="Onscreen" Icon="Resources/icons/logo.ico" Background="White">
+    <Window.CacheMode>
+        <BitmapCache/>
+    </Window.CacheMode>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo/>
+    </Window.TaskbarItemInfo>
+    <Window.Resources>
+        <Style TargetType="DataGridCell">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Button x:Name="atras_btn" Content="Atras" VerticalAlignment="Top" Click="atras_btn_Click" Margin="1132,10,10,0"/>
+        <TabControl x:Name="tabControl" Margin="0,10,10,0" SelectionChanged="tabControl_SelectionChanged" Cursor="">
+            <TabControl.Background>
+                <ImageBrush/>
+            </TabControl.Background>
+            <TabItem Header="Inicio">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="330"/>
+                        <RowDefinition Height="159"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="37"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="940"/>
+                        <ColumnDefinition Width="131"/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:Tile x:Name="tile_ventas" Title="Realizar Ventas" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="11,13,629,166" Click="tile_ventas_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/cart-12.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile x:Name="tile_recargas" Title="Vender Recarga" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="316,13,324,166" Background="#CCFF8A66" Click="tile_recargas_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/point-of-service.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile x:Name="tile_reparaciones" Title="Reparaciones y mantenimiento" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="621,13,10,166" Background="#CCFDD835" Click="tile_reparaciones_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/presentation-9.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile x:Name="tile_inventario" Title="Gestionar Inventario" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="11,168,629,11" Background="#CC7CB342" Click="tile_inventario_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/diagram-3.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile x:Name="tile_estadisticas" Title="Facturas" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="316,168,324,11" Background="#CC009688" Click="tile_estadisticas_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/invoice-icon.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile x:Name="tile_caja" Title="Caja" TiltFactor="2" Grid.Column="1" Width="Auto" Height="Auto" Margin="621,168,10,11" Background="#CB607D8B" Click="tile_caja_Click" Grid.Row="1">
+                        <Rectangle Width="80" Height="80">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Resources/icons/strongbox.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <GroupBox x:Name="groupBox7" Grid.Column="1" Header="usuario" HorizontalAlignment="Left" Margin="467,12,0,10" Grid.Row="2" Width="463" Background="#CCFF8A66" Grid.RowSpan="2">
+                        <Grid Margin="-5" Background="White">
+                            <Label x:Name="lablel_n1" Content="Nombre:" HorizontalAlignment="Left" Margin="146,17,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Image x:Name="Avatar" Source="Resources/icons/contact-icon.png" Margin="10,10,0,0" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left" Width="121"/>
+                            <Label x:Name="label29" Content="Nombre de Usuario:" HorizontalAlignment="Left" Margin="146,48,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label30" Content="Puesto:" HorizontalAlignment="Left" Margin="146,79,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label31" Content="Numero de Cedula:" HorizontalAlignment="Left" Margin="146,110,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="label32" Content="Dirección:" HorizontalAlignment="Left" Margin="146,141,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <TextBlock x:Name="text_nombre_comp" HorizontalAlignment="Left" Margin="275,22,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_nombre" HorizontalAlignment="Left" Margin="275,53,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_puesto" HorizontalAlignment="Left" Margin="275,84,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_cedula" HorizontalAlignment="Left" Margin="275,115,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <TextBlock x:Name="text_usr_dir" HorizontalAlignment="Left" Margin="275,146,0,0" TextWrapping="Wrap" Text="xxxxxxxxxxxxxxxxxxxxxx" VerticalAlignment="Top" Width="125" Height="21"/>
+                            <Button x:Name="btn_cambiar_foto" Content="Cambiar" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Width="121" Click="btn_cambiar_foto_Click" Height="28"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox8" Grid.Column="1" Header="Tienda" HorizontalAlignment="Left" Margin="11,12,0,10" Grid.Row="2" Width="451" Grid.RowSpan="2">
+                        <Grid Margin="-5" Background="White">
+                            <Image x:Name="logo_tienda" HorizontalAlignment="Left" Height="107" Margin="10,25,0,0" VerticalAlignment="Top" Width="140" Source="SplashScreen1.png"/>
+                            <Label x:Name="lbl_tienda_nombre" Content="Nombre de la Tienda" Margin="155,10,10,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+                            <Button x:Name="tienda_ajustes" Content="Ajustes" Margin="10,139,309,20" Click="tienda_ajustes_Click"/>
+                            <Label Content="Teléfono:" HorizontalAlignment="Left" Margin="155,44,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="Email:" HorizontalAlignment="Left" Margin="155,113,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="Dirección:" HorizontalAlignment="Left" Margin="155,75,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="lbl_tel_tienda" Content="xxxx-xxxx" Margin="275,44,10,0" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="lbl_dir_tienda" Margin="275,75,10,0" TextWrapping="Wrap" Text="Direccion del establecimiento" VerticalAlignment="Top" Height="48"/>
+                            <Label x:Name="lbl_email_tienda" Content="empresa@ejemplo.com" Margin="275,113,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="label13" Content="Moneda principal:" HorizontalAlignment="Left" Margin="155,146,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label x:Name="lbl_moneda_tienda" Content="Label" Margin="275,146,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.682"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ventas" Controls:ControlsHelper.HeaderFontSize="26">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="51*"/>
+                        <ColumnDefinition Width="83*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="groupBox" Header="Vender Artículo" Margin="10,10,10,0" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Background="#CC00C853" BorderBrush="#CC00C853" Height="477" VerticalAlignment="Top">
+                        <Grid Margin="-5" Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="135*"/>
+                                <ColumnDefinition Width="146*"/>
+                                <ColumnDefinition Width="170*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label" Content="Código de artículo" HorizontalAlignment="Left" Margin="2,10,0,0" VerticalAlignment="Top" Height="26" Width="108"/>
+                            <TextBox x:Name="vnt_txt_box_art" Height="26" Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="vnt_txt_box_art_TextChanged"/>
+                            <Label x:Name="label1" Content="Nombre" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="54" Grid.Column="1"/>
+                            <TextBox x:Name="vnt_txt_bx_nombre" Height="26" Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsReadOnlyCaretVisible="True" AllowDrop="False" IsEnabled="False" Grid.Column="1"/>
+                            <Label x:Name="label2" Content="Disponibles" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Column="2" Height="26" Width="72"/>
+                            <TextBox x:Name="vnt_txt_bx_disp" Height="26" Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" AllowDrop="False" Grid.Column="2"/>
+                            <Label x:Name="label3" Content="Descripción" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Height="26" Width="72" Grid.Column="1"/>
+                            <TextBox x:Name="vnt_txt_descr" Height="26" Margin="10,98,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2" Grid.Column="1"/>
+                            <Controls:NumericUpDown 
+                                x:Name="vnt_txt_bx_cantidad" Minimum ="1" 
+                                Maximum = "10000" Margin="10,98,10,0" 
+                                Height="26" VerticalAlignment="Top" 
+                                TrackMouseWheelWhenMouseOver="True" 
+                                ValueIncremented="vnt_txt_bx_Increment"
+                                ValueDecremented="vnt_txt_bx_Decrement"
+                                ValueChanged="vnt_txt_bx_ValueChanged"
+                            />
+                            <Label x:Name="label4" Content="Cantidad" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
+                            <Label x:Name="label5" Content="Precio unitario" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Height="26" Width="87" RenderTransformOrigin="0.506,0.462"/>
+                            <TextBox x:Name="vnt_txt_prec_unit" Height="26" Margin="10,161,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False"/>
+                            <Label x:Name="label6" Content="Categoría " Margin="10,130,59,0" VerticalAlignment="Top" Height="26" Grid.Column="1"/>
+                            <TextBox x:Name="vnt_txt_categ" Height="26" Margin="10,161,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.Column="1"/>
+                            <Label x:Name="label7" Content="Proveedor" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" Grid.Column="2" Height="26" Width="64"/>
+                            <TextBox x:Name="vnt_txt_prov" Height="26" Margin="10,161,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.Column="2"/>
+                            <Button x:Name="vnt_btn_cancelar" Content="Cancelar" Margin="10,375,10,0" Background="Red" Foreground="White" BorderBrush="{x:Null}" Grid.Column="1" Height="47" VerticalAlignment="Top" FontSize="12" Click="vnt_btn_cancelar_Click"/>
+                            <Button x:Name="vnt_btn_vender" IsEnabled="False" Content="vender" Margin="10,375,10,0" Grid.Column="2" Background="#FF079300" Foreground="White" BorderBrush="#FF707070" Height="47" VerticalAlignment="Top" FontSize="12" Click="vnt_btn_vender_Clic"/>
+                            <Border BorderBrush="#B2898989" BorderThickness="1" Height="1" Margin="10,208,10,0" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+                            <Label x:Name="label8" Content="Sub-Total" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Height="26" Width="60" Grid.Column="1"/>
+                            <TextBox x:Name="vnt_txt_subtotal" Height="26" Margin="10,249,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.Column="1"/>
+                            <Label x:Name="label9" Content="IVA" Grid.Column="2" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="vnt_txt_iva" Grid.Column="2" Height="23" Margin="10,249,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Text="15"/>
+                            <Label x:Name="label10" Content="Descuento" HorizontalAlignment="Left" Margin="9,218,0,0" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="vnt_descuento" Minimum ="0" Maximum = "10000" Margin="9,249,10,0" Height="26" VerticalAlignment="Top" ValueChanged="vnt_bx_descuento_ValueChanged"/>
+                            <Label x:Name="label11" Content="Paga con" Margin="10,280,76,0" VerticalAlignment="Top" Grid.Column="1"/>
+                            <TextBox x:Name="vnt_txt_bx_paga_con" Height="23" Margin="10,311,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" TextChanged="vnt_paga_con_TextChanged" Controls:TextBoxHelper.ClearTextButton="True"/>
+                            <Label x:Name="label11_Copy" Content="Vuelto" Margin="10,280,100,0" VerticalAlignment="Top" Grid.Column="2"/>
+                            <TextBox x:Name="vnt_txt_vuelto" Height="23" Margin="10,311,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" IsEnabled="False"/>
+                            <Label x:Name="label23" Content="TOTAL" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Controls:ControlsHelper.ContentCharacterCasing="Upper" FontWeight="Bold"/>
+                            <TextBox x:Name="vnt_TOTAL" Height="36" Margin="10,311,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" FontSize="18" FontWeight="Bold" Text="0.00" IsReadOnly="True" TextAlignment="Center"/>
+                            <ComboBox x:Name="combo_bx_Moneda" HorizontalAlignment="Left" Margin="9,383,0,0" VerticalAlignment="Top" Width="120"/>
+                            <Label x:Name="label24" Content="Moneda" HorizontalAlignment="Left" Margin="10,352,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Registro de Ventas" Margin="10,10,10,119">
+                        <Grid Margin="-5" Background="White">
+                            <DataGrid x:Name="dataGrid_ventas" Margin="10" IsReadOnly="True"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Recargas">
+                <Grid Background="#FFE5E5E5" RenderTransformOrigin="0.505,0.509">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="253*"/>
+                        <RowDefinition Height="244*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="607*"/>
+                        <ColumnDefinition Width="594*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="groupBox3" Header="Vender" Margin="10" Background="#CC455A64">
+                        <Grid Margin="-5" Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label14" Content="Cantidad" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
+                            <Label x:Name="label12_Copy" Content="Compañía" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="64"/>
+                            <Controls:NumericUpDown x:Name="Rec_txt_box_cantidad" Minimum ="0" Maximum = "10000" Margin="10,98,10,0" Interval="10" TrackMouseWheelWhenMouseOver="True" Grid.ColumnSpan="2" FontSize="20" Height="37" VerticalAlignment="Top"/>
+                            <Button x:Name="button4" Content="Cancelar" Margin="10,159,10,0" VerticalAlignment="Top" Height="47" Background="Red" Foreground="White" FontSize="12"/>
+                            <Button x:Name="btn_vender_recarga" Content="Vender" Background="#FF079300" Foreground="White" BorderBrush="#FF707070" Height="47" VerticalAlignment="Top" FontSize="12" Click="btn_vender_recarga_Click" Margin="10,158,10,0" Grid.Column="1"/>
+                            <ComboBox x:Name="Combo_id_compr" Grid.ColumnSpan="2" Margin="10,36,10,192">
+                                <ComboBoxItem IsSelected="True">Movistar</ComboBoxItem>
+                                <ComboBoxItem>Claro</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox3_Copy" Header="Registro de Ventas" Margin="10" Grid.Column="1" Grid.RowSpan="2" Background="#CCF4F7A0">
+                        <Grid Margin="-5" Background="White">
+                            <Button x:Name="button2" Content="Actualizar" HorizontalAlignment="Left" Margin="-311,300,0,0" VerticalAlignment="Top" Width="75" Click="Rec_btn_Actualizar_Clic"/>
+                            <DataGrid x:Name="dataGrid_venta_recargas" Margin="10,10,90,10" AutoGenerateColumns="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding compania}" ClipboardContentBinding="{x:Null}" Header="Compañía" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding valor}" ClipboardContentBinding="{x:Null}" Header="Valor" IsReadOnly="True"/>
+                                    <DataGridTextColumn Binding="{Binding ganancia}" ClipboardContentBinding="{x:Null}" Header="Ganancia"/>
+                                    <DataGridTextColumn Binding="{Binding fecha_venta}" ClipboardContentBinding="{x:Null}" IsReadOnly="True" Header="Fecha - Hora"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button x:Name="actualizar_tabla_recargas" Content="Actualizar" Margin="487,10,10,0" VerticalAlignment="Top" Click="actualizar_tabla_recargas_Click"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox6" Header="Saldo de recarcas" Margin="10" Grid.Row="1" Background="#CCAB47BC">
+                        <Grid Margin="-5" Background="#99FFFFFF">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="97*"/>
+                                <ColumnDefinition Width="98*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Controls:Tile x:Name="Tile_Recargas_1" Title="Recargas Vendidas" TiltFactor="2" Width="271" Height="117" Margin="10,22,0,0" Background="#D8F57C00" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Tile_Recargas_1_Click">
+                                <Label x:Name="lbl_saldo_1" Content="Label" Foreground="White" FontSize="36"/>
+                            </Controls:Tile>
+                            <Button x:Name="button4_Copy" Content="Actualizar" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Width="76" Click="button4_Click" Height="25"/>
+                            <Controls:Tile x:Name="Tile_Recargas_2" Title="Recargas Vendidas" TiltFactor="2" Width="267" Height="117" Margin="6,23,0,0" Grid.Column="1" Background="#D800ACC1" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Tile_Recargas_1_Click">
+                                <Label x:Name="lbl_saldo_2" Content="Label" Foreground="White" FontSize="36"/>
+                            </Controls:Tile>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reparaciones">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="404*"/>
+                        <ColumnDefinition Width="799*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="groupBox4" Header="Reparacion de dispositivo" Margin="10" Background="#CC00BFA5">
+                        <Grid Margin="-5" Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="63*"/>
+                                <ColumnDefinition Width="64*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label15" Content="Tipo de reparación" Margin="10,10,67,0" VerticalAlignment="Top"/>
+                            <Label x:Name="label16" Content="Detalles del trabajo" Margin="10,64,67,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="textBox_detalle_rep" Height="23" Margin="10,95,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                            <Controls:NumericUpDown x:Name="txt_box_prec_rep" Minimum ="0" Maximum = "10000" Margin="10,361,10,0" Height="23" TrackMouseWheelWhenMouseOver="True" Grid.ColumnSpan="2" Interval="10" VerticalAlignment="Top"/>
+                            <Label x:Name="label15_Copy" Content="Costo total de la reparación" Margin="10,330,10,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Button x:Name="_btn_reparacion" Content="Aceptar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Foreground="White" Background="#FF43A047" Grid.Column="1" Click="btn_reparacion_Clic"/>
+                            <Button x:Name="cancelar_rep_" Content="Cancelar" Margin="10,394,10,0" VerticalAlignment="Top" Height="44" Background="#FFD80000" Foreground="White" Click="cancelar_rep__Click"/>
+                            <CheckBox x:Name="check_bx_repuesto" Content="¿Requirió Repuesto?" Margin="10,126,48,0" VerticalAlignment="Top" Checked="check_bx_repuesto_Checked" Unchecked="check_bx_repuesto_Unchecked" IsEnabled="False"/>
+                            <Label x:Name="lbl_precio_rep" Content="Precio del repuesto" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+                            <Controls:NumericUpDown x:Name="txt_box_rep_precio" Minimum ="0" Maximum = "10000" Margin="10,180,10,0" Height="23" TrackMouseWheelWhenMouseOver="True" Interval="10" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2"/>
+                            <Label x:Name="lbl_descr_rep" Content="Descripción" HorizontalAlignment="Left" Margin="10,211,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+                            <TextBox x:Name="txt_box_desc_repuesto" Height="23" Margin="10,242,10,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2"/>
+                            <RadioButton x:Name="radio_software_rep" Content="Software" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                            <RadioButton x:Name="radio_hardware_rep" Content="Hardware" Grid.Column="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Checked="radio_hardware_rep_Checked" Unchecked="radio_hardware_rep_Unchecked" IsChecked="True"/>
+                            <Label x:Name="label12" Content="Observaciones" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="_textBox_obs" Height="23" Margin="10,299,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox4_Copy" Header="Reparaciones realizadas" Margin="10" Grid.Column="1" Background="#CCC62820">
+                        <Grid Margin="-5" Background="White">
+                            <DataGrid x:Name="dataGrid_Reparaciones" Margin="10,10,10,52" IsReadOnly="True" Background="#FFF9F9F9"/>
+                            <Button x:Name="button7" Content="Imprimir Reporte" HorizontalAlignment="Left" Margin="658,522,0,0" VerticalAlignment="Top" Width="108" Height="37" Click="button7_Click"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Inventario">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="388*"/>
+                        <ColumnDefinition Width="815*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox x:Name="groupBox5_Copy" Header="Crea un nuevo producto" Margin="10" Grid.RowSpan="2">
+                        <Grid Margin="-5" Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label18" Content="Nombre del producto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="129" Height="26"/>
+                            <TextBox x:Name="art_txt_box_nomb" Height="26" Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <Label x:Name="label18_Copy" Content="Proveedor" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="129" Height="26"/>
+                            <Button x:Name="art_bnt_crear_editar" Content="Crear" Margin="0,460,9,0" VerticalAlignment="Top" Height="49" Foreground="White" Background="#FF43A047" Click="art_bnt_crear_editar_Click" HorizontalAlignment="Right" Width="151"/>
+                            <Button x:Name="art_btn_cancelar" Content="Cancelar" Margin="10,460,204,0" VerticalAlignment="Top" Height="49" Background="#FFD84315" Foreground="White"/>
+                            <Label x:Name="label21" Content="Descripción" Margin="10,129,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="72" Height="26"/>
+                            <TextBox x:Name="art_txt_box_descr" Height="31" Margin="10,160,10,0" TextWrapping="Wrap" VerticalAlignment="Top" SpellCheck.IsEnabled="True"/>
+                            <Label x:Name="label22" Content="Precio de compra" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Height="26" Width="103"/>
+                            <Controls:NumericUpDown x:Name="art_txt_box_prec_compra" Minimum ="0" Maximum = "10000" Margin="10,227,204,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label22_Copy" Content="Precio de venta" HorizontalAlignment="Left" Margin="205,196,0,0" VerticalAlignment="Top" Height="26" Width="92"/>
+                            <Controls:NumericUpDown x:Name="art_txt_box_prec_vent" Minimum ="0" Maximum = "10000" Margin="205,227,10,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label20" Content="Existencias" HorizontalAlignment="Left" Margin="10,263,0,0" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="art_num_existencias" Minimum ="0" Maximum = "10000" Margin="10,294,10,0" Height="31" VerticalAlignment="Top"/>
+                            <Label x:Name="label26" Content="Cod. Inv." HorizontalAlignment="Left" Margin="10,330,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="art_txt_inv_id" HorizontalAlignment="Left" Height="23" Margin="10,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
+                            <Label x:Name="label26_Copy" Content="Cod. Art." HorizontalAlignment="Left" Margin="205,330,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="art_txt_prd_id" HorizontalAlignment="Left" Height="23" Margin="205,361,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False" IsReadOnly="True"/>
+                            <ComboBox x:Name="combo_nombre_proveedor" Margin="10,98,10,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox5" Header="artículos en el inventario" Margin="10" Background="#CC00897B" Grid.Column="1">
+                        <Grid Margin="-5" Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="223*"/>
+                                <ColumnDefinition Width="41*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label17" Content="Artículos en el inventario" Margin="10,5,500,0" VerticalAlignment="Top" FontWeight="Bold" Height="26"/>
+                            <Button x:Name="inv_btn_vender_art" Content="Vender" Margin="10,36,10,0" VerticalAlignment="Top" Height="40" Background="#FF43A047" BorderBrush="#FF919191" Click="inv_btn_vender_art_Click" Grid.Column="1" Foreground="White"/>
+                            <Label x:Name="label19" Content="Buscar" HorizontalAlignment="Left" Margin="394,5,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="47"/>
+                            <TextBox x:Name="textBox_Buscar_Articulo" HorizontalAlignment="Left" Height="26" Margin="444,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="215" TextChanged="textBox_Buscar_Articulo_TextChanged"/>
+                            <Button x:Name="button3" Content="Eliminar" Margin="10,126,10,0" VerticalAlignment="Top" Height="40" BorderBrush="#FFFF7272" Background="#FFFF6363" Foreground="White" Click="button3_Click" Grid.Column="1"/>
+                            <Button x:Name="inv_agregar_inv" Content="Editar Artículo" Margin="10,81,10,0" VerticalAlignment="Top" Height="40" Click="button_inv_Click" Grid.Column="1"/>
+                            <DataGrid x:Name="dataGrid_Inventario" Margin="10,36,10,10" Background="#FFE8E8E8" IsReadOnly="True"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Facturas">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="groupBox2_Copy1" Header="Productos" HorizontalAlignment="Left" Height="362" Margin="10,10,0,-78" VerticalAlignment="Top" Width="374">
+                        <Grid Margin="-5" Background="White">
+                            <DataGrid DataContext="ArticulosItems" IsReadOnly="True" x:Name="DataGrid_factura_Productos" ItemsSource="{Binding Path=Productos}"
+                  Grid.Row="0" Margin="10,41,10,40" AutoGenerateColumns="False" SelectedItem="{Binding Path=SelectedArticulo, Mode=TwoWay}" SelectionChanged="DataGrid_factura_Productos_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Codigo" Binding="{Binding id}"/>
+                                    <DataGridTextColumn Header="Nombre"
+                                    Binding="{Binding nombre}" />
+
+                                    <DataGridTextColumn Header="Precio"
+                                    Binding="{Binding precio_venta}" />
+
+                                    <DataGridTextColumn Header="Existencias"
+                                    Binding="{Binding existencias}" />
+                                    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Controls:NumericUpDown x:Name="CantidadArticulo" Minimum="1" Maximum="100000000000000000" Background="White" Margin="10,299,261,8" ValueChanged="CantidadArticulo_ValueChanged"/>
+
+                            <Button x:Name="Agregar_Producto_Factura" Content="Agregar Producto" HorizontalAlignment="Left" Margin="246,298,0,0" VerticalAlignment="Top" Width="116" Click="Agregar_Producto_Factura_Click" Background="#FF00BD00" Foreground="White"/>
+                            <TextBox x:Name="BuscarProductoFactura" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" KeyDown="BuscarProductoFactura_KeyDown" Controls:TextBoxHelper.Watermark="Buscar Artículo"/>
+                            <Button x:Name="btn_actualizar_prod" Content="Actualizar" HorizontalAlignment="Left" Margin="287,9,0,0" VerticalAlignment="Top" Width="75" Click="btn_actualizar_prod_Click"/>
+                            <TextBox x:Name="SubtotalArticulo" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="116,299,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Controls:TextBoxHelper.Watermark="Sub Total" IsEnabled="False"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox2_Copy" Header="Servicios" HorizontalAlignment="Left" Height="219" Margin="10,377,0,-303" VerticalAlignment="Top" Width="374" Background="#CCDA1111">
+                        <Grid Margin="-5" Background="#FFF9F9F9">
+                            <Label x:Name="label28" Content="Concepto" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="FacturaServicioConcepto" Height="49" Margin="10,52,10,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="PrecioTotalServicio" Minimum="1" Maximum="100000000000000000" Background="White" Margin="10,146,223,18"/>
+                            <Label x:Name="label33" Content="Precio" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="BtnAgregarServicioFactura" Content="Agregar" HorizontalAlignment="Left" Margin="270,9,0,0" VerticalAlignment="Top" Width="94" Background="#FF00B400" Foreground="White" Click="BtnAgregarServicioFactura_Click" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="0.131"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+                            <Button x:Name="button1" Content="Limpiar" HorizontalAlignment="Left" Margin="190,9,0,0" VerticalAlignment="Top" Width="75" Background="#FFFF5454" BorderBrush="#FFFF8B8B" Foreground="White"/>
+                            <Controls:NumericUpDown x:Name="CantidadTotalServicio" Minimum="1" Maximum="100000000000000000" Background="White" Margin="223,146,10,18"/>
+                            <Label x:Name="label33_Copy" Content="Cantidad" HorizontalAlignment="Left" Margin="222,115,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox2" Header="Lista" HorizontalAlignment="Left" Height="362" Margin="389,10,0,-74" VerticalAlignment="Top" Width="802" Background="#CC11DA88">
+                        <Grid Margin="-5,-5,-5,-4" Background="#FFF9F9F9">
+                            <DataGrid DataContext="FacturaItems" CanUserAddRows="False" CanUserReorderColumns="False" 
+                                      x:Name="dataGridFacturaItems" Height="284" Margin="10,0,132,0" VerticalAlignment="Top" 
+                                      IsReadOnly="True" OverridesDefaultStyle="True" AutoGenerateColumns="False"
+                                      ItemsSource="{Binding factura_items}">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                    <DataGridTextColumn Binding="{Binding id}" Header="Codigo"/>
+                                    <DataGridTextColumn Binding="{Binding concepto}" Header="Concepto" MaxWidth="200"/>
+                                    <DataGridTextColumn Binding="{Binding precio}" Header="Precio"/>
+                                    <DataGridTextColumn Binding="{Binding cantidad}" Header="Cantidad"/>
+                                    <DataGridTextColumn Binding="{Binding subtotal}" Header="Sub-Total"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <TextBox x:Name="FacturaClienteNombre" HorizontalAlignment="Left" Margin="64,0,0,13" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="250"/>
+                            <Label x:Name="label25" Content="Cliente" HorizontalAlignment="Left" Margin="12,0,0,13" VerticalAlignment="Bottom"/>
+                            <Label x:Name="label27" Content="Pago" HorizontalAlignment="Left" Margin="314,0,0,13" VerticalAlignment="Bottom"/>
+                            <CheckBox x:Name="FacturaPagoContado" Content="Contado" HorizontalAlignment="Left" Margin="356,0,0,17" VerticalAlignment="Bottom" Checked="FacturaPagoContado_Checked"/>
+                            <CheckBox x:Name="FacturaPagoCredito" Content="Crédito" HorizontalAlignment="Left" Margin="431,0,0,17" VerticalAlignment="Bottom" Checked="FacturaPagoCredito_Checked"/>
+                            <Button x:Name="buttonDeshacerFactura" Content="Deshacer Factura" HorizontalAlignment="Left" Margin="673,257,0,0" VerticalAlignment="Top" Width="117" Background="#FFCB0000" Foreground="White" Click="buttonDeshacerFactura_Click"/>
+                            <Button x:Name="button_RealizarFactura" Content="Realizar Factura" HorizontalAlignment="Left" Margin="673,206,0,0" VerticalAlignment="Top" Width="117" Background="#FF559C00" Foreground="White" Click="button_RealizarFactura_Click" Height="46"/>
+                            <Label x:Name="label34" Content="Total" HorizontalAlignment="Left" Margin="673,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox IsReadOnly="True" x:Name="txt_Total_Factura" HorizontalAlignment="Left" Height="23" Margin="673,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
+                            <Label x:Name="label35" Content="Paga con" HorizontalAlignment="Left" Margin="673,62,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txt_PagaCon" HorizontalAlignment="Left" Height="23" Margin="673,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" KeyDown="txt_PagaCon_KeyDown"/>
+                            <Label x:Name="label36" Content="Cambio" HorizontalAlignment="Left" Margin="673,114,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="textBoxCambio" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="673,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox9" Header="Facturas" HorizontalAlignment="Left" Height="219" Margin="389,377,0,-294" VerticalAlignment="Top" Width="802">
+                        <Grid Background="White" Margin="-5">
+                            <DataGrid x:Name="dataGridFacturasRealizadas" HorizontalAlignment="Left" Height="170" Margin="10,10,0,0" VerticalAlignment="Top" Width="780"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Caja">
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Saldo en caja" HorizontalAlignment="Left" Height="586" Margin="10,10,0,0" VerticalAlignment="Top" Width="1181">
+                        <Grid Margin="-5,-5,-2,-5" Background="White">
+                            <DataGrid x:Name="datagrid_registros_caja" Margin="10,279,10,10" ItemsSource="{Binding Items}"/>
+                            <Controls:Tile x:Name="Tile_Saldo_Caja" Title="Saldo Actual en Caja" TiltFactor="2" Width="388" Height="151" Margin="389,10,0,0" Background="#D8F57C00" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Label x:Name="lbl_saldo_caja" Content="Label" Foreground="White" FontSize="36" Margin="-30"/>
+                            </Controls:Tile>
+                            <Label Content="Saldo a dejar en caja" HorizontalAlignment="Left" Margin="389,170,0,0" VerticalAlignment="Top"/>
+                            <Controls:NumericUpDown x:Name="txt_saldo_dejar" Minimum ="0" Maximum = "10000" Margin="389,201,529,0" Interval="10" TrackMouseWheelWhenMouseOver="True" FontSize="20" Height="37" VerticalAlignment="Top"/>
+                            <Label Content="Registros de Caja" HorizontalAlignment="Left" Margin="10,248,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="button" Content="Retirar dinero" HorizontalAlignment="Left" Margin="652,201,0,0" VerticalAlignment="Top" Width="125" Height="37" Click="button_Click"/>
+                            <Label x:Name="caja_id" Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <Button x:Name="button5" Content="Button" Height="100" Width="75"/>
+        </TabControl>
+    </Grid>
+</Window>

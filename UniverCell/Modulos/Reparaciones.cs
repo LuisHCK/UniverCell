@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,14 +20,13 @@ namespace UniverCell
             {
                 Conexion.conect.Open();
                 DataTable dt = new DataTable();
-                string query = "SELECT * FROM cellmax.reparaciones;";
-                using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
+                string query = "SELECT * FROM reparaciones;";
+                using (SQLiteDataAdapter da = new SQLiteDataAdapter(query, Conexion.conect))
                     da.Fill(dt);
-                Console.WriteLine("Operacion realizada");
                 dataGrid_Reparaciones.ItemsSource = dt.DefaultView;
                 Conexion.conect.Close();
             }
-            catch(MySqlException ex)
+            catch(SQLiteException ex)
             {
                 MessageBox.Show("Ocurrió un error al obtener los datos. Detalles del error: " + ex, "Error");
             }
@@ -76,17 +75,20 @@ namespace UniverCell
                     tipo = radio_software_rep.Content.ToString();
                 }
 
-                string Comando = "INSERT INTO `cellmax`.`reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('" + tipo + "', '" + textBox_detalle_rep.Text + "', '" + _textBox_obs.Text + "', '" + txt_box_rep_precio.Value + "', '" + txt_box_desc_repuesto.Text + "', '" + txt_box_prec_rep.Value + "');";
+                string Comando = "INSERT INTO `reparaciones` (`tipo`, `detalles`, `observaciones`, `precio_repuesto`, `detalles_repuesto`, `precio`) VALUES ('" + tipo + "', '" + textBox_detalle_rep.Text + "', '" + _textBox_obs.Text + "', '" + txt_box_rep_precio.Value + "', '" + txt_box_desc_repuesto.Text + "', '" + txt_box_prec_rep.Value + "');";
                 try
                 {
+                    if (Conexion.conect.State == ConnectionState.Open) { Conexion.conect.Close(); }
                     Conexion.conect.Open();
-                    MySqlCommand CMD = new MySqlCommand(Comando, Conexion.conect);
+                    SQLiteCommand CMD = new SQLiteCommand(Comando, Conexion.conect);
                     CMD.ExecuteNonQuery();
                     Conexion.conect.Close();
-                    MessageBox.Show("Se guardó correctamente. ¿Desea imprimir un recibo?", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    MessageBox.Show("Se guardó correctamente. Imprimendo Recibo...", "Realizado", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
                     LimpiarFormReparacion();
+
+                    AgregarACaja(Convert.ToDouble(txt_box_prec_rep.Value));
                 }
-                catch (MySqlException ex)
+                catch (SQLiteException ex)
                 {
                     MessageBox.Show("Ocurrió un error al guardar los datos " + ex, "Error");
                 }

@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 using System.Data;
-using System.Windows.Controls;
 
 namespace UniverCell
 {
     public partial class MainWindow
     {
+        private static double Existencias = 0;
 
         private void vnt_txt_box_art_TextChanged(object sender, RoutedEventArgs e)
         {
@@ -22,25 +17,56 @@ namespace UniverCell
             {
                 try
                 {
+                    string id = vnt_txt_box_art.Text;
+                    if (Conexion.conect.State == ConnectionState.Open)
+                    {
+                        Conexion.conect.Close();
+                    }
                     Conexion.conect.Open();
-                    MySqlCommand cmd = new MySqlCommand("call cellmax.buscar_articulo('" + vnt_txt_box_art.Text + "');", Conexion.conect);
+                    string comando = "SELECT articulos.id, articulos.nombre, articulos.descripcion, articulos.precio_venta, inventario.existencias, articulos.proveedor_id FROM inventario INNER JOIN articulos where(inventario.articulo_id = " + id + " and articulos.id = " + id + "); ";
+                    SQLiteCommand cmd = new SQLiteCommand(comando, Conexion.conect);
 
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    SQLiteDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        vnt_txt_bx_nombre.Text = reader.GetString("nombre");
-                        vnt_txt_bx_disp.Text = reader.GetString("existencias");
-                        vnt_txt_descr.Text = reader.GetString("descripcion");
-                        vnt_txt_prec_unit.Text = reader.GetString("precio_venta");
-                        //vnt_txt_prov.Text = reader.GetString("proveedor_id
+                        vnt_txt_bx_nombre.Text = reader["nombre"].ToString();
+
+                        if(Convert.ToDouble(reader["existencias"].ToString()) > 0)
+                        {
+                            vnt_txt_bx_disp.Text = Convert.ToString(Convert.ToDouble(reader["existencias"].ToString()) - 1);
+                        }
+                        else
+                        {
+                            vnt_txt_bx_disp.Text = reader["existencias"].ToString();
+                        }
+
+                        vnt_txt_descr.Text = reader["descripcion"].ToString();
+                        vnt_txt_prec_unit.Text = reader["precio_venta"].ToString();
+                        vnt_txt_bx_cantidad.Value = 1;
+
+                        Existencias = Convert.ToDouble(reader["existencias"].ToString());
                     }
                     Conexion.conect.Close();
+
+                    // Si no hay existencias deshabilitar el boton de vender
+                    if (Convert.ToInt32(vnt_txt_bx_disp.Text) <= 0)
+                    {
+                        vnt_btn_vender.IsEnabled = false;
+                    }
+                    else
+                    {
+                        vnt_btn_vender.IsEnabled = true;
+                    }
                 }
-                catch (MySqlException ex)
+                catch (SQLiteException ex)
                 {
                     vnt_txt_box_art.Text = null;
                     MessageBox.Show("El código no es válido." + ex );
+                }
+                catch (FormatException)
+                {
+                    vnt_btn_vender.IsEnabled = false;
                 }
             }
         } // fin de vnt_txt_box_art_TextChanged
@@ -186,6 +212,7 @@ namespace UniverCell
             vnt_descuento.Value         = null;
             vnt_txt_bx_paga_con.Text    = null;
             vnt_txt_vuelto.Text         = null;
+            vnt_TOTAL.Text              = null;
         }
 
 
@@ -193,24 +220,62 @@ namespace UniverCell
         private void vnt_btn_cancelar_Click(object sender, RoutedEventArgs e)
         {
             vnt_txt_box_art.Text = null;
+            vnt_btn_vender.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Realizar la Venta de un artículo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void vnt_btn_vender_Clic(object sender, RoutedEventArgs e)
         {
             try
             {
-                int Producto_Id = Convert.ToInt32(vnt_txt_box_art.Text);
+                int Articulo_Id = Convert.ToInt32(vnt_txt_box_art.Text);
                 int Cantidad_Producto = Convert.ToInt32(vnt_txt_bx_cantidad.Value);
-                int Moneda_id = Moneda.IDMoneda(combo_bx_Moneda.SelectedItem.ToString());
                 decimal Total_Venta = Convert.ToDecimal(vnt_TOTAL.Text);
 
-                Conexion.conect.Open();
+                if (Existencias >= vnt_txt_bx_cantidad.Value)
+                {
+                    string ComandoInsert = "INSERT INTO ventas (codigo_articulo, cantidad, total, usuario_id) VALUES(@cod_art, @cantd, @totl, @usr_id);";
+                    string ComandoUpdate = "UPDATE inventario set existencias = inventario.existencias - @cantd WHERE inventario.articulo_id = @cod_art;";
 
-                MySqlCommand cmd = new MySqlCommand("call cellmax.vender_producto('" + Producto_Id + "', '" + Cantidad_Producto + "', '" + Moneda_id + "', '" + Total_Venta + "',"+ Sesion.id_usuario +");", Conexion.conect);
-               cmd.ExecuteNonQuery();
+                    Conexion.conect.Open();
+                    //Guarda el registro de la venta
+                    SQLiteCommand cmd1 = new SQLiteCommand(ComandoInsert, Conexion.conect);
+                    cmd1.Parameters.Add(new SQLiteParameter("@cod_art", Articulo_Id));
+                    cmd1.Parameters.Add(new SQLiteParameter("@cantd", Cantidad_Producto));
+                    cmd1.Parameters.Add(new SQLiteParameter("@totl", Total_Venta));
+                    cmd1.Parameters.Add(new SQLiteParameter("@usr_id", Sesion.id_usuario));
+                    cmd1.ExecuteNonQuery();
 
-                Conexion.conect.Close();
-                ActualizarTablaVentas();
+                    //Extrae del inventario la cantidad de producto
+                    SQLiteCommand cmd2 = new SQLiteCommand(ComandoUpdate, Conexion.conect);
+                    cmd2.Parameters.Add(new SQLiteParameter("@cantd", Cantidad_Producto));
+                    cmd2.Parameters.Add(new SQLiteParameter("@cod_art", Articulo_Id));
+                    cmd2.ExecuteNonQuery();
+
+                    string concepto = vnt_txt_bx_nombre.Text;
+                    string descripcion = Convert.ToString(vnt_txt_bx_cantidad.Value + " " + vnt_txt_bx_nombre.Text);
+                    SQLiteCommand cmd3 = new SQLiteCommand("INSERT INTO caja_registro(concepto,descripcion,valor,usuario_id,tipo) VALUES('" + concepto + "','" + descripcion + "','" + vnt_TOTAL.Text + "', '" + Sesion.id_usuario + "','VENTA')", Conexion.conect);
+                    cmd3.ExecuteNonQuery();
+
+                    Conexion.conect.Close();
+
+                    AgregarACaja(Convert.ToDouble(vnt_TOTAL.Text));
+
+                    ActualizarTablaVentas();
+                    Actualizar_Tabla_Inventario();
+
+                    limpiar_from();
+
+                    MessageBox.Show("Se vendió el artículo. Imprimiendo Recibo...", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No hay articulos en el inventario", "Error", MessageBoxButton.OK,  MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -227,22 +292,16 @@ namespace UniverCell
 
         void ActualizarTablaVentas()
         {
-            try {
-                Conexion.conect.Open();
-                DataTable dt = new DataTable();
-                    string query = "call cellmax.ver_registro_ventas();";
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(query, Conexion.conect))
-                        da.Fill(dt);
-                    Console.WriteLine("Operacion realizada");
-                dataGrid_ventas.ItemsSource = dt.DefaultView;
-                Conexion.conect.Close();
-
+            try
+            {
+                ProcedimientosAlmacenados pa = new ProcedimientosAlmacenados();
+                DataTable a = pa.ActualizarTablaVentas();
+                dataGrid_ventas.ItemsSource = a.DefaultView;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error en la operación: " + ex);
             }
-
         }
     }
 }
